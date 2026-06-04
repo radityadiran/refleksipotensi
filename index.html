@@ -274,7 +274,7 @@
         <p class="text-helper c-subdued">Peran: Guru</p>
       </div>
       <div class="row gap-8">
-        <button class="btn btn-ghost btn-sm" onclick="toast('Draf tersimpan')">Simpan draf</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Tersimpan')">Simpan draf</button>
         <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
           <span class="material-symbols-outlined">close</span>
         </button>
@@ -286,7 +286,7 @@
     <div class="soal-bottombar-inner">
       <p class="text-body-sm c-critical" id="warning-text" style="visibility:hidden; display:flex; align-items:center; gap:6px;">
         <span class="material-symbols-outlined" style="font-size:18px">info</span>
-        Cek kembali — jawaban yang dikumpulkan tidak bisa diubah
+        Periksa kembali — jawaban yang dikumpulkan tidak bisa diubah
       </p>
       <button class="btn btn-blue btn-lg" id="btn-next" onclick="nextSoal()" aria-disabled="true">Simpan dan kumpulkan</button>
     </div>
@@ -318,14 +318,14 @@
 
     <div class="section-head">
       <span class="material-symbols-outlined icon" style="color:#268326">trending_up</span>
-      <p class="text-heading-sm c-default">Potensi terkuat Anda</p>
+      <p class="text-heading-sm c-default">Potensi Terkuat Anda</p>
       <span class="badge badge-success" id="count-strong">3</span>
     </div>
     <div class="grid-2" id="hasil-strong"><!-- JS --></div>
 
     <div class="section-head">
       <span class="material-symbols-outlined icon" style="color:#ce4100">rocket_launch</span>
-      <p class="text-heading-sm c-default">Area pengembangan</p>
+      <p class="text-heading-sm c-default">Area Pengembangan</p>
       <span class="badge badge-warning" id="count-dev">5</span>
     </div>
     <div class="grid-2" id="hasil-dev"><!-- JS --></div>
@@ -352,14 +352,14 @@
 <div class="dialog-overlay" id="modal-confirm">
   <div class="dialog-content" role="alertdialog" aria-modal="true">
     <div class="dialog-header">
-      <p class="text-heading-md c-default">Kumpulkan jawaban?</p>
+      <p class="text-heading-md c-default">Konfirmasi Pengumpulan</p>
     </div>
     <div class="dialog-body">
       <p class="text-body c-subdued">Setelah dikumpulkan, jawaban tidak bisa diubah lagi. Periksa kembali dan simpan draf jika perlu.</p>
     </div>
     <div class="dialog-footer">
       <button class="btn btn-white btn-md" onclick="closeModal('modal-confirm')">Kembali</button>
-      <button class="btn btn-blue btn-md" onclick="submitJawaban()">Ya, kumpulkan</button>
+      <button class="btn btn-blue btn-md" onclick="submitJawaban()">Kumpulkan</button>
     </div>
   </div>
 </div>
@@ -368,12 +368,12 @@
   <div class="dialog-content" role="alertdialog" aria-modal="true">
     <div class="dialog-body" style="padding:28px 24px 18px;">
       <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">folder_open</span></div>
-      <p class="text-heading-md c-default" style="margin-bottom:6px">Simpan dan keluar?</p>
+      <p class="text-heading-md c-default" style="margin-bottom:6px">Konfirmasi Keluar</p>
       <p class="text-body c-subdued">Anda bisa lanjutkan nanti. Jawaban yang sudah dipilih akan tersimpan.</p>
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
-      <button class="btn btn-blue btn-lg btn-full" onclick="closeModal('modal-exit'); toast('Jawaban tersimpan'); showPage('page-home');">Ya, simpan dan keluar</button>
-      <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Tidak, kembali ke soal</button>
+      <button class="btn btn-blue btn-lg btn-full" onclick="closeModal('modal-exit'); toast('Tersimpan'); showPage('page-home');">Simpan dan keluar</button>
+      <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Kembali ke soal</button>
     </div>
   </div>
 </div>
@@ -388,7 +388,7 @@
       <p class="text-body c-subdued">Terima kasih sudah menyelesaikan refleksi indikator ini.</p>
     </div>
     <div class="dialog-footer" style="border-top:none; justify-content:stretch; padding-top:0;">
-      <button class="btn btn-blue btn-lg btn-full" onclick="afterSubmit()">Saya mengerti</button>
+      <button class="btn btn-blue btn-lg btn-full" onclick="afterSubmit()">Tutup</button>
     </div>
   </div>
 </div>
