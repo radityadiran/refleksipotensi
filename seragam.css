@@ -236,23 +236,23 @@ body {
 .card-sub    { font-size: 0.75rem; color: var(--text-subdued); margin-top: 2px; }
 .card-body   { padding: 8px 20px; }
 
-/* ── Badge (pill, text-default, badge palette) ────────────────────────────── */
+/* ── Badge (20px radius, 14px/600, border matches bg) ─────────────────────── */
 .badge {
   display: inline-flex; align-items: center; gap: 4px;
-  border-radius: var(--r-pill);
+  border-radius: 20px;
   padding: 2px 8px;
-  font-size: 0.75rem; line-height: 1.125rem; font-weight: 600;
+  font-size: 0.875rem; line-height: 1.25rem; font-weight: 600;
   font-family: var(--font);
-  color: var(--text-default);
+  color: #323232;
 }
-.badge .material-symbols-outlined { font-size: 14px; }
-.badge-success       { background: var(--badge-success-bg); }
-.badge-warning       { background: var(--badge-warning-bg); }
-.badge-critical      { background: var(--badge-critical-bg); }
-.badge-informational { background: var(--badge-info-bg); }
-.badge-neutral       { background: var(--badge-neutral-bg); }
-.badge-exp-informational { background: var(--action-default); color: #fff; }
-.badge-exp-success       { background: var(--surface-success-default); color: #fff; }
+.badge .material-symbols-outlined { font-size: 16px; }
+.badge-success       { background: var(--badge-success-bg);  border: 1px solid var(--badge-success-bg); }
+.badge-warning       { background: var(--badge-warning-bg);  border: 1px solid var(--badge-warning-bg); }
+.badge-critical      { background: var(--badge-critical-bg); border: 1px solid var(--badge-critical-bg); }
+.badge-informational { background: var(--badge-info-bg);     border: 1px solid var(--badge-info-bg); }
+.badge-neutral       { background: #fff; border: 1px solid #adadad; }
+.badge-exp-informational { background: var(--action-default); color: #fff; border: 1px solid var(--action-default); }
+.badge-exp-success       { background: var(--surface-success-default); color: #fff; border: 1px solid var(--surface-success-default); }
 
 /* ── Banner ───────────────────────────────────────────────────────────────── */
 .banner { display: block; padding: 20px; border-radius: var(--r-md); overflow: hidden; color: var(--text-default); }
