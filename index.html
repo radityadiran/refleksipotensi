@@ -341,15 +341,24 @@ const indicators = IND_BASE.map(ind => ({
   )
 }));
 
-// Flat survey items: 80 questions + 7 section breaks = 87 slots
-// slot structure: ind 0 (slots 0–9) | break | ind 1 (slots 11–20) | break | …
-const surveyItems = [];
-for (let i = 0; i < indicators.length; i++) {
-  if (i > 0) surveyItems.push({ type: 'break', indicatorIndex: i });
-  for (let q = 0; q < Q_PER_IND; q++) {
-    surveyItems.push({ type: 'question', indicatorIndex: i, questionIndex: q });
+// Flat survey items: questions shuffled across indicators, break every 10 questions
+// Each question retains indicatorIndex + questionIndex for scoring, not for display
+const surveyItems = (() => {
+  // Build all 80 question slots
+  const qs = [];
+  for (let i = 0; i < indicators.length; i++)
+    for (let q = 0; q < Q_PER_IND; q++)
+      qs.push({ type: 'question', indicatorIndex: i, questionIndex: q });
+
+  // Insert a break after every 10th question (7 breaks total)
+  const items = [];
+  for (let idx = 0; idx < qs.length; idx++) {
+    items.push(qs[idx]);
+    if ((idx + 1) % 10 === 0 && idx + 1 < qs.length)
+      items.push({ type: 'break', afterQuestion: idx + 1 }); // afterQuestion = how many answered so far
   }
-}
+  return items;
+})();
 
 /* ── STATE ───────────────────────────────────────────────────────────────── */
 let currentItem = 0;
@@ -527,6 +536,11 @@ function exitSurvey() {
   showPage('page-home');
 }
 
+function saveDraft() {
+  showPage('page-home');
+  toast('Tersimpan. Lanjutkan kapan saja dari beranda.');
+}
+
 function submitSurvey() {
   closeModal('modal-confirm');
   computedResults = computeScores();
@@ -593,23 +607,23 @@ function renderCurrentItem() {
   }
 }
 
+function questionNumber(itemIndex) {
+  // Count question slots up to and including itemIndex
+  let n = 0;
+  for (let i = 0; i <= itemIndex; i++) if (surveyItems[i].type === 'question') n++;
+  return n;
+}
+
 function renderQuestion(item) {
   const { indicatorIndex: iIdx, questionIndex: qIdx } = item;
   const ind = indicators[iIdx];
   const q = ind.questions[qIdx];
   const selected = answers[qKey(iIdx, qIdx)];
-  const globalNum = iIdx * Q_PER_IND + qIdx + 1;
+  const globalNum = questionNumber(currentItem);
   const pct = Math.round((answeredCount() / TOTAL_Q) * 100);
 
   document.getElementById('soal-body').innerHTML = `
     <div class="soal-content">
-      <div class="soal-section-label">
-        <div class="ind-icon ${TILES[iIdx]}" style="width:28px;height:28px;border-radius:var(--radius-base);flex-shrink:0">
-          <span class="material-symbols-outlined" style="font-size:16px">${ind.icon}</span>
-        </div>
-        <p class="text-body-sm-bold c-default">${ind.name}</p>
-        <p class="text-body-sm c-subdued" style="margin-left:auto">Bagian ${iIdx + 1} dari 8</p>
-      </div>
       <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">Pertanyaan ${globalNum} dari ${TOTAL_Q}</p>
       <div class="progressbar" style="margin-bottom:24px">
         <div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div>
@@ -633,36 +647,33 @@ function renderQuestion(item) {
 }
 
 function renderSectionBreak(item) {
-  const { indicatorIndex: iIdx } = item;
-  const prevInd = indicators[iIdx - 1];
-  const nextInd = indicators[iIdx];
+  const done = item.afterQuestion;         // e.g. 10, 20, …, 70
+  const pct = Math.round((done / TOTAL_Q) * 100);
+  const segDone = done / 10;              // 1–7
+  const segTotal = 8;
 
   document.getElementById('soal-body').innerHTML = `
     <div class="break-content">
       <span class="material-symbols-outlined" style="font-size:48px;color:#268326">check_circle</span>
-      <p class="text-heading-md c-default" style="margin-top:12px;margin-bottom:4px">Bagian ${iIdx} selesai</p>
-      <p class="text-body c-subdued" style="margin-bottom:16px">${prevInd.name}</p>
+      <p class="text-heading-md c-default" style="margin-top:12px;margin-bottom:4px">Pertanyaan ${done} dari ${TOTAL_Q} selesai</p>
+      <p class="text-body c-subdued" style="margin-bottom:20px">Anda sudah menjawab ${done} pertanyaan. Masih ada ${TOTAL_Q - done} pertanyaan lagi.</p>
 
-      <div class="break-parts">
-        ${Array.from({ length: 8 }, (_, i) =>
-          `<div class="break-part ${i < iIdx ? 'done' : i === iIdx ? 'next' : ''}"></div>`
+      <div class="progressbar" style="margin-bottom:8px">
+        <div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div>
+      </div>
+      <div class="break-parts" style="margin-bottom:28px">
+        ${Array.from({ length: segTotal }, (_, i) =>
+          `<div class="break-part ${i < segDone ? 'done' : i === segDone ? 'next' : ''}"></div>`
         ).join('')}
       </div>
-      <p class="text-body-sm c-subdued" style="margin-bottom:32px">${iIdx} dari 8 bagian selesai</p>
 
-      <hr class="separator" style="margin-bottom:28px">
+      <hr class="separator" style="margin-bottom:24px">
 
-      <p class="text-body-sm c-subdued" style="margin-bottom:12px;text-transform:uppercase;letter-spacing:0.4px;font-weight:600">Selanjutnya</p>
-      <div class="break-icon-lg ${TILES[iIdx]}">
-        <span class="material-symbols-outlined">${nextInd.icon}</span>
+      <div class="break-jeda-note" style="margin-bottom:16px">
+        <p class="text-body-sm-bold c-default" style="margin-bottom:4px">Silakan ambil jeda sejenak.</p>
+        <p class="text-body-sm c-subdued">Jawaban Anda sudah tersimpan otomatis. Anda bisa menutup halaman ini dan melanjutkan nanti dari titik yang sama.</p>
       </div>
-      <p class="text-heading-sm c-default" style="margin-bottom:8px">${nextInd.name}</p>
-      <p class="text-body c-subdued" style="margin-bottom:20px">${nextInd.desc}</p>
-
-      <!-- TODO: eksplorasi konten jeda / manajemen kebosanan di sini -->
-      <div class="break-jeda-note">
-        <p class="text-body-sm c-subdued">Silakan ambil jeda sejenak sebelum melanjutkan.</p>
-      </div>
+      <button class="btn btn-secondary btn-md btn-full" style="margin-bottom:8px" onclick="saveDraft()">Simpan dan lanjutkan nanti</button>
     </div>`;
 }
 
@@ -790,19 +801,48 @@ function openIndikator(name) {
 /* ── INIT ────────────────────────────────────────────────────────────────── */
 renderHome();
 
-// Demo: press 'f' on home to fast-fill all answers
-document.addEventListener('keydown', e => {
-  if (e.key === 'f' && document.getElementById('page-home').classList.contains('active')) {
-    indicators.forEach((_, i) => {
-      for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = 2;
-    });
-    surveyState = 'completed';
-    computedResults = computeScores();
-    renderHasil();
-    renderHome();
-    toast('Demo: semua jawaban terisi');
+/* ── DEMO CHEAT BAR ─────────────────────────────────────────────────────── */
+function cheatNotStarted() {
+  answers = {};
+  surveyState = 'not_started';
+  computedResults = null;
+  currentItem = 0;
+  renderHome();
+  showPage('page-home');
+  toast('Demo: belum diisi');
+}
+
+function cheatInProgress() {
+  answers = {};
+  // Fill first 25 questions (across whichever indicators they land on)
+  let filled = 0;
+  for (let idx = 0; idx < surveyItems.length && filled < 25; idx++) {
+    const it = surveyItems[idx];
+    if (it.type === 'question') { answers[qKey(it.indicatorIndex, it.questionIndex)] = 2; filled++; }
   }
-});
+  surveyState = 'in_progress';
+  computedResults = null;
+  currentItem = surveyItems.findIndex(it =>
+    it.type === 'question' && answers[qKey(it.indicatorIndex, it.questionIndex)] === undefined
+  );
+  if (currentItem < 0) currentItem = 0;
+  renderHome();
+  showPage('page-home');
+  toast('Demo: 25 pertanyaan terjawab');
+}
+
+function cheatCompleted() {
+  answers = {};
+  indicators.forEach((_, i) => {
+    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = 2;
+  });
+  surveyState = 'completed';
+  computedResults = computeScores();
+  renderHasil();
+  renderHome();
+  showPage('page-home');
+  toast('Demo: semua jawaban terisi');
+}
 </script>
 </body>
 </html>
