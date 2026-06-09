@@ -10,10 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&display=block" rel="stylesheet">
 <link href="seragam.css" rel="stylesheet">
 <style>
-/* ── Page-specific composition (built from Seragam primitives) ───────────── */
+/* ── Page-specific composition ───────────────────────────────────────────── */
 
 /* Hero header (deep navy) */
-.app-hero { background: #04287e; color: #fff; } /* color.blue.90 / expressive.darkBlue */
+.app-hero { background: #04287e; color: #fff; }
 .app-hero-inner { max-width: 1040px; margin: 0 auto; width: 100%; padding: 18px 32px 26px; }
 .app-hero-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .icon-btn-round {
@@ -23,9 +23,6 @@
 }
 .icon-btn-round:hover { background: rgba(255,255,255,0.26); }
 .icon-btn-round.solid { background: #fff; color: #04287e; }
-.app-hero-chips { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-.app-hero-link { display: inline-flex; align-items: center; gap: 6px; color: #fff; text-decoration: underline; font-weight: 600; font-size: 1rem; cursor: pointer; background: none; border: none; font-family: var(--font); margin-top: 4px; }
-.app-hero-link:hover { color: #bfdafe; }
 
 /* Slim navy bar (subpages) */
 .app-bar { background: #04287e; color: #fff; position: sticky; top: 0; z-index: 30; }
@@ -47,25 +44,26 @@
   display: flex; align-items: center; justify-content: center;
 }
 .step-bubble.done { background: #268326; }
+.step-bubble.inactive { background: var(--gray-30); }
 .step-bubble .material-symbols-outlined { font-size: 20px; }
 .step-title { margin: 4px 0 16px; }
 
-/* Indicator card (home) — soft light-blue, borderless */
+/* Indicator card — home grid */
 .comp-card {
   background: var(--surface-selected); border-radius: 16px; border: none;
   padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  cursor: pointer; transition: background 0.15s, transform 0.15s;
+  transition: background 0.15s;
 }
-.comp-card:hover { background: #d8e8ff; transform: translateY(-1px); }
+.comp-card.clickable { cursor: pointer; }
+.comp-card.clickable:hover { background: #d8e8ff; transform: translateY(-1px); }
 .comp-card .ind-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .ind-icon {
   width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
-  background: #fff; color: #0746bd;
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .ind-icon .material-symbols-outlined { font-size: 26px; }
 
-/* Expressive tile palette (derived from Seragam color ramps) */
+/* Tile palette */
 .tile-blue   { background: #d6e6ff; color: #0746bd; }
 .tile-green  { background: #d2efce; color: #196d1a; }
 .tile-purple { background: #ece0fe; color: #6d36e1; }
@@ -73,45 +71,41 @@
 .tile-orange { background: #ffe2bd; color: #af3200; }
 .tile-pink   { background: #f8dcf2; color: #b31d64; }
 
-/* Locked / unlocked result box (home step 2) */
+/* Locked result box */
 .locked-box { position: relative; background: var(--surface-subdued); border-radius: 16px; padding: 20px 22px; overflow: hidden; }
 .locked-box .lock-watermark { position: absolute; right: -8px; top: 50%; transform: translateY(-50%); font-size: 110px; color: rgba(0,0,0,0.04); pointer-events: none; }
 
-/* Help band (Masih bingung?) */
-.help-band { background: var(--surface-selected); margin-top: 32px; }
-.help-band-inner { max-width: 1040px; margin: 0 auto; width: 100%; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.help-mascot { width: 96px; height: 96px; border-radius: 50%; background: #fff; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: var(--elevation-card); }
-.help-mascot .material-symbols-outlined { font-size: 52px; color: #fb7927; }
-
-/* Detail: measure rows */
-.measure-list { display: flex; flex-direction: column; }
-.measure-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; }
-.measure-item + .measure-item { border-top: 1px solid var(--gray-5); }
-.meta-list { display: flex; flex-direction: column; margin: 8px 0 24px; }
-.meta-item { display: flex; align-items: center; gap: 14px; padding: 16px 0; }
-.meta-item .meta-label { display: flex; flex-direction: column; }
-
 /* Panduan tips */
-.card-outline { background: #fff; border: 1px solid var(--border-disabled); border-radius: 12px; box-shadow: none; }
+.card-outline { background: #fff; border: 1px solid var(--border-disabled); border-radius: var(--radius-base); box-shadow: none; }
 .tip-row { display: flex; align-items: center; gap: 16px; padding: 16px 4px; }
 .tip-check { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; background: var(--action-default); color: #fff; display: flex; align-items: center; justify-content: center; }
 .tip-check .material-symbols-outlined { font-size: 22px; }
-.note-warning { display: flex; gap: 12px; align-items: flex-start; background: #ffefd6; border-radius: var(--radius-base); padding: 16px; } /* color.orange.5 */
-.note-ic { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; background: #e78701; color: #fff; display: flex; align-items: center; justify-content: center; } /* color.yellow.40 */
+.note-warning { display: flex; gap: 12px; align-items: flex-start; background: #ffefd6; border-radius: var(--radius-base); padding: 16px; }
+.note-ic { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; background: #e78701; color: #fff; display: flex; align-items: center; justify-content: center; }
 .note-ic .material-symbols-outlined { font-size: 18px; }
 
 /* Soal */
 .soal-topbar { background: #fff; box-shadow: var(--elevation-header); position: sticky; top: 0; z-index: 30; }
 .soal-topbar-inner { max-width: 1040px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .soal-content { max-width: 760px; margin: 0 auto; width: 100%; padding: 28px 32px 130px; }
-.kasus {
-  background: var(--surface-subdued); border-radius: var(--radius-base);
-  padding: 16px 18px; margin-bottom: 18px;
-}
+.kasus { background: var(--surface-subdued); border-radius: var(--radius-base); padding: 16px 18px; margin-bottom: 18px; }
+.soal-section-label { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface-selected); border-radius: var(--radius-base); margin-bottom: 20px; }
 .soal-bottombar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; box-shadow: 0 -2px 4px -4px #323232; z-index: 30; }
 .soal-bottombar-inner { max-width: 760px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 
+/* Section break */
+.break-content { max-width: 480px; margin: 0 auto; padding: 48px 32px 130px; text-align: center; }
+.break-parts { display: flex; justify-content: center; gap: 6px; margin: 16px auto; max-width: 320px; }
+.break-part { height: 6px; flex: 1; border-radius: 3px; background: var(--gray-10); }
+.break-part.done { background: #268326; }
+.break-part.next { background: var(--action-default); }
+.break-icon-lg { width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 24px auto 16px; }
+.break-icon-lg .material-symbols-outlined { font-size: 40px; }
+.break-jeda-note { background: var(--surface-subdued); border-radius: var(--radius-base); padding: 12px 16px; margin-top: 20px; text-align: left; }
+
 /* Hasil */
+.score-card { display: flex; align-items: center; gap: 20px; padding: 24px; margin-bottom: 8px; }
+.score-number { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--action-default); }
 .hasil-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .hasil-banner-art { width: 64px; height: 64px; border-radius: 50%; background: #9ae5b9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .hasil-banner-art .material-symbols-outlined { font-size: 36px; color: #135d15; }
@@ -127,19 +121,15 @@
 .rek-item + .rek-item { border-top: 1px solid var(--gray-5); }
 .rek-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--action-default); flex-shrink: 0; margin-top: 7px; }
 
-/* Dialog illustration tile */
-.dialog-illus {
-  width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
-}
+/* Dialog illustration */
+.dialog-illus { width: 64px; height: 64px; border-radius: var(--radius-base); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
 .dialog-illus .material-symbols-outlined { font-size: 32px; }
 </style>
 </head>
 <body>
 
 <!-- ════════════════════════════ PAGE: HOME ════════════════════════════════ -->
-<div class="page active" id="page-home" data-screen-label="Refleksi landing">
+<div class="page active" id="page-home">
   <header class="app-hero">
     <div class="app-hero-inner">
       <div class="app-hero-top">
@@ -151,89 +141,16 @@
         </button>
       </div>
       <p class="text-display-md c-inverse" style="font-size:2rem; margin-bottom:8px; margin-top:4px;">Refleksi Potensi</p>
-      <button class="app-hero-link" onclick="toast('Membuka artikel Refleksi Potensi')">Pelajari artikel Model Potensi</button>
     </div>
   </header>
-
-  <div class="content">
-    <div class="timeline-step">
-      <div class="timeline-rail">
-        <div class="step-bubble" id="step1-bubble">1</div>
-        <div class="timeline-line"></div>
-      </div>
-      <div class="timeline-body">
-        <p class="text-heading-md c-default step-title">Refleksikan 8 indikator potensi</p>
-        <div class="grid-2" id="cards-grid"><!-- JS --></div>
-      </div>
-    </div>
-
-    <div class="timeline-step">
-      <div class="timeline-rail">
-        <div class="step-bubble" id="step2-bubble" style="background:var(--gray-30)">2</div>
-      </div>
-      <div class="timeline-body">
-        <p class="text-heading-md c-default step-title">Pelajari hasil refleksi</p>
-        <div id="result-zone">
-          <div class="locked-box" id="locked-box">
-            <span class="lock-watermark material-symbols-outlined">lock_open</span>
-            <div class="row gap-12" style="align-items:flex-start; position:relative;">
-              <span class="material-symbols-outlined icon subdued lg">lock</span>
-              <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Setelah Anda merefleksikan 8 indikator di atas, Anda bisa melihat profil potensi di sini.</p>
-            </div>
-            <div style="margin-top:18px; position:relative;">
-              <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" id="progress-fill" style="width:0%"></div></div></div>
-              <p class="text-body-sm c-subdued" id="progress-text" style="margin-top:10px">Belum ada refleksi yang selesai · 0 dari 8</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════ PAGE: DETAIL ══════════════════════════════ -->
-<div class="page" id="page-detail" data-screen-label="Detail indikator">
-  <header class="app-bar">
-    <div class="app-bar-inner">
-      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </button>
-      <div class="app-bar-titles">
-        <p class="text-heading-sm c-inverse" id="detail-title">–</p>
-      </div>
-    </div>
-  </header>
-  <div class="content content-narrow">
-    <p class="text-display-sm c-default" id="detail-will-measure" style="margin-bottom:18px">–</p>
-    <div class="card" style="padding:6px 20px; margin-bottom:8px;">
-      <div class="measure-list" id="detail-measures"></div>
-    </div>
-    <div class="meta-list">
-      <div class="meta-item">
-        <span class="material-symbols-outlined icon subdued">description</span>
-        <div class="meta-label">
-          <span class="text-body-sm c-subdued">Jumlah soal</span>
-          <span class="text-body-bold c-default">5 butir</span>
-        </div>
-      </div>
-      <hr class="separator">
-      <div class="meta-item">
-        <span class="material-symbols-outlined icon subdued">schedule</span>
-        <div class="meta-label">
-          <span class="text-body-sm c-subdued">Estimasi pengerjaan</span>
-          <span class="text-body-bold c-default">10–15 menit</span>
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Lanjut ke saran pengerjaan</button>
-  </div>
+  <div class="content" id="home-content"><!-- rendered by JS --></div>
 </div>
 
 <!-- ════════════════════════════ PAGE: PANDUAN ═════════════════════════════ -->
-<div class="page" id="page-panduan" data-screen-label="Panduan">
+<div class="page" id="page-panduan">
   <header class="app-bar">
     <div class="app-bar-inner">
-      <button class="app-bar-back" onclick="showPage('page-detail')" aria-label="Kembali">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
         <span class="material-symbols-outlined">arrow_back</span>
       </button>
       <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Saran Pengerjaan</p></div>
@@ -258,43 +175,44 @@
       <p class="text-body-lg-bold c-default" style="margin-bottom:12px">Penting:</p>
       <div class="note-warning">
         <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
-        <p class="text-body c-default">Jawaban tidak bisa diubah setelah dipilih. Maka jawablah yang paling sesuai dengan diri Anda. Tidak ada benar atau salah.</p>
+        <p class="text-body c-default">Anda dapat menjawab sebagian pertanyaan dan melanjutkan di lain waktu. Namun, jawaban yang sudah dikumpulkan tidak bisa diubah.</p>
       </div>
     </div>
-    <button class="btn btn-blue btn-lg btn-full" style="margin-top:24px" onclick="startSoal()">Mulai</button>
+    <button class="btn btn-blue btn-lg btn-full" style="margin-top:24px" onclick="startSurvey()">Mulai</button>
   </div>
 </div>
 
 <!-- ════════════════════════════ PAGE: SOAL ════════════════════════════════ -->
-<div class="page" id="page-soal" data-screen-label="Soal">
+<div class="page" id="page-soal">
   <div class="soal-topbar">
     <div class="soal-topbar-inner">
       <div class="col">
-        <p class="text-body-bold c-default" id="soal-dim-name">–</p>
+        <p class="text-body-bold c-default">Refleksi Potensi</p>
         <p class="text-helper c-subdued">Peran: Guru</p>
       </div>
       <div class="row gap-8">
-        <button class="btn btn-ghost btn-sm" onclick="toast('Tersimpan')">Simpan draf</button>
+        <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Simpan draf</button>
         <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
     </div>
   </div>
-  <div class="soal-content" id="soal-content"><!-- JS --></div>
+  <div id="soal-body"><!-- rendered by renderCurrentItem() --></div>
   <div class="soal-bottombar">
     <div class="soal-bottombar-inner">
-      <p class="text-body-sm c-critical" id="warning-text" style="visibility:hidden; display:flex; align-items:center; gap:6px;">
-        <span class="material-symbols-outlined" style="font-size:18px">info</span>
-        Periksa kembali — jawaban yang dikumpulkan tidak bisa diubah
-      </p>
-      <button class="btn btn-blue btn-lg" id="btn-next" onclick="nextSoal()" aria-disabled="true">Simpan dan kumpulkan</button>
+      <button class="btn btn-white btn-md" id="btn-prev" onclick="goPrev()">
+        <span class="material-symbols-outlined">arrow_back</span> Kembali
+      </button>
+      <button class="btn btn-blue btn-md" id="btn-next" onclick="goNext()">
+        Selanjutnya <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
     </div>
   </div>
 </div>
 
 <!-- ════════════════════════════ PAGE: HASIL ═══════════════════════════════ -->
-<div class="page" id="page-hasil" data-screen-label="Hasil refleksi">
+<div class="page" id="page-hasil">
   <header class="app-bar">
     <div class="app-bar-inner">
       <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
@@ -303,40 +221,14 @@
       <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Hasil Refleksi</p></div>
     </div>
   </header>
-  <div class="content">
-    <div class="banner banner-success">
-      <div class="hasil-banner">
-        <div class="col gap-8">
-          <p class="text-heading-md c-default">Potensi Anda sudah teridentifikasi</p>
-          <span class="badge badge-exp-success" style="width:fit-content">
-            <span class="material-symbols-outlined">auto_awesome</span> 8 rekomendasi pengembangan
-          </span>
-        </div>
-        <div class="hasil-banner-art"><span class="material-symbols-outlined">workspace_premium</span></div>
-      </div>
-    </div>
-
-    <div class="section-head">
-      <span class="material-symbols-outlined icon" style="color:#268326">trending_up</span>
-      <p class="text-heading-sm c-default">Potensi Terkuat Anda</p>
-      <span class="badge badge-success" id="count-strong">3</span>
-    </div>
-    <div class="grid-2" id="hasil-strong"><!-- JS --></div>
-
-    <div class="section-head">
-      <span class="material-symbols-outlined icon" style="color:#ce4100">rocket_launch</span>
-      <p class="text-heading-sm c-default">Area Pengembangan</p>
-      <span class="badge badge-warning" id="count-dev">5</span>
-    </div>
-    <div class="grid-2" id="hasil-dev"><!-- JS --></div>
-  </div>
+  <div class="content" id="hasil-content"><!-- rendered by renderHasil() --></div>
 </div>
 
 <!-- ════════════════════════════ PAGE: INDIKATOR DETAIL ════════════════════ -->
-<div class="page" id="page-indikator" data-screen-label="Indikator detail">
+<div class="page" id="page-indikator">
   <header class="app-bar">
     <div class="app-bar-inner">
-      <button class="app-bar-back" onclick="showPage('page-hasil')" aria-label="Kembali ke hasil">
+      <button class="app-bar-back" id="ind-back-btn" onclick="showPage('page-hasil')" aria-label="Kembali">
         <span class="material-symbols-outlined">arrow_back</span>
       </button>
       <div class="app-bar-titles">
@@ -345,7 +237,7 @@
       </div>
     </div>
   </header>
-  <div class="content content-narrow" id="ind-detail-body"><!-- JS --></div>
+  <div class="content content-narrow" id="ind-detail-body"></div>
 </div>
 
 <!-- ════════════════════════════ DIALOGS ═══════════════════════════════════ -->
@@ -355,11 +247,11 @@
       <p class="text-heading-md c-default">Konfirmasi Pengumpulan</p>
     </div>
     <div class="dialog-body">
-      <p class="text-body c-subdued">Setelah dikumpulkan, jawaban tidak bisa diubah lagi. Periksa kembali dan simpan draf jika perlu.</p>
+      <p class="text-body c-subdued">Setelah dikumpulkan, seluruh jawaban tidak bisa diubah lagi. Periksa kembali sebelum melanjutkan.</p>
     </div>
     <div class="dialog-footer">
       <button class="btn btn-white btn-md" onclick="closeModal('modal-confirm')">Kembali</button>
-      <button class="btn btn-blue btn-md" onclick="submitJawaban()">Kumpulkan</button>
+      <button class="btn btn-blue btn-md" onclick="submitSurvey()">Kumpulkan</button>
     </div>
   </div>
 </div>
@@ -369,26 +261,11 @@
     <div class="dialog-body" style="padding:28px 24px 18px;">
       <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">folder_open</span></div>
       <p class="text-heading-md c-default" style="margin-bottom:6px">Konfirmasi Keluar</p>
-      <p class="text-body c-subdued">Anda bisa lanjutkan nanti. Jawaban yang sudah dipilih akan tersimpan.</p>
+      <p class="text-body c-subdued">Jawaban yang sudah diisi akan tersimpan. Anda bisa melanjutkan kapan saja.</p>
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
-      <button class="btn btn-blue btn-lg btn-full" onclick="closeModal('modal-exit'); toast('Tersimpan'); showPage('page-home');">Simpan dan keluar</button>
+      <button class="btn btn-blue btn-lg btn-full" onclick="exitSurvey()">Simpan dan keluar</button>
       <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Kembali ke soal</button>
-    </div>
-  </div>
-</div>
-
-<div class="dialog-overlay" id="modal-success">
-  <div class="dialog-content dialog-center" role="alertdialog" aria-modal="true">
-    <div class="dialog-body" style="padding-top:28px">
-      <div style="width:64px;height:64px;border-radius:50%;background:#e2f5e0;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-        <span class="material-symbols-outlined" style="font-size:36px;color:#268326">check_circle</span>
-      </div>
-      <p class="text-heading-md c-default" style="margin-bottom:6px">Jawaban berhasil dikumpulkan</p>
-      <p class="text-body c-subdued">Terima kasih sudah menyelesaikan refleksi indikator ini.</p>
-    </div>
-    <div class="dialog-footer" style="border-top:none; justify-content:stretch; padding-top:0;">
-      <button class="btn btn-blue btn-lg btn-full" onclick="afterSubmit()">Tutup</button>
     </div>
   </div>
 </div>
@@ -397,56 +274,11 @@
 <div id="toast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:#505050;color:#fff;padding:12px 20px;border-radius:4px;font-size:0.875rem;font-weight:500;box-shadow:0px 6px 10px rgba(0,0,0,0.18);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;z-index:2000;"></div>
 
 <script>
-const indicators = [
-  {
-    name: 'Kemampuan Intelektual', icon: 'psychology', status: 'baik', level: 4,
-    desc: 'Kapasitas mengolah informasi kompleks dan menerjemahkan konsep abstrak ke dalam kegiatan bermain-belajar.',
-    measures: ['Adaptasi kurikulum dan penyederhanaan konsep', 'Penerapan literasi numerasi dini', 'Menerjemahkan konsep abstrak ke kegiatan bermain-belajar'],
-    soal: { kasus: 'Ada perubahan kurikulum yang menekankan literasi numerasi melalui bermain, namun buku panduannya sangat tebal.', pertanyaan: 'Bagaimana cara Anda memahaminya?', opsi: ['Membaca perlahan dari awal sampai akhir.', 'Mencari ringkasan di internet.', 'Menganalisis poin inti lalu mendiskusikannya dengan rekan.', 'Menunggu instruksi kepala sekolah.', 'Mengabaikannya dan mengajar seperti biasa.'] }
-  },
-  {
-    name: 'Kemampuan Interpersonal', icon: 'diversity_3', status: 'perlu', level: 2,
-    desc: 'Keterampilan membangun relasi positif, kolaboratif, dan empatik dengan anak didik, sejawat, serta orang tua/wali murid.',
-    measures: ['Komunikasi dengan orang tua dan wali murid', 'Kolaborasi dan mediasi antar rekan tim', 'Membangun relasi positif dan empatik'],
-    soal: { kasus: 'Rekan guru sejawat sering mengkritik metode mengajar Anda di depan guru-guru lain.', pertanyaan: 'Bagaimana Anda bersikap?', opsi: ['Membalas kritiknya saat rapat.', 'Mengabaikannya agar tidak terjadi konflik.', 'Mengajaknya bicara empat mata untuk meminta masukan konstruktif.', 'Melaporkannya kepada Kepala Sekolah.', 'Bercerita kepada guru lain untuk mencari dukungan.'] }
-  },
-  {
-    name: 'Kesadaran Diri', icon: 'self_improvement', status: 'baik', level: 4,
-    desc: 'Kemampuan mengenali kekuatan, keterbatasan, dan emosi pribadi serta dampaknya terhadap lingkungan belajar.',
-    measures: ['Refleksi pasca-mengajar', 'Pengakuan keterbatasan dan kesalahan', 'Manajemen bias dan emosi personal'],
-    soal: { kasus: 'Anda merasa sangat lelah dan stres karena beban administrasi yang menumpuk minggu ini.', pertanyaan: 'Apa yang Anda lakukan?', opsi: ['Melampiaskan kekesalan pada anak di kelas.', 'Tetap bekerja sampai jatuh sakit.', 'Menyadari emosi tersebut dan mengambil jeda untuk regulasi diri.', 'Meninggalkan kelas begitu saja tanpa izin.', 'Mengeluh sepanjang hari di media sosial.'] }
-  },
-  {
-    name: 'Berpikir Kritis & Strategis', icon: 'query_stats', status: 'perlu', level: 3,
-    desc: 'Kemampuan menganalisis situasi kelas secara mendalam dan merancang langkah jangka panjang.',
-    measures: ['Evaluasi program dan kebijakan sekolah', 'Pemanfaatan sumber daya lokal', 'Merancang visi dan langkah jangka panjang'],
-    soal: { kasus: 'Sekolah ingin meningkatkan akreditasi, namun banyak dokumen yang masih berantakan.', pertanyaan: 'Apa saran strategis Anda?', opsi: ['Membuat tim kecil dengan target perbaikan dokumen per minggu.', 'Mengerjakan semuanya di malam sebelum visitasi.', 'Memalsukan data agar terlihat bagus.', 'Mengusulkan mempekerjakan konsultan luar.', 'Menyerah karena merasa tugas terlalu berat.'] }
-  },
-  {
-    name: 'Penyelesaian Masalah', icon: 'handyman', status: 'perlu', level: 3,
-    desc: 'Ketangkasan menemukan solusi kreatif dan praktis atas kendala teknis maupun pedagogis di sekolah.',
-    measures: ['Mengatasi keterbatasan alat peraga', 'Penanganan anak berkebutuhan khusus', 'Solusi kreatif atas kendala pedagogis'],
-    soal: { kasus: 'Saat anak-anak asyik bermain di luar, tiba-tiba hujan deras turun padahal kegiatan belum selesai.', pertanyaan: 'Apa solusi instan Anda?', opsi: ['Menyuruh anak berlari masuk sambil marah-marah.', 'Mengajak anak mengamati hujan dan membuat lagu tentang hujan di teras.', 'Memaksa anak tetap bermain meski kehujanan.', 'Menghentikan kegiatan dan menyuruh anak duduk diam.', 'Menghubungi orang tua untuk segera menjemput.'] }
-  },
-  {
-    name: 'Kecerdasan Emosional', icon: 'favorite', status: 'perlu', level: 2,
-    desc: 'Kemampuan mengelola emosi pribadi dan merespons tantrum atau konflik dengan tenang dan bijak.',
-    measures: ['Stabilitas emosi saat menghadapi tekanan', 'Menangani tantrum dan konflik', 'Empati dalam situasi sulit'],
-    soal: { kasus: 'Seorang anak menangis histeris karena tidak mau ditinggal ibunya di hari pertama sekolah.', pertanyaan: 'Bagaimana Anda menanganinya?', opsi: ['Memarahi anak agar berhenti menangis.', 'Memaksa ibu segera pergi tanpa pamit.', 'Menenangkan anak dengan pelukan hangat lalu mengalihkan ke mainan menarik.', 'Membiarkan anak menangis di lantai sampai capek.', 'Ikut merasa sedih dan bingung harus berbuat apa.'] }
-  },
-  {
-    name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch', status: 'perlu', level: 3,
-    desc: 'Agilitas menguasai metode/teknologi baru dan proaktif mencari peluang peningkatan kompetensi.',
-    measures: ['Penggunaan PMM dan teknologi baru', 'Penerapan teori dan metode baru', 'Kemandirian belajar tanpa instruksi atasan'],
-    soal: { kasus: 'Anda melihat metode mengajar guru lain di media sosial yang tampak sangat efektif.', pertanyaan: 'Apa yang Anda lakukan?', opsi: ['Merasa iri dan menganggap guru itu hanya pamer.', 'Mempelajari metode tersebut dan mencobanya di kelas Anda.', 'Menganggap metode itu tidak cocok untuk sekolah Anda.', 'Menunggu instruksi resmi untuk menggunakannya.', 'Memberi komentar negatif di unggahan tersebut.'] }
-  },
-  {
-    name: 'Motivasi & Komitmen', icon: 'bolt', status: 'baik', level: 5,
-    desc: 'Ketekunan menjalankan tugas guru meskipun menghadapi hambatan administratif atau keterbatasan fasilitas.',
-    measures: ['Konsistensi administrasi dan dedikasi', 'Ketekunan di masa sulit', 'Integritas dan komitmen profesi'],
-    soal: { kasus: 'Anda harus mengerjakan laporan perkembangan 30 anak dalam waktu dua hari.', pertanyaan: 'Bagaimana cara Anda menyelesaikannya?', opsi: ['Mengerjakan seadanya dengan menyalin laporan anak lain.', 'Mengatur waktu dengan disiplin dan menyelesaikannya dengan teliti.', 'Meminta orang tua mengisi sendiri laporan anaknya.', 'Menunda sampai lewat tenggat karena malas.', 'Menangis dan merasa tidak sanggup mengerjakannya.'] }
-  }
-];
+/* ── DATA ────────────────────────────────────────────────────────────────── */
+const TILES = ['tile-blue','tile-green','tile-purple','tile-cyan','tile-orange','tile-pink','tile-blue','tile-orange'];
+const LABELS = ['A','B','C','D','E'];
+const Q_PER_IND = 10;
+const TOTAL_Q = 80;
 
 const REK = {
   baik: {
@@ -469,20 +301,98 @@ const REK = {
   }
 };
 
-const labels = ['A', 'B', 'C', 'D', 'E'];
-const tiles = ['tile-blue','tile-green','tile-purple','tile-cyan','tile-orange','tile-pink','tile-blue','tile-orange'];
-const tileOf = (ind) => tiles[indicators.indexOf(ind)] || 'tile-blue';
-let currentDim = null;
-let selectedOption = -1;
-let showWarning = false;
-let completedDims = [];
+// Base indicators — 1 real question each; questions 2–10 are content placeholders
+const IND_BASE = [
+  { name: 'Kemampuan Intelektual', icon: 'psychology',
+    desc: 'Kapasitas mengolah informasi kompleks dan menerjemahkan konsep abstrak ke dalam kegiatan bermain-belajar.',
+    q1: { kasus: 'Ada perubahan kurikulum yang menekankan literasi numerasi melalui bermain, namun buku panduannya sangat tebal.', pertanyaan: 'Bagaimana cara Anda memahaminya?', opsi: ['Membaca perlahan dari awal sampai akhir.','Mencari ringkasan di internet.','Menganalisis poin inti lalu mendiskusikannya dengan rekan.','Menunggu instruksi kepala sekolah.','Mengabaikannya dan mengajar seperti biasa.'] } },
+  { name: 'Kemampuan Interpersonal', icon: 'diversity_3',
+    desc: 'Keterampilan membangun relasi positif, kolaboratif, dan empatik dengan anak didik, sejawat, serta orang tua/wali murid.',
+    q1: { kasus: 'Rekan guru sejawat sering mengkritik metode mengajar Anda di depan guru-guru lain.', pertanyaan: 'Bagaimana Anda bersikap?', opsi: ['Membalas kritiknya saat rapat.','Mengabaikannya agar tidak terjadi konflik.','Mengajaknya bicara empat mata untuk meminta masukan konstruktif.','Melaporkannya kepada Kepala Sekolah.','Bercerita kepada guru lain untuk mencari dukungan.'] } },
+  { name: 'Kesadaran Diri', icon: 'self_improvement',
+    desc: 'Kemampuan mengenali kekuatan, keterbatasan, dan emosi pribadi serta dampaknya terhadap lingkungan belajar.',
+    q1: { kasus: 'Anda merasa sangat lelah dan stres karena beban administrasi yang menumpuk minggu ini.', pertanyaan: 'Apa yang Anda lakukan?', opsi: ['Melampiaskan kekesalan pada anak di kelas.','Tetap bekerja sampai jatuh sakit.','Menyadari emosi tersebut dan mengambil jeda untuk regulasi diri.','Meninggalkan kelas begitu saja tanpa izin.','Mengeluh sepanjang hari di media sosial.'] } },
+  { name: 'Berpikir Kritis & Strategis', icon: 'query_stats',
+    desc: 'Kemampuan menganalisis situasi kelas secara mendalam dan merancang langkah jangka panjang.',
+    q1: { kasus: 'Sekolah ingin meningkatkan akreditasi, namun banyak dokumen yang masih berantakan.', pertanyaan: 'Apa saran strategis Anda?', opsi: ['Membuat tim kecil dengan target perbaikan dokumen per minggu.','Mengerjakan semuanya di malam sebelum visitasi.','Memalsukan data agar terlihat bagus.','Mengusulkan mempekerjakan konsultan luar.','Menyerah karena merasa tugas terlalu berat.'] } },
+  { name: 'Penyelesaian Masalah', icon: 'handyman',
+    desc: 'Ketangkasan menemukan solusi kreatif dan praktis atas kendala teknis maupun pedagogis di sekolah.',
+    q1: { kasus: 'Saat anak-anak asyik bermain di luar, tiba-tiba hujan deras turun padahal kegiatan belum selesai.', pertanyaan: 'Apa solusi instan Anda?', opsi: ['Menyuruh anak berlari masuk sambil marah-marah.','Mengajak anak mengamati hujan dan membuat lagu tentang hujan di teras.','Memaksa anak tetap bermain meski kehujanan.','Menghentikan kegiatan dan menyuruh anak duduk diam.','Menghubungi orang tua untuk segera menjemput.'] } },
+  { name: 'Kecerdasan Emosional', icon: 'favorite',
+    desc: 'Kemampuan mengelola emosi pribadi dan merespons tantrum atau konflik dengan tenang dan bijak.',
+    q1: { kasus: 'Seorang anak menangis histeris karena tidak mau ditinggal ibunya di hari pertama sekolah.', pertanyaan: 'Bagaimana Anda menanganinya?', opsi: ['Memarahi anak agar berhenti menangis.','Memaksa ibu segera pergi tanpa pamit.','Menenangkan anak dengan pelukan hangat lalu mengalihkan ke mainan menarik.','Membiarkan anak menangis di lantai sampai capek.','Ikut merasa sedih dan bingung harus berbuat apa.'] } },
+  { name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch',
+    desc: 'Agilitas menguasai metode/teknologi baru dan proaktif mencari peluang peningkatan kompetensi.',
+    q1: { kasus: 'Anda melihat metode mengajar guru lain di media sosial yang tampak sangat efektif.', pertanyaan: 'Apa yang Anda lakukan?', opsi: ['Merasa iri dan menganggap guru itu hanya pamer.','Mempelajari metode tersebut dan mencobanya di kelas Anda.','Menganggap metode itu tidak cocok untuk sekolah Anda.','Menunggu instruksi resmi untuk menggunakannya.','Memberi komentar negatif di unggahan tersebut.'] } },
+  { name: 'Motivasi & Komitmen', icon: 'bolt',
+    desc: 'Ketekunan menjalankan tugas guru meskipun menghadapi hambatan administratif atau keterbatasan fasilitas.',
+    q1: { kasus: 'Anda harus mengerjakan laporan perkembangan 30 anak dalam waktu dua hari.', pertanyaan: 'Bagaimana cara Anda menyelesaikannya?', opsi: ['Mengerjakan seadanya dengan menyalin laporan anak lain.','Mengatur waktu dengan disiplin dan menyelesaikannya dengan teliti.','Meminta orang tua mengisi sendiri laporan anaknya.','Menunda sampai lewat tenggat karena malas.','Menangis dan merasa tidak sanggup mengerjakannya.'] } }
+];
 
-/* ── Navigation ───────────────────────────────────────────────────────────── */
+// Expand each indicator to 10 questions (q1 real, q2–10 placeholder)
+const indicators = IND_BASE.map(ind => ({
+  ...ind,
+  questions: Array.from({ length: Q_PER_IND }, (_, i) =>
+    i === 0 ? ind.q1 : {
+      kasus: `[Konten akan diperbarui] ${ind.q1.kasus}`,
+      pertanyaan: ind.q1.pertanyaan,
+      opsi: ind.q1.opsi
+    }
+  )
+}));
+
+// Flat survey items: 80 questions + 7 section breaks = 87 slots
+// slot structure: ind 0 (slots 0–9) | break | ind 1 (slots 11–20) | break | …
+const surveyItems = [];
+for (let i = 0; i < indicators.length; i++) {
+  if (i > 0) surveyItems.push({ type: 'break', indicatorIndex: i });
+  for (let q = 0; q < Q_PER_IND; q++) {
+    surveyItems.push({ type: 'question', indicatorIndex: i, questionIndex: q });
+  }
+}
+
+/* ── STATE ───────────────────────────────────────────────────────────────── */
+let currentItem = 0;
+let answers = {};        // key: `${indIdx}-${qIdx}` → optionIndex (0–4)
+let surveyState = 'not_started'; // 'not_started' | 'in_progress' | 'completed'
+let computedResults = null;
+
+/* ── HELPERS ─────────────────────────────────────────────────────────────── */
+const qKey = (i, q) => `${i}-${q}`;
+const answeredCount = () => Object.keys(answers).length;
+
+function indAnsweredCount(indIdx) {
+  let n = 0;
+  for (let q = 0; q < Q_PER_IND; q++) if (answers[qKey(indIdx, q)] !== undefined) n++;
+  return n;
+}
+
+function indCompleted(indIdx) { return indAnsweredCount(indIdx) === Q_PER_IND; }
+
+/* ── SCORING ─────────────────────────────────────────────────────────────── */
+function computeScores() {
+  const indScores = indicators.map((ind, i) => {
+    // Prototype scoring: option index 2 (C) = ideal answer
+    let correct = 0;
+    for (let q = 0; q < Q_PER_IND; q++) {
+      if (answers[qKey(i, q)] === 2) correct++;
+    }
+    const level = Math.round((correct / Q_PER_IND) * 5);
+    return { ...ind, level, status: level >= 3 ? 'baik' : 'perlu' };
+  });
+  const totalRaw = indScores.reduce((sum, ind) => sum + ind.level, 0); // max 40
+  const nilaiPotensi = Math.round((totalRaw / 40) * 100);
+  const kategori = nilaiPotensi >= 80 ? 'Tinggi' : nilaiPotensi >= 60 ? 'Menengah' : 'Rendah';
+  return { indScores, nilaiPotensi, kategori };
+}
+
+/* ── NAVIGATION ──────────────────────────────────────────────────────────── */
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
+
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 let toastTimer;
@@ -492,41 +402,61 @@ function toast(msg) {
   t.style.opacity = '1';
   t.style.transform = 'translateX(-50%) translateY(0)';
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)'; }, 1800);
+  toastTimer = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 1800);
 }
 
-/* ── Home ─────────────────────────────────────────────────────────────────── */
-function renderHomeCards() {
-  document.getElementById('cards-grid').innerHTML = indicators.map(ind => {
-    const done = completedDims.includes(ind.name);
+/* ── HOME ────────────────────────────────────────────────────────────────── */
+function renderHome() {
+  const n = answeredCount();
+  const pct = Math.round((n / TOTAL_Q) * 100);
+  const completed = surveyState === 'completed';
+
+  // Build indicator cards
+  const cardsHTML = indicators.map((ind, i) => {
+    const done = indCompleted(i);
+    const clickable = completed && done;
     return `
-      <div class="comp-card" onclick="openDetail('${ind.name}')">
+      <div class="comp-card${clickable ? ' clickable' : ''}" ${clickable ? `onclick="openIndikator('${ind.name}')"` : ''}>
         <div class="ind-left">
-          <div class="ind-icon ${tileOf(ind)}"><span class="material-symbols-outlined">${ind.icon}</span></div>
+          <div class="ind-icon ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></div>
           <div class="col">
             <p class="text-body-lg-bold c-default">${ind.name}</p>
-            <p class="text-body-sm c-subdued" style="margin-top:2px">${done ? 'Refleksi selesai' : '5 soal'}</p>
+            <p class="text-body-sm c-subdued" style="margin-top:2px">
+              ${done ? 'Refleksi selesai' : surveyState === 'not_started' ? '10 pertanyaan' : `${indAnsweredCount(i)} dari 10 terjawab`}
+            </p>
           </div>
         </div>
-        ${done
-          ? `<span class="badge badge-success"><span class="material-symbols-outlined">check</span> Selesai</span>`
-          : `<button class="btn btn-blue btn-md" onclick="event.stopPropagation();openDetail('${ind.name}')">Mulai</button>`}
+        ${done ? `<span class="badge badge-success"><span class="material-symbols-outlined">check</span> Selesai</span>` : ''}
       </div>`;
   }).join('');
-}
 
-function updateHome() {
-  renderHomeCards();
-  const n = completedDims.length;
-  const pct = Math.round((n / 8) * 100);
-  const progressLabel = n === 0 ? 'Belum ada refleksi yang selesai · 0 dari 8' : `Selesai ${n} dari 8 indikator`;
+  // Step 1 body
+  let step1Body;
+  if (surveyState === 'not_started') {
+    step1Body = `
+      <div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
+      <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Mulai Refleksi</button>`;
+  } else if (surveyState === 'in_progress') {
+    step1Body = `
+      <div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
+      <div class="row gap-12" style="align-items:center; margin-bottom:12px">
+        <div style="flex:1">
+          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div></div>
+        </div>
+        <p class="text-body-sm c-subdued" style="flex-shrink:0">${n} dari ${TOTAL_Q}</p>
+      </div>
+      <button class="btn btn-blue btn-lg btn-full" onclick="resumeSurvey()">Lanjutkan</button>`;
+  } else {
+    step1Body = `<div class="grid-2">${cardsHTML}</div>`;
+  }
 
-  const step1 = document.getElementById('step1-bubble');
-  if (n === 8) {
-    step1.classList.add('done');
-    step1.innerHTML = '<span class="material-symbols-outlined">check</span>';
-    document.getElementById('step2-bubble').style.background = '#212121';
-    document.getElementById('result-zone').innerHTML = `
+  // Step 2 body
+  let step2Body;
+  if (completed) {
+    step2Body = `
       <div class="banner banner-success">
         <div class="hasil-banner">
           <div class="col gap-8">
@@ -537,96 +467,268 @@ function updateHome() {
         </div>
       </div>`;
   } else {
-    step1.classList.remove('done');
-    step1.textContent = '1';
-    document.getElementById('step2-bubble').style.background = 'var(--gray-30)';
-    document.getElementById('result-zone').innerHTML = `
-      <div class="locked-box" id="locked-box">
+    step2Body = `
+      <div class="locked-box">
         <span class="lock-watermark material-symbols-outlined">lock_open</span>
         <div class="row gap-12" style="align-items:flex-start; position:relative;">
           <span class="material-symbols-outlined icon subdued lg">lock</span>
-          <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Setelah Anda merefleksikan 8 indikator di atas, Anda bisa melihat profil potensi di sini.</p>
+          <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh refleksi untuk melihat profil potensi Anda.</p>
         </div>
         <div style="margin-top:18px; position:relative;">
-          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" id="progress-fill" style="width:${pct}%"></div></div></div>
-          <p class="text-body-sm c-subdued" id="progress-text" style="margin-top:10px">${progressLabel}</p>
+          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div></div>
+          <p class="text-body-sm c-subdued" style="margin-top:10px">${n === 0 ? 'Belum ada pertanyaan yang terjawab · 0 dari 80' : `${n} dari ${TOTAL_Q} pertanyaan terjawab`}</p>
         </div>
       </div>`;
   }
+
+  const step1Done = completed;
+  document.getElementById('home-content').innerHTML = `
+    <div class="timeline-step">
+      <div class="timeline-rail">
+        <div class="step-bubble${step1Done ? ' done' : ''}">${step1Done ? '<span class="material-symbols-outlined">check</span>' : '1'}</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-body">
+        <p class="text-heading-md c-default step-title">Refleksikan 8 indikator potensi</p>
+        ${step1Body}
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-rail">
+        <div class="step-bubble${completed ? '' : ' inactive'}">2</div>
+      </div>
+      <div class="timeline-body">
+        <p class="text-heading-md c-default step-title">Pelajari hasil refleksi</p>
+        ${step2Body}
+      </div>
+    </div>`;
 }
 
-/* ── Detail ───────────────────────────────────────────────────────────────── */
-function openDetail(name) {
-  currentDim = indicators.find(i => i.name === name);
-  document.getElementById('detail-title').textContent = name;
-  document.getElementById('detail-will-measure').textContent = `${name} akan mengukur:`;
-  const mIcons = ['target', 'insights', 'school'];
-  document.getElementById('detail-measures').innerHTML = currentDim.measures.map((m, i) =>
-    `<div class="measure-item">
-       <span class="material-symbols-outlined icon informational sm" style="margin-top:1px">${mIcons[i] || 'check_circle'}</span>
-       <p class="text-body c-default">${m}</p>
-     </div>`).join('');
-  showPage('page-detail');
-}
-
-/* ── Soal ─────────────────────────────────────────────────────────────────── */
-function startSoal() {
-  selectedOption = -1;
-  showWarning = false;
-  document.getElementById('soal-dim-name').textContent = currentDim.name;
-  renderSoal();
+/* ── SURVEY FLOW ─────────────────────────────────────────────────────────── */
+function startSurvey() {
+  currentItem = 0;
+  surveyState = 'in_progress';
+  renderCurrentItem();
   showPage('page-soal');
 }
 
-function renderSoal() {
-  const s = currentDim.soal;
-  document.getElementById('soal-content').innerHTML = `
-    <p class="text-helper-bold c-subdued" style="text-transform:uppercase; letter-spacing:0.4px; margin-bottom:10px;">Pertanyaan 1 dari 1</p>
-    <div class="steps" style="margin-bottom:24px"><div class="step active"></div></div>
-    <div class="kasus">
-      <p class="text-eyebrow-sm c-subdued" style="text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px;">Studi kasus</p>
-      <p class="text-body c-default" style="line-height:1.7">${s.kasus}</p>
-    </div>
-    <p class="text-heading-sm c-action" style="margin-bottom:16px">${s.pertanyaan}</p>
-    <div class="selbox">
-      ${s.opsi.map((o, i) => `
-        <div class="selbox-option${selectedOption === i ? ' checked' : ''}" onclick="selectOption(${i})" role="radio" aria-checked="${selectedOption === i}">
-          <div class="selbox-radio"><div class="selbox-dot"></div></div>
-          <span class="selbox-label">${labels[i]}</span>
-          <span class="selbox-text">${o}</span>
-        </div>`).join('')}
-    </div>`;
-  const btn = document.getElementById('btn-next');
-  btn.setAttribute('aria-disabled', selectedOption < 0 ? 'true' : 'false');
-  document.getElementById('warning-text').style.visibility = showWarning ? 'visible' : 'hidden';
+function resumeSurvey() {
+  renderCurrentItem();
+  showPage('page-soal');
 }
 
-function selectOption(i) {
-  selectedOption = i;
-  showWarning = false;
-  renderSoal();
+function saveDraft() {
+  toast('Tersimpan');
 }
 
-function nextSoal() {
-  if (selectedOption < 0) return;
-  if (!showWarning) { showWarning = true; renderSoal(); return; }
-  document.getElementById('modal-confirm').classList.add('show');
-}
-
-function submitJawaban() {
-  closeModal('modal-confirm');
-  document.getElementById('modal-success').classList.add('show');
-}
-
-function afterSubmit() {
-  closeModal('modal-success');
-  if (!completedDims.includes(currentDim.name)) completedDims.push(currentDim.name);
-  updateHome();
+function exitSurvey() {
+  closeModal('modal-exit');
+  renderHome();
   showPage('page-home');
 }
 
-/* ── Hasil ────────────────────────────────────────────────────────────────── */
+function submitSurvey() {
+  closeModal('modal-confirm');
+  computedResults = computeScores();
+  surveyState = 'completed';
+  renderHasil();
+  renderHome();
+  showPage('page-hasil');
+}
+
+function goNext() {
+  const item = surveyItems[currentItem];
+
+  if (item.type === 'break') {
+    currentItem++;
+    renderCurrentItem();
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  // Question: require answer before proceeding
+  if (answers[qKey(item.indicatorIndex, item.questionIndex)] === undefined) {
+    toast('Silakan pilih jawaban terlebih dahulu');
+    return;
+  }
+
+  // Last question → confirm submit
+  if (currentItem === surveyItems.length - 1) {
+    document.getElementById('modal-confirm').classList.add('show');
+    return;
+  }
+
+  currentItem++;
+  renderCurrentItem();
+  window.scrollTo(0, 0);
+}
+
+function goPrev() {
+  if (currentItem === 0) return;
+  currentItem--;
+  renderCurrentItem();
+  window.scrollTo(0, 0);
+}
+
+/* ── RENDER SURVEY ITEM ──────────────────────────────────────────────────── */
+function renderCurrentItem() {
+  const item = surveyItems[currentItem];
+
+  // Update bottombar buttons
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  btnPrev.style.visibility = currentItem === 0 ? 'hidden' : 'visible';
+  if (item.type === 'break') {
+    btnNext.innerHTML = 'Lanjutkan <span class="material-symbols-outlined">arrow_forward</span>';
+  } else if (currentItem === surveyItems.length - 1) {
+    btnNext.innerHTML = 'Simpan dan kumpulkan';
+  } else {
+    btnNext.innerHTML = 'Selanjutnya <span class="material-symbols-outlined">arrow_forward</span>';
+  }
+
+  if (item.type === 'break') {
+    renderSectionBreak(item);
+  } else {
+    renderQuestion(item);
+  }
+}
+
+function renderQuestion(item) {
+  const { indicatorIndex: iIdx, questionIndex: qIdx } = item;
+  const ind = indicators[iIdx];
+  const q = ind.questions[qIdx];
+  const selected = answers[qKey(iIdx, qIdx)];
+  const globalNum = iIdx * Q_PER_IND + qIdx + 1;
+  const pct = Math.round((answeredCount() / TOTAL_Q) * 100);
+
+  document.getElementById('soal-body').innerHTML = `
+    <div class="soal-content">
+      <div class="soal-section-label">
+        <div class="ind-icon ${TILES[iIdx]}" style="width:28px;height:28px;border-radius:var(--radius-base);flex-shrink:0">
+          <span class="material-symbols-outlined" style="font-size:16px">${ind.icon}</span>
+        </div>
+        <p class="text-body-sm-bold c-default">${ind.name}</p>
+        <p class="text-body-sm c-subdued" style="margin-left:auto">Bagian ${iIdx + 1} dari 8</p>
+      </div>
+      <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">Pertanyaan ${globalNum} dari ${TOTAL_Q}</p>
+      <div class="progressbar" style="margin-bottom:24px">
+        <div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div>
+      </div>
+      <div class="kasus">
+        <p class="text-eyebrow-sm c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px">Studi kasus</p>
+        <p class="text-body c-default" style="line-height:1.7">${q.kasus}</p>
+      </div>
+      <p class="text-heading-sm c-action" style="margin-bottom:16px">${q.pertanyaan}</p>
+      <div class="selbox">
+        ${q.opsi.map((o, i) => `
+          <div class="selbox-option${selected === i ? ' checked' : ''}"
+               onclick="selectAnswer(${iIdx},${qIdx},${i})"
+               role="radio" aria-checked="${selected === i}">
+            <div class="selbox-radio"><div class="selbox-dot"></div></div>
+            <span class="selbox-label">${LABELS[i]}</span>
+            <span class="selbox-text">${o}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderSectionBreak(item) {
+  const { indicatorIndex: iIdx } = item;
+  const prevInd = indicators[iIdx - 1];
+  const nextInd = indicators[iIdx];
+
+  document.getElementById('soal-body').innerHTML = `
+    <div class="break-content">
+      <span class="material-symbols-outlined" style="font-size:48px;color:#268326">check_circle</span>
+      <p class="text-heading-md c-default" style="margin-top:12px;margin-bottom:4px">Bagian ${iIdx} selesai</p>
+      <p class="text-body c-subdued" style="margin-bottom:16px">${prevInd.name}</p>
+
+      <div class="break-parts">
+        ${Array.from({ length: 8 }, (_, i) =>
+          `<div class="break-part ${i < iIdx ? 'done' : i === iIdx ? 'next' : ''}"></div>`
+        ).join('')}
+      </div>
+      <p class="text-body-sm c-subdued" style="margin-bottom:32px">${iIdx} dari 8 bagian selesai</p>
+
+      <hr class="separator" style="margin-bottom:28px">
+
+      <p class="text-body-sm c-subdued" style="margin-bottom:12px;text-transform:uppercase;letter-spacing:0.4px;font-weight:600">Selanjutnya</p>
+      <div class="break-icon-lg ${TILES[iIdx]}">
+        <span class="material-symbols-outlined">${nextInd.icon}</span>
+      </div>
+      <p class="text-heading-sm c-default" style="margin-bottom:8px">${nextInd.name}</p>
+      <p class="text-body c-subdued" style="margin-bottom:20px">${nextInd.desc}</p>
+
+      <!-- TODO: eksplorasi konten jeda / manajemen kebosanan di sini -->
+      <div class="break-jeda-note">
+        <p class="text-body-sm c-subdued">Silakan ambil jeda sejenak sebelum melanjutkan.</p>
+      </div>
+    </div>`;
+}
+
+function selectAnswer(iIdx, qIdx, optIdx) {
+  answers[qKey(iIdx, qIdx)] = optIdx;
+  const item = surveyItems[currentItem];
+  if (item.type === 'question' && item.indicatorIndex === iIdx && item.questionIndex === qIdx) {
+    renderQuestion(item);
+    // Re-sync next button label after answering last question
+    const btnNext = document.getElementById('btn-next');
+    if (currentItem === surveyItems.length - 1) {
+      btnNext.innerHTML = 'Simpan dan kumpulkan';
+    }
+  }
+}
+
+/* ── HASIL ───────────────────────────────────────────────────────────────── */
+function renderHasil() {
+  if (!computedResults) return;
+  const { indScores, nilaiPotensi, kategori } = computedResults;
+  const strong = indScores.filter(i => i.status === 'baik');
+  const dev = indScores.filter(i => i.status === 'perlu');
+  const rekCount = (strong.length + dev.length) * 3;
+  const katClass = { Tinggi: 'badge-success', Menengah: 'badge-warning', Rendah: 'badge-critical' }[kategori];
+
+  document.getElementById('hasil-content').innerHTML = `
+    <div class="card score-card" style="margin-bottom:12px">
+      <div class="col gap-4">
+        <p class="text-body-sm c-subdued">Nilai Potensi Anda</p>
+        <div class="row gap-8" style="align-items:baseline">
+          <span class="score-number">${nilaiPotensi}</span>
+          <span class="text-heading-sm c-subdued">dari 100</span>
+        </div>
+      </div>
+      <span class="badge ${katClass}" style="font-size:0.875rem;padding:6px 14px">${kategori}</span>
+    </div>
+
+    <div class="banner banner-success" style="margin-bottom:8px">
+      <div class="hasil-banner">
+        <div class="col gap-8">
+          <p class="text-heading-md c-default">Potensi Anda sudah teridentifikasi</p>
+          <span class="badge badge-exp-success" style="width:fit-content">
+            <span class="material-symbols-outlined">auto_awesome</span> ${rekCount} rekomendasi pengembangan
+          </span>
+        </div>
+        <div class="hasil-banner-art"><span class="material-symbols-outlined">workspace_premium</span></div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <span class="material-symbols-outlined icon" style="color:#268326">trending_up</span>
+      <p class="text-heading-sm c-default">Potensi Terkuat Anda</p>
+      <span class="badge badge-success">${strong.length}</span>
+    </div>
+    <div class="grid-2">${strong.map(hasilCard).join('')}</div>
+
+    <div class="section-head">
+      <span class="material-symbols-outlined icon" style="color:#ce4100">rocket_launch</span>
+      <p class="text-heading-sm c-default">Area Pengembangan</p>
+      <span class="badge badge-warning">${dev.length}</span>
+    </div>
+    <div class="grid-2">${dev.map(hasilCard).join('')}</div>`;
+}
+
 function hasilCard(ind) {
+  const i = indicators.findIndex(x => x.name === ind.name);
   const good = ind.status === 'baik';
   const badge = good
     ? `<span class="badge badge-success"><span class="material-symbols-outlined">thumb_up</span> Sudah baik</span>`
@@ -634,7 +736,9 @@ function hasilCard(ind) {
   return `
     <div class="card hasil-card">
       <div class="ind-eyebrow">
-        <div class="ind-icon ${tileOf(ind)}" style="width:32px;height:32px;border-radius:var(--radius-base)"><span class="material-symbols-outlined" style="font-size:20px">${ind.icon}</span></div>
+        <div class="ind-icon ${TILES[i]}" style="width:32px;height:32px;border-radius:var(--radius-base)">
+          <span class="material-symbols-outlined" style="font-size:20px">${ind.icon}</span>
+        </div>
         <p class="text-body-sm-bold c-default">${ind.name}</p>
       </div>
       <p class="text-body-sm c-subdued" style="line-height:1.55">${ind.desc}</p>
@@ -644,62 +748,59 @@ function hasilCard(ind) {
       </div>
     </div>`;
 }
-function renderHasil() {
-  const strong = indicators.filter(i => i.status === 'baik');
-  const dev = indicators.filter(i => i.status === 'perlu');
-  document.getElementById('hasil-strong').innerHTML = strong.map(hasilCard).join('');
-  document.getElementById('hasil-dev').innerHTML = dev.map(hasilCard).join('');
-  document.getElementById('count-strong').textContent = strong.length;
-  document.getElementById('count-dev').textContent = dev.length;
-}
 
-/* ── Indikator detail ─────────────────────────────────────────────────────── */
+/* ── INDIKATOR DETAIL ────────────────────────────────────────────────────── */
 function openIndikator(name) {
-  const ind = indicators.find(i => i.name === name);
+  const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 3, status: 'perlu' }));
+  const ind = source.find(x => x.name === name);
   const good = ind.status === 'baik';
   const rek = good ? REK.baik : REK.perlu;
   const badge = good
     ? `<span class="badge badge-success"><span class="material-symbols-outlined">thumb_up</span> Sudah baik</span>`
     : `<span class="badge badge-warning"><span class="material-symbols-outlined">trending_up</span> Perlu ditingkatkan</span>`;
+
   document.getElementById('ind-detail-title').textContent = ind.name;
   document.getElementById('ind-detail-body').innerHTML = `
     <div class="card level-card">
       <div class="col">
         <p class="text-helper c-subdued" style="margin-bottom:4px">Level Anda</p>
         <div class="level-num">
-          <span class="text-display-md c-action" style="font-size:40px; line-height:1">${ind.level}</span>
+          <span class="text-display-md c-action" style="font-size:40px;line-height:1">${ind.level}</span>
           <span class="text-heading-sm c-subdued">dari 5</span>
         </div>
       </div>
       ${badge}
     </div>
-    <p class="text-body c-default" style="margin:20px 0 24px; line-height:1.6">${ind.desc}</p>
+    <p class="text-body c-default" style="margin:20px 0 24px;line-height:1.6">${ind.desc}</p>
     <p class="text-heading-sm c-default" style="margin-bottom:4px">${rek.title}</p>
-    <p class="text-body-sm c-subdued" style="font-style:italic; margin-bottom:8px">${rek.note}</p>
+    <p class="text-body-sm c-subdued" style="font-style:italic;margin-bottom:8px">${rek.note}</p>
     <div class="card" style="padding:6px 20px">
       ${rek.items.map(([t, s]) => `
         <div class="rek-item">
           <div class="rek-dot"></div>
           <div class="col">
             <p class="text-body-bold c-default">${t}</p>
-            <p class="text-body-sm c-subdued" style="margin-top:2px; line-height:1.5">${s}</p>
+            <p class="text-body-sm c-subdued" style="margin-top:2px;line-height:1.5">${s}</p>
           </div>
         </div>`).join('')}
     </div>`;
   showPage('page-indikator');
 }
 
-/* ── Init ─────────────────────────────────────────────────────────────────── */
-renderHomeCards();
-renderHasil();
+/* ── INIT ────────────────────────────────────────────────────────────────── */
+renderHome();
 
-/* Demo helper: double-click the page-home title area is overkill; expose a quick-fill on the
-   "Pelajari" is taken. Provide keyboard shortcut "f" to fill all (prototype convenience). */
-document.addEventListener('keydown', (e) => {
+// Demo: press 'f' on home to fast-fill all answers
+document.addEventListener('keydown', e => {
   if (e.key === 'f' && document.getElementById('page-home').classList.contains('active')) {
-    completedDims = indicators.map(i => i.name);
-    updateHome();
-    toast('Semua indikator ditandai selesai (mode demo)');
+    indicators.forEach((_, i) => {
+      for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = 2;
+    });
+    surveyState = 'completed';
+    computedResults = computeScores();
+    renderHasil();
+    renderHome();
+    toast('Demo: semua jawaban terisi');
   }
 });
 </script>
