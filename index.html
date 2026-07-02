@@ -923,9 +923,12 @@ function cheatNotStarted() {
 
 function cheatCompleted() {
   answers = {};
+  // Designed distribution: 3 Menonjol (idx 0-2), 3 Berkembang (idx 3-5), 2 Masih Tersembunyi (idx 6-7)
+  // Answer idx 2 = correct; correct/8 → level. Need: Menonjol≥4, Berkembang 2-3, Tersembunyi 0-1
+  const correctPerInd = [8, 7, 6, 4, 3, 2, 1, 0];
   indicators.forEach((_, i) => {
-    // Randomize answer indices (0–4) so View B shows varied tiers
-    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = Math.floor(Math.random() * 5);
+    const correct = correctPerInd[i];
+    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = q < correct ? 2 : 0;
   });
   surveyState = 'completed';
   computedResults = computeScores();
