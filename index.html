@@ -417,26 +417,31 @@ function renderHome() {
   const completed = surveyState === 'completed';
 
   // 8 indicator cards — always static, no per-indicator progress
-  const cardsHTML = indicators.map((ind, i) => `
-    <div class="comp-card">
-      <div class="ind-left">
-        <div class="ind-icon ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></div>
-        <p class="text-body-lg-bold c-default">${ind.name}</p>
+  // Single card with 4×2 compact grid of indicators
+  const indicatorGrid = `
+    <div class="card" style="padding:16px 20px; margin-bottom:20px">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px 8px">
+        ${indicators.map((ind, i) => `
+          <div style="display:flex; align-items:center; gap:8px; min-width:0">
+            <div class="ind-icon ${TILES[i]}" style="width:28px;height:28px;border-radius:6px;flex-shrink:0">
+              <span class="material-symbols-outlined" style="font-size:16px">${ind.icon}</span>
+            </div>
+            <p class="text-body-sm c-default" style="line-height:1.3">${ind.name}</p>
+          </div>`).join('')}
       </div>
-    </div>`).join('');
+    </div>`;
 
   // Survey meta badges
   const metaRow = `
-    <div class="row gap-12" style="flex-wrap:wrap; margin-bottom:20px">
+    <div class="row gap-12" style="flex-wrap:wrap; margin-bottom:16px">
       <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">category</span> 8 indikator</span>
       <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">help</span> 64 pertanyaan</span>
       <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">schedule</span> ±16 menit</span>
     </div>`;
 
   const step1Body = completed
-    ? `${metaRow}<div class="grid-2">${cardsHTML}</div>`
-    : `${metaRow}<div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
-       <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Mulai Refleksi</button>`;
+    ? `${metaRow}${indicatorGrid}`
+    : `${metaRow}${indicatorGrid}<button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Mulai Refleksi</button>`;
 
   const step2Body = completed
     ? `<div class="banner banner-success">
