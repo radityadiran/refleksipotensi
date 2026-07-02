@@ -505,6 +505,7 @@ function exitSurvey() {
   showPage('page-home');
 }
 
+
 function submitSurvey() {
   closeModal('modal-confirm');
   window.removeEventListener('beforeunload', beforeUnloadHandler);
@@ -640,7 +641,6 @@ function renderSectionBreak(item) {
       <hr class="separator" style="margin-bottom:24px">
       <div class="break-jeda-note">
         <p class="text-body-sm c-subdued">Silakan ambil jeda sejenak sebelum melanjutkan.</p>
-      </div>
     </div>`;
 }
 
