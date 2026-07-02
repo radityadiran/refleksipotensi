@@ -175,7 +175,7 @@
       <p class="text-body-lg-bold c-default" style="margin-bottom:12px">Penting:</p>
       <div class="note-warning">
         <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
-        <p class="text-body c-default">Anda dapat menjawab sebagian pertanyaan dan melanjutkan di lain waktu. Namun, jawaban yang sudah dikumpulkan tidak bisa diubah.</p>
+        <p class="text-body c-default">Refleksi ini harus diselesaikan dalam satu sesi. Jika keluar di tengah pengerjaan, jawaban tidak tersimpan dan Anda perlu mengulang dari awal.</p>
       </div>
     </div>
     <button class="btn btn-blue btn-lg btn-full" style="margin-top:24px" onclick="startSurvey()">Mulai</button>
@@ -190,12 +190,9 @@
         <p class="text-body-bold c-default">Refleksi Potensi</p>
         <p class="text-helper c-subdued">Peran: Guru</p>
       </div>
-      <div class="row gap-8">
-        <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Simpan draf</button>
-        <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
+      <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
+        <span class="material-symbols-outlined">close</span>
+      </button>
     </div>
   </div>
   <div id="soal-body"><!-- rendered by renderCurrentItem() --></div>
@@ -259,13 +256,13 @@
 <div class="dialog-overlay" id="modal-exit">
   <div class="dialog-content" role="alertdialog" aria-modal="true">
     <div class="dialog-body" style="padding:28px 24px 18px;">
-      <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">folder_open</span></div>
-      <p class="text-heading-md c-default" style="margin-bottom:6px">Konfirmasi Keluar</p>
-      <p class="text-body c-subdued">Jawaban yang sudah diisi akan tersimpan. Anda bisa melanjutkan kapan saja.</p>
+      <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">warning</span></div>
+      <p class="text-heading-md c-default" style="margin-bottom:6px">Keluar dari refleksi?</p>
+      <p class="text-body c-subdued">Refleksi ini harus diselesaikan dalam satu sesi. Jika keluar sekarang, seluruh jawaban akan hilang dan Anda perlu mengulang dari awal.</p>
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
-      <button class="btn btn-blue btn-lg btn-full" onclick="exitSurvey()">Simpan dan keluar</button>
-      <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Kembali ke soal</button>
+      <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Lanjutkan pengerjaan</button>
+      <button class="btn btn-danger btn-lg btn-full" onclick="exitSurvey()">Keluar dan ulang nanti</button>
     </div>
   </div>
 </div>
@@ -277,8 +274,8 @@
 /* ── DATA ────────────────────────────────────────────────────────────────── */
 const TILES = ['tile-blue','tile-green','tile-purple','tile-cyan','tile-orange','tile-pink','tile-blue','tile-orange'];
 const LABELS = ['A','B','C','D','E'];
-const Q_PER_IND = 10;
-const TOTAL_Q = 80;
+const Q_PER_IND = 8;
+const TOTAL_Q = 64;
 
 const REK = {
   baik: {
@@ -329,7 +326,7 @@ const IND_BASE = [
     q1: { kasus: 'Anda harus mengerjakan laporan perkembangan 30 anak dalam waktu dua hari.', pertanyaan: 'Bagaimana cara Anda menyelesaikannya?', opsi: ['Mengerjakan seadanya dengan menyalin laporan anak lain.','Mengatur waktu dengan disiplin dan menyelesaikannya dengan teliti.','Meminta orang tua mengisi sendiri laporan anaknya.','Menunda sampai lewat tenggat karena malas.','Menangis dan merasa tidak sanggup mengerjakannya.'] } }
 ];
 
-// Expand each indicator to 10 questions (q1 real, q2–10 placeholder)
+// Expand each indicator to 8 questions (q1 real, q2–8 placeholder)
 const indicators = IND_BASE.map(ind => ({
   ...ind,
   questions: Array.from({ length: Q_PER_IND }, (_, i) =>
@@ -341,21 +338,19 @@ const indicators = IND_BASE.map(ind => ({
   )
 }));
 
-// Flat survey items: questions shuffled across indicators, break every 10 questions
-// Each question retains indicatorIndex + questionIndex for scoring, not for display
+// Flat survey items: 64 questions + 3 breaks (at Q16, Q32, Q48) = 67 slots
+// Each question retains indicatorIndex + questionIndex for scoring only, not for display
 const surveyItems = (() => {
-  // Build all 80 question slots
   const qs = [];
   for (let i = 0; i < indicators.length; i++)
     for (let q = 0; q < Q_PER_IND; q++)
       qs.push({ type: 'question', indicatorIndex: i, questionIndex: q });
 
-  // Insert a break after every 10th question (7 breaks total)
   const items = [];
   for (let idx = 0; idx < qs.length; idx++) {
     items.push(qs[idx]);
-    if ((idx + 1) % 10 === 0 && idx + 1 < qs.length)
-      items.push({ type: 'break', afterQuestion: idx + 1 }); // afterQuestion = how many answered so far
+    if ((idx + 1) % 16 === 0 && idx + 1 < qs.length)
+      items.push({ type: 'break', afterQuestion: idx + 1 });
   }
   return items;
 })();
@@ -419,54 +414,32 @@ function toast(msg) {
 
 /* ── HOME ────────────────────────────────────────────────────────────────── */
 function renderHome() {
-  const n = answeredCount();
-  const pct = Math.round((n / TOTAL_Q) * 100);
   const completed = surveyState === 'completed';
 
-  // Build indicator cards
-  const cardsHTML = indicators.map((ind, i) => {
-    const done = indCompleted(i);
-    const clickable = completed && done;
-    return `
-      <div class="comp-card${clickable ? ' clickable' : ''}" ${clickable ? `onclick="openIndikator('${ind.name}')"` : ''}>
-        <div class="ind-left">
-          <div class="ind-icon ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></div>
-          <div class="col">
-            <p class="text-body-lg-bold c-default">${ind.name}</p>
-            <p class="text-body-sm c-subdued" style="margin-top:2px">
-              ${done ? 'Refleksi selesai' : surveyState === 'not_started' ? '10 pertanyaan' : `${indAnsweredCount(i)} dari 10 terjawab`}
-            </p>
-          </div>
-        </div>
-        ${done ? `<span class="badge badge-success"><span class="material-symbols-outlined">check</span> Selesai</span>` : ''}
-      </div>`;
-  }).join('');
-
-  // Step 1 body
-  let step1Body;
-  if (surveyState === 'not_started') {
-    step1Body = `
-      <div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
-      <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Mulai Refleksi</button>`;
-  } else if (surveyState === 'in_progress') {
-    step1Body = `
-      <div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
-      <div class="row gap-12" style="align-items:center; margin-bottom:12px">
-        <div style="flex:1">
-          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div></div>
-        </div>
-        <p class="text-body-sm c-subdued" style="flex-shrink:0">${n} dari ${TOTAL_Q}</p>
+  // 8 indicator cards — always static, no per-indicator progress
+  const cardsHTML = indicators.map((ind, i) => `
+    <div class="comp-card">
+      <div class="ind-left">
+        <div class="ind-icon ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></div>
+        <p class="text-body-lg-bold c-default">${ind.name}</p>
       </div>
-      <button class="btn btn-blue btn-lg btn-full" onclick="resumeSurvey()">Lanjutkan</button>`;
-  } else {
-    step1Body = `<div class="grid-2">${cardsHTML}</div>`;
-  }
+    </div>`).join('');
 
-  // Step 2 body
-  let step2Body;
-  if (completed) {
-    step2Body = `
-      <div class="banner banner-success">
+  // Survey meta badges
+  const metaRow = `
+    <div class="row gap-12" style="flex-wrap:wrap; margin-bottom:20px">
+      <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">category</span> 8 indikator</span>
+      <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">help</span> 64 pertanyaan</span>
+      <span class="badge badge-neutral"><span class="material-symbols-outlined" style="font-size:14px">schedule</span> ±16 menit</span>
+    </div>`;
+
+  const step1Body = completed
+    ? `${metaRow}<div class="grid-2">${cardsHTML}</div>`
+    : `${metaRow}<div class="grid-2" style="margin-bottom:20px">${cardsHTML}</div>
+       <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">Mulai Refleksi</button>`;
+
+  const step2Body = completed
+    ? `<div class="banner banner-success">
         <div class="hasil-banner">
           <div class="col gap-8">
             <p class="text-heading-sm c-default">Hasil refleksi sudah tersedia</p>
@@ -474,27 +447,19 @@ function renderHome() {
           </div>
           <button class="btn btn-blue btn-md" onclick="showPage('page-hasil')">Periksa hasil</button>
         </div>
-      </div>`;
-  } else {
-    step2Body = `
-      <div class="locked-box">
+      </div>`
+    : `<div class="locked-box">
         <span class="lock-watermark material-symbols-outlined">lock_open</span>
         <div class="row gap-12" style="align-items:flex-start; position:relative;">
           <span class="material-symbols-outlined icon subdued lg">lock</span>
           <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh refleksi untuk melihat profil potensi Anda.</p>
         </div>
-        <div style="margin-top:18px; position:relative;">
-          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div></div>
-          <p class="text-body-sm c-subdued" style="margin-top:10px">${n === 0 ? 'Belum ada pertanyaan yang terjawab · 0 dari 80' : `${n} dari ${TOTAL_Q} pertanyaan terjawab`}</p>
-        </div>
       </div>`;
-  }
 
-  const step1Done = completed;
   document.getElementById('home-content').innerHTML = `
     <div class="timeline-step">
       <div class="timeline-rail">
-        <div class="step-bubble${step1Done ? ' done' : ''}">${step1Done ? '<span class="material-symbols-outlined">check</span>' : '1'}</div>
+        <div class="step-bubble${completed ? ' done' : ''}">${completed ? '<span class="material-symbols-outlined">check</span>' : '1'}</div>
         <div class="timeline-line"></div>
       </div>
       <div class="timeline-body">
@@ -514,35 +479,35 @@ function renderHome() {
 }
 
 /* ── SURVEY FLOW ─────────────────────────────────────────────────────────── */
+function beforeUnloadHandler(e) {
+  e.preventDefault();
+  e.returnValue = '';
+}
+
 function startSurvey() {
   currentItem = 0;
+  answers = {};
   surveyState = 'in_progress';
+  window.addEventListener('beforeunload', beforeUnloadHandler);
   renderCurrentItem();
   showPage('page-soal');
-}
-
-function resumeSurvey() {
-  renderCurrentItem();
-  showPage('page-soal');
-}
-
-function saveDraft() {
-  toast('Tersimpan');
 }
 
 function exitSurvey() {
   closeModal('modal-exit');
+  // Exit = full reset
+  answers = {};
+  currentItem = 0;
+  surveyState = 'not_started';
+  computedResults = null;
+  window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
 }
 
-function saveDraft() {
-  showPage('page-home');
-  toast('Tersimpan. Lanjutkan kapan saja dari beranda.');
-}
-
 function submitSurvey() {
   closeModal('modal-confirm');
+  window.removeEventListener('beforeunload', beforeUnloadHandler);
   computedResults = computeScores();
   surveyState = 'completed';
   renderHasil();
@@ -578,7 +543,10 @@ function goNext() {
 }
 
 function goPrev() {
-  if (currentItem === 0) return;
+  if (currentItem === 0) {
+    document.getElementById('modal-exit').classList.add('show');
+    return;
+  }
   currentItem--;
   renderCurrentItem();
   window.scrollTo(0, 0);
@@ -647,33 +615,32 @@ function renderQuestion(item) {
 }
 
 function renderSectionBreak(item) {
-  const done = item.afterQuestion;         // e.g. 10, 20, …, 70
+  const done = item.afterQuestion;  // 16, 32, or 48
   const pct = Math.round((done / TOTAL_Q) * 100);
-  const segDone = done / 10;              // 1–7
-  const segTotal = 8;
+  // 4 segments: each 25% — segment index 0–3; done segment = done/16 - 1
+  const segDone = done / 16;        // 1, 2, or 3
+  const milestones = { 16: ['25%', 'Seperempat perjalanan selesai! Tetap semangat.'],
+                       32: ['50%', 'Sudah setengah jalan! Anda hebat.'],
+                       48: ['75%', 'Tiga perempat selesai! Hampir sampai.'] };
+  const [label, msg] = milestones[done] || [`${pct}%`, 'Terus semangat!'];
 
   document.getElementById('soal-body').innerHTML = `
     <div class="break-content">
-      <span class="material-symbols-outlined" style="font-size:48px;color:#268326">check_circle</span>
-      <p class="text-heading-md c-default" style="margin-top:12px;margin-bottom:4px">Pertanyaan ${done} dari ${TOTAL_Q} selesai</p>
-      <p class="text-body c-subdued" style="margin-bottom:20px">Anda sudah menjawab ${done} pertanyaan. Masih ada ${TOTAL_Q - done} pertanyaan lagi.</p>
+      <span class="material-symbols-outlined" style="font-size:56px;color:#268326">celebration</span>
+      <p class="text-heading-lg c-default" style="margin-top:12px;margin-bottom:6px">${label} selesai!</p>
+      <p class="text-body c-subdued" style="margin-bottom:24px">${msg}</p>
 
-      <div class="progressbar" style="margin-bottom:8px">
-        <div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div>
-      </div>
-      <div class="break-parts" style="margin-bottom:28px">
-        ${Array.from({ length: segTotal }, (_, i) =>
+      <div class="break-parts" style="margin-bottom:24px">
+        ${Array.from({ length: 4 }, (_, i) =>
           `<div class="break-part ${i < segDone ? 'done' : i === segDone ? 'next' : ''}"></div>`
         ).join('')}
       </div>
+      <p class="text-body-sm c-subdued" style="margin-bottom:28px">${TOTAL_Q - done} pertanyaan tersisa</p>
 
       <hr class="separator" style="margin-bottom:24px">
-
-      <div class="break-jeda-note" style="margin-bottom:16px">
-        <p class="text-body-sm-bold c-default" style="margin-bottom:4px">Silakan ambil jeda sejenak.</p>
-        <p class="text-body-sm c-subdued">Jawaban Anda sudah tersimpan otomatis. Anda bisa menutup halaman ini dan melanjutkan nanti dari titik yang sama.</p>
+      <div class="break-jeda-note">
+        <p class="text-body-sm c-subdued">Silakan ambil jeda sejenak sebelum melanjutkan.</p>
       </div>
-      <button class="btn btn-secondary btn-md btn-full" style="margin-bottom:8px" onclick="saveDraft()">Simpan dan lanjutkan nanti</button>
     </div>`;
 }
 
@@ -812,25 +779,6 @@ function cheatNotStarted() {
   toast('Demo: belum diisi');
 }
 
-function cheatInProgress() {
-  answers = {};
-  // Fill first 25 questions (across whichever indicators they land on)
-  let filled = 0;
-  for (let idx = 0; idx < surveyItems.length && filled < 25; idx++) {
-    const it = surveyItems[idx];
-    if (it.type === 'question') { answers[qKey(it.indicatorIndex, it.questionIndex)] = 2; filled++; }
-  }
-  surveyState = 'in_progress';
-  computedResults = null;
-  currentItem = surveyItems.findIndex(it =>
-    it.type === 'question' && answers[qKey(it.indicatorIndex, it.questionIndex)] === undefined
-  );
-  if (currentItem < 0) currentItem = 0;
-  renderHome();
-  showPage('page-home');
-  toast('Demo: 25 pertanyaan terjawab');
-}
-
 function cheatCompleted() {
   answers = {};
   indicators.forEach((_, i) => {
@@ -858,9 +806,6 @@ function cheatCompleted() {
     <div style="color:#9e9e9e; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; margin-bottom:2px;">Demo State</div>
     <button onclick="cheatNotStarted()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
       <span style="font-size:16px;">&#9634;</span> Belum diisi
-    </button>
-    <button onclick="cheatInProgress()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
-      <span style="font-size:16px;">&#8635;</span> Sebagian diisi
     </button>
     <button onclick="cheatCompleted()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
       <span style="font-size:16px;">&#10003;</span> Sudah selesai
