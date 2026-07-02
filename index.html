@@ -924,7 +924,8 @@ function cheatNotStarted() {
 function cheatCompleted() {
   answers = {};
   indicators.forEach((_, i) => {
-    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = 2;
+    // Randomize answer indices (0–4) so View B shows varied tiers
+    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = Math.floor(Math.random() * 5);
   });
   surveyState = 'completed';
   computedResults = computeScores();
