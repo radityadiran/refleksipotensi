@@ -121,6 +121,20 @@
 .rek-item + .rek-item { border-top: 1px solid var(--gray-5); }
 .rek-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--action-default); flex-shrink: 0; margin-top: 7px; }
 
+@media (max-width: 600px) {
+  .app-hero-inner,
+  .app-bar-inner,
+  .soal-topbar-inner { padding-left: 16px; padding-right: 16px; }
+  .soal-content { padding: 20px 16px 120px; }
+  .soal-bottombar-inner { padding: 12px 16px; }
+  .break-content { padding: 32px 16px 120px; }
+  .content { padding-left: 16px; padding-right: 16px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .score-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .hasil-banner { flex-direction: column; align-items: flex-start; }
+  .level-card { flex-direction: column; align-items: flex-start; }
+}
+
 /* Dialog illustration */
 .dialog-illus { width: 64px; height: 64px; border-radius: var(--radius-base); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
 .dialog-illus .material-symbols-outlined { font-size: 32px; }
@@ -420,7 +434,7 @@ function renderHome() {
   // Single card with 4×2 compact grid of indicators
   const indicatorGrid = `
     <div class="card" style="padding:16px 20px; margin-bottom:20px">
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px 8px">
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px 16px">
         ${indicators.map((ind, i) => `
           <div style="display:flex; align-items:center; gap:8px; min-width:0">
             <div class="ind-icon ${TILES[i]}" style="width:28px;height:28px;border-radius:6px;flex-shrink:0">
