@@ -155,13 +155,20 @@
 .dialog-illus { width: 64px; height: 64px; border-radius: var(--radius-base); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
 .dialog-illus .material-symbols-outlined { font-size: 32px; }
 
-/* Hasil tabs */
-.hasil-tabbar { background: #04287e; border-bottom: 1px solid rgba(255,255,255,0.12); display: flex; }
-.hasil-tabbar-inner { max-width: 1040px; margin: 0 auto; width: 100%; display: flex; padding: 0 32px; }
-.hasil-tab { background: transparent; border: none; cursor: pointer; color: rgba(255,255,255,0.65); font-family: inherit; font-size: 0.9375rem; font-weight: 500; padding: 12px 16px; border-bottom: 3px solid transparent; transition: color 0.15s, border-color 0.15s; }
-.hasil-tab:hover { color: rgba(255,255,255,0.9); }
-.hasil-tab.active { color: #fff; border-bottom-color: #fff; }
-@media (max-width: 600px) { .hasil-tabbar-inner { padding: 0 16px; } }
+/* Peta Potensi (page-hasil-v2) — collapsible sections */
+.peta-section { border: 1px solid var(--border-subdued); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
+.peta-section-header { width: 100%; display: flex; align-items: center; gap: 12px; padding: 18px 20px; background: none; border: none; cursor: pointer; font-family: var(--font); text-align: left; }
+.peta-section-header:hover { background: var(--surface-subdued); }
+.peta-section-title { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-default); }
+.peta-chevron { font-size: 22px; color: var(--text-subdued); transition: transform 0.2s ease; flex-shrink: 0; }
+.peta-section[data-open="false"] .peta-section-body { display: none; }
+.peta-section[data-open="false"] .peta-chevron { transform: rotate(-90deg); }
+.peta-section-body { padding: 0 20px 20px; }
+.peta-card { padding: 18px; margin-bottom: 10px; }
+.peta-card:last-child { margin-bottom: 0; }
+.peta-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.peta-card-desc { line-height: 1.65; margin-bottom: 10px; }
+.peta-card-arahan { color: var(--text-subdued); }
 </style>
 </head>
 <body>
@@ -254,17 +261,35 @@
       <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
         <span class="material-symbols-outlined">arrow_back</span>
       </button>
-      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Alternative Concepts</p></div>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Hasil Refleksi</p></div>
     </div>
   </header>
-  <div class="hasil-tabbar">
-    <div class="hasil-tabbar-inner">
-      <button class="hasil-tab active" id="tab-hasil" onclick="switchHasilTab('hasil')">Hasil Refleksi</button>
-      <button class="hasil-tab" id="tab-alt" onclick="switchHasilTab('alt')">Peta Potensi</button>
+  <div class="content" id="hasil-content"><!-- rendered by renderHasil() --></div>
+</div>
+
+<!-- ════════════════════════════ PAGE: PETA POTENSI (VIEW B) ═══════════════ -->
+<div class="page" id="page-hasil-v2">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-hasil')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Peta Potensi</p></div>
+    </div>
+  </header>
+  <div class="content">
+    <div style="margin-bottom:24px">
+      <p class="text-display-sm c-default" style="margin-bottom:8px">Peta Potensi Anda</p>
+      <p class="text-body c-subdued" style="line-height:1.65">Ini adalah asesmen untuk memahami potensi Anda, sehingga Anda tahu bakat mana yang harus diruncingkan. Bukan label baik/buruk, lebih supaya memperdalam pemahaman diri.</p>
+    </div>
+    <div id="peta-sections"><!-- rendered by renderHasilV2() --></div>
+    <div style="margin-top:32px; padding-top:16px; border-top:1px solid var(--border-subdued)">
+      <p class="text-body-sm c-subdued" style="margin-bottom:16px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>
+      <button class="btn btn-ghost btn-sm" onclick="showPage('page-hasil')" style="color:var(--action-default)">
+        <span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px">arrow_back</span> Lihat tampilan lainnya
+      </button>
     </div>
   </div>
-  <div class="content" id="hasil-content"><!-- rendered by renderHasil() --></div>
-  <div class="content" id="hasil-alt-content" style="display:none"><!-- rendered by renderHasilAlt() --></div>
 </div>
 
 <!-- ════════════════════════════ PAGE: INDIKATOR DETAIL ════════════════════ -->
@@ -594,9 +619,8 @@ function submitSurvey() {
   computedResults = computeScores();
   surveyState = 'completed';
   renderHasil();
-  renderHasilAlt();
+  renderHasilV2();
   renderHome();
-  switchHasilTab('hasil');
   showPage('page-hasil');
 }
 
@@ -788,6 +812,11 @@ function renderHasil() {
     </div>
     <div class="grid-2">${dev.map(hasilCard).join('')}</div>
 
+    <div style="margin-top:32px; padding-top:16px; border-top:1px solid var(--border-subdued); text-align:center">
+      <button class="btn btn-ghost btn-sm" onclick="showPage('page-hasil-v2')" style="color:var(--action-default)">
+        Lihat tampilan lainnya <span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px">arrow_forward</span>
+      </button>
+    </div>
     `;
 }
 
@@ -851,108 +880,113 @@ function openIndikator(name) {
   showPage('page-indikator');
 }
 
-/* ── HASIL ALT (VIEW B) ─────────────────────────────────────────────────── */
+/* ── PETA POTENSI — VIEW B ──────────────────────────────────────────────── */
 
-// TODO: finalize label & arahan with Mas Bukik — all copy is placeholder
+// TODO: finalize label & arahan dengan Mas Bukik (ETA mid-Juli 2026) — semua copy placeholder
 function getTier(level) {
-  if (level >= 4) return { label: 'Menonjol',          cls: 'badge-success', arahan: 'Pertajam terus — ini bakat aslimu' };
-  if (level >= 2) return { label: 'Berkembang',         cls: 'badge-info',    arahan: 'Masih bisa berkembang — layak dijelajahi lebih jauh' };
-  return           { label: 'Masih Tersembunyi',        cls: 'badge-neutral', arahan: 'Belum perlu jadi fokus utama sekarang' };
+  if (level >= 4) return { label: 'Menonjol',     badgeClass: 'badge-success', arahan: 'Pertajam terus — ini bakat aslimu' };
+  if (level >= 2) return { label: 'Berkembang',   badgeClass: 'badge-info',    arahan: 'Masih bisa berkembang — layak dijelajahi lebih jauh' };
+  return           { label: 'Belum Muncul',       badgeClass: 'badge-neutral', arahan: 'Belum perlu jadi fokus utama sekarang' };
 }
 
-function getSortedIndicators() {
-  const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 3, status: 'perlu' }));
-  return [...source].sort((a, b) => b.level - a.level);
+function getIndicatorsByTier(tierLabel) {
+  const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
+  return source.filter(ind => getTier(ind.level).label === tierLabel).sort((a, b) => b.level - a.level);
 }
 
-function renderHasilAlt() {
-  const sorted = getSortedIndicators();
-  const top3 = sorted.slice(0, 3);
+// TODO: finalize deskripsi dengan Mas Bukik — semua teks adalah placeholder struktural
+const indicatorDescriptions = {
+  'Kecerdasan Emosional': {
+    'Menonjol': 'Kamu punya kepekaan alami terhadap kondisi emosional orang lain — baik yang diucapkan maupun yang tidak. Di situasi yang intens atau penuh tekanan, kamu cenderung tetap terhubung secara manusiawi, bukan mundur atau menutup diri. Bakat ini membuat orang di sekitarmu merasa aman untuk jujur.',
+    'Berkembang': 'Kamu cukup peka terhadap dinamika emosi di sekitarmu, meski belum selalu konsisten — terutama saat kamu sendiri sedang di bawah tekanan. Ada ruang untuk mengeksplorasi lebih jauh bagaimana kamu merespons kondisi emosional orang lain di momen yang paling sulit.',
+    'Belum Muncul': 'Membaca kondisi emosional orang lain belum menjadi respons otomatismu saat ini. Ini belum perlu jadi fokus utama — ada area lain yang lebih siap untuk dikembangkan.'
+  },
+  'Kemampuan Interpersonal': {
+    'Menonjol': 'Membangun hubungan datang secara alami bagimu — kamu tahu cara masuk ke dalam kepercayaan seseorang bukan karena strategis, tapi karena kamu genuinely tertarik pada mereka. Jaringan yang kamu bangun cenderung bertahan karena berbasis keaslian, bukan transaksi.',
+    'Berkembang': 'Kamu bisa membangun hubungan yang cukup solid, meski kadang butuh lebih banyak usaha — terutama dengan orang yang sangat berbeda darimu. Ada potensi di sini yang bisa dijelajahi, khususnya di bagaimana kamu mendekati orang yang paling sulit ditembus.',
+    'Belum Muncul': 'Membangun dan mengelola hubungan interpersonal belum menjadi kekuatanmu saat ini. Ada bakat lain yang lebih dominan untuk difokuskan sekarang.'
+  },
+  'Motivasi & Komitmen': {
+    'Menonjol': 'Kamu bisa tetap bergerak saat orang lain sudah kelelahan — bukan karena kamu tidak capek, tapi karena alasan mengapamu lebih besar dari rintangannya. Komitmenmu cenderung diam-diam menjadi standar yang diikuti orang lain di sekitarmu.',
+    'Berkembang': 'Kamu punya motivasi yang cukup solid dalam kondisi normal, tapi mungkin lebih fluktuatif saat menghadapi hambatan besar atau tidak ada dukungan dari luar. Ada ruang untuk memperkuat koneksi antara nilai pribadimu dan pekerjaan sehari-hari.',
+    'Belum Muncul': 'Dorongan internal dan komitmen jangka panjang belum menjadi kekuatan dominanmu saat ini. Ini area yang bisa tumbuh seiring pengalaman.'
+  },
+  'Kesadaran Diri': {
+    'Menonjol': 'Kamu tahu apa yang kamu rasakan dan mengapa — dan ini membuatmu lebih jarang bereaksi impulsif. Orang-orang di sekitarmu mungkin mengandalkanmu sebagai suara yang stabil dan reflektif di tengah situasi yang berubah-ubah.',
+    'Berkembang': 'Kamu cukup sadar diri dalam kondisi yang familiar, tapi blind spot-mu cenderung lebih besar di situasi baru atau saat tekanan tinggi. Ada nilai lebih yang bisa kamu raih dengan lebih aktif mencari umpan balik dari luar dirimu.',
+    'Belum Muncul': 'Refleksi mendalam tentang diri sendiri belum menjadi kebiasaan otomatismu. Ini belum perlu jadi fokus utama sekarang.'
+  },
+  'Belajar Cepat & Mengembangkan Diri': {
+    'Menonjol': 'Kamu cepat mengambil pola dari hal baru, dan kamu menikmati proses belajarnya — bukan hanya hasilnya. Ketika orang lain masih dalam mode adaptasi, kamu biasanya sudah bergerak ke tahap berikutnya.',
+    'Berkembang': 'Kamu mampu belajar dan beradaptasi, tapi mungkin lebih efektif kalau ada struktur atau dukungan dari luar — belajar mandiri di area yang benar-benar baru kadang terasa berat. Ada potensi di sini yang layak dijelajahi dengan cara yang lebih aktif.',
+    'Belum Muncul': 'Kecepatan belajar dan inisiatif pengembangan diri belum menjadi kekuatan menonjolmu saat ini. Area ini bisa tumbuh seiring waktu dan pengalaman.'
+  },
+  'Penyelesaian Masalah': {
+    'Menonjol': 'Kamu melihat masalah sebagai sesuatu yang bisa dipecahkan — dan kamu tidak butuh semua informasi untuk mulai bergerak. Pendekatanmu cenderung kreatif dan resourceful, terutama di situasi yang tidak punya solusi buku teks.',
+    'Berkembang': 'Kamu bisa menyelesaikan masalah yang familiar dengan baik, tapi mungkin lebih kesulitan di situasi yang benar-benar baru atau ambigu. Ada ruang untuk mengeksplorasi pendekatan yang lebih sistematis atau kreatif.',
+    'Belum Muncul': 'Problem-solving secara proaktif belum menjadi mode defaultmu saat ini. Ini belum perlu jadi area fokus utama sekarang.'
+  },
+  'Kemampuan Intelektual': {
+    'Menonjol': 'Kamu menikmati kompleksitas. Kamu tidak cepat puas dengan jawaban permukaan, dan kemampuanmu memproses informasi yang rumit membuat kamu bisa bernavigasi di situasi yang membuat orang lain bingung.',
+    'Berkembang': 'Kamu mampu menganalisis dan berpikir secara rasional, meski lebih efektif di domain yang sudah familiar. Ada ruang untuk mengeksplorasi bagaimana kamu mendekati hal-hal yang di luar comfort zone intelektualmu.',
+    'Belum Muncul': 'Analisis mendalam dan pemrosesan informasi yang kompleks belum menjadi kekuatan utamamu. Ini belum perlu jadi area fokus utama sekarang.'
+  },
+  'Berpikir Kritis & Strategis': {
+    'Menonjol': 'Kamu bisa melihat beberapa langkah ke depan — bukan hanya apa yang harus dilakukan sekarang, tapi ke mana ini akan berujung. Kamu cenderung mempertanyakan asumsi yang orang lain terima begitu saja, dan itu seringkali membuka perspektif yang lebih tajam.',
+    'Berkembang': 'Kamu punya kemampuan berpikir kritis yang cukup, tapi mungkin lebih taktis dari strategis — fokus pada masalah di depan mata dibanding gambaran besar jangka panjang. Potensi ini bisa berkembang dengan pengalaman dan eksposur yang lebih luas.',
+    'Belum Muncul': 'Berpikir kritis dan strategis secara konsisten belum menjadi kekuatan utamamu. Area ini bisa berkembang seiring waktu.'
+  }
+};
 
-  const heroCards = top3.map(ind => {
-    const i = indicators.findIndex(x => x.name === ind.name);
-    const tier = getTier(ind.level);
-    return `
-      <div class="card" style="padding:20px 22px; margin-bottom:12px">
-        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px">
-          <div class="ind-icon ${TILES[i]}" style="width:44px;height:44px;border-radius:10px;flex-shrink:0">
-            <span class="material-symbols-outlined" style="font-size:24px">${ind.icon}</span>
-          </div>
-          <div>
-            <p class="text-heading-sm c-default" style="margin-bottom:4px">${ind.name}</p>
-            <span class="badge ${tier.cls}">${tier.label}</span>
-          </div>
+function buildIndicatorCard(ind) {
+  const i = indicators.findIndex(x => x.name === ind.name);
+  const tier = getTier(ind.level);
+  const desc = (indicatorDescriptions[ind.name] || {})[tier.label] || ind.desc;
+  return `
+    <div class="card peta-card">
+      <div class="peta-card-header">
+        <div class="ind-icon-sm ${TILES[i]}" style="flex-shrink:0">
+          <span class="material-symbols-outlined">${ind.icon}</span>
         </div>
-        <p class="text-body-sm c-subdued" style="line-height:1.6; margin-bottom:10px">${ind.desc}</p>
-        <p class="text-body-sm" style="color:var(--text-default); font-style:italic">${tier.arahan}</p>
-      </div>`;
-  }).join('');
-
-  const allRows = sorted.map(ind => {
-    const i = indicators.findIndex(x => x.name === ind.name);
-    const tier = getTier(ind.level);
-    return `
-      <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-subdued)">
-        <div class="ind-icon ${TILES[i]}" style="width:32px;height:32px;border-radius:6px;flex-shrink:0">
-          <span class="material-symbols-outlined" style="font-size:18px">${ind.icon}</span>
-        </div>
-        <div style="flex:1; min-width:0">
-          <p class="text-body-sm-bold c-default">${ind.name}</p>
-          <p class="text-body-sm c-subdued" style="margin-top:1px">${tier.arahan}</p>
-        </div>
-        <span class="badge ${tier.cls}" style="flex-shrink:0">${tier.label}</span>
-      </div>`;
-  }).join('');
-
-  document.getElementById('hasil-alt-content').innerHTML = `
-    <div style="padding-bottom:48px">
-      <div style="margin-bottom:24px">
-        <p class="text-display-sm c-default" style="margin-bottom:8px">Peta Potensi Anda</p>
-        <p class="text-body c-subdued" style="line-height:1.65">Ini adalah asesmen untuk memahami potensi Anda, sehingga Anda tahu bakat mana yang harus diruncingkan. Bukan label baik/buruk, lebih supaya memperdalam pemahaman diri.</p>
+        <span class="text-body-bold c-default" style="flex:1;min-width:0">${ind.name}</span>
+        <span class="badge ${tier.badgeClass}" style="flex-shrink:0">${tier.label}</span>
       </div>
-
-      <div class="section-head" style="margin-top:0; margin-bottom:12px">
-        <span class="material-symbols-outlined icon" style="color:var(--action-default)">star</span>
-        <p class="text-heading-sm c-default">Bakat Dominanmu</p>
-      </div>
-      ${heroCards}
-
-      <div style="margin-top:24px">
-        <button class="btn btn-ghost btn-md btn-full" onclick="toggleSemuaInd()" id="btn-semua-ind"
-          style="justify-content:space-between; border:1px solid var(--border-default)">
-          <span>Lihat semua indikator (8)</span>
-          <span class="material-symbols-outlined" id="icon-semua-ind">expand_more</span>
-        </button>
-        <div id="semua-ind-list" style="display:none; margin-top:4px">
-          ${allRows}
-        </div>
-      </div>
-
-      <p class="text-body-sm c-subdued" style="margin-top:32px; padding-top:16px; border-top:1px solid var(--border-subdued)">
-        Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.
-      </p>
-
+      <p class="text-body c-default peta-card-desc">${desc}</p>
+      <p class="text-body-sm peta-card-arahan"><em>→ ${tier.arahan}</em></p>
     </div>`;
 }
 
-function toggleSemuaInd() {
-  const list = document.getElementById('semua-ind-list');
-  const icon = document.getElementById('icon-semua-ind');
-  const btn  = document.getElementById('btn-semua-ind');
-  const open = list.style.display === 'none';
-  list.style.display = open ? 'block' : 'none';
-  icon.textContent = open ? 'expand_less' : 'expand_more';
-  btn.querySelector('span:first-child').textContent = open ? 'Sembunyikan' : 'Lihat semua indikator (8)';
+function renderHasilV2() {
+  const sectionConfigs = {
+    'Menonjol':     { title: 'Bakat Dominanmu',             badgeClass: 'badge-success', sub: n => `Dari 8 potensi yang diukur, ${n} ini paling mengalir buat kamu:`, defaultOpen: true  },
+    'Berkembang':   { title: 'Bakat yang Layak Dijelajahi', badgeClass: 'badge-info',    sub: n => `${n} potensi lain yang masih punya ruang untuk berkembang:`,       defaultOpen: false },
+    'Belum Muncul': { title: 'Bakat yang Belum Muncul',     badgeClass: 'badge-neutral', sub: n => `${n} potensi yang belum jadi fokus sekarang:`,                     defaultOpen: false }
+  };
+  let html = '';
+  for (const tierLabel of ['Menonjol', 'Berkembang', 'Belum Muncul']) {
+    const inds = getIndicatorsByTier(tierLabel);
+    if (inds.length === 0) continue;
+    const cfg = sectionConfigs[tierLabel];
+    html += `
+      <div class="peta-section" data-open="${cfg.defaultOpen}">
+        <button class="peta-section-header" onclick="togglePetaSection(this)">
+          <span class="peta-section-title">${cfg.title}</span>
+          <span class="badge ${cfg.badgeClass}">${inds.length}</span>
+          <span class="material-symbols-outlined peta-chevron">expand_more</span>
+        </button>
+        <div class="peta-section-body">
+          <p class="text-body-sm c-subdued" style="margin-bottom:16px">${cfg.sub(inds.length)}</p>
+          ${inds.map(buildIndicatorCard).join('')}
+        </div>
+      </div>`;
+  }
+  document.getElementById('peta-sections').innerHTML = html;
 }
 
-/* ── HASIL TABS ──────────────────────────────────────────────────────────── */
-function switchHasilTab(tab) {
-  const isHasil = tab === 'hasil';
-  document.getElementById('hasil-content').style.display = isHasil ? '' : 'none';
-  document.getElementById('hasil-alt-content').style.display = isHasil ? 'none' : '';
-  document.getElementById('tab-hasil').classList.toggle('active', isHasil);
-  document.getElementById('tab-alt').classList.toggle('active', !isHasil);
-  window.scrollTo(0, 0);
+function togglePetaSection(btn) {
+  const section = btn.closest('.peta-section');
+  const isOpen = section.getAttribute('data-open') === 'true';
+  section.setAttribute('data-open', String(!isOpen));
 }
 
 /* ── INIT ────────────────────────────────────────────────────────────────── */
@@ -971,9 +1005,11 @@ function cheatNotStarted() {
 
 function cheatCompleted() {
   answers = {};
-  // Designed distribution: 3 Menonjol (idx 0-2), 3 Berkembang (idx 3-5), 2 Masih Tersembunyi (idx 6-7)
-  // Answer idx 2 = correct; correct/8 → level. Need: Menonjol≥4, Berkembang 2-3, Tersembunyi 0-1
-  const correctPerInd = [8, 7, 6, 4, 3, 2, 1, 0];
+  // PRD target distribution: Menonjol (4-5): Kemampuan Interpersonal, Kecerdasan Emosional, Motivasi & Komitmen
+  // Berkembang (2-3): Kemampuan Intelektual, Kesadaran Diri, Penyelesaian Masalah, Belajar Cepat
+  // Belum Muncul (0-1): Berpikir Kritis & Strategis
+  // Mapping by IND_BASE order [0..7]: Intelektual, Interpersonal, Kesadaran, BerpikirKritis, Penyelesaian, KecerdasanEmosi, BelajarCepat, Motivasi
+  const correctPerInd = [3, 6, 5, 1, 3, 8, 5, 6];
   indicators.forEach((_, i) => {
     const correct = correctPerInd[i];
     for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = q < correct ? 2 : 0;
@@ -981,9 +1017,8 @@ function cheatCompleted() {
   surveyState = 'completed';
   computedResults = computeScores();
   renderHasil();
-  renderHasilAlt();
+  renderHasilV2();
   renderHome();
-  switchHasilTab('hasil');
   showPage('page-home');
   toast('Demo: semua jawaban terisi');
 }
