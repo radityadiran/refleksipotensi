@@ -155,6 +155,23 @@
 .dialog-illus { width: 64px; height: 64px; border-radius: var(--radius-base); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
 .dialog-illus .material-symbols-outlined { font-size: 32px; }
 
+/* Tab bar — shared across all 3 hasil pages */
+.hasil-tabbar { background: #fff; border-bottom: 1px solid var(--border-subdued); }
+.hasil-tabbar-inner { max-width: 1040px; margin: 0 auto; display: flex; gap: 8px; padding: 10px 32px; }
+.hasil-tab { border: 1px solid var(--border-default); border-radius: 100px; padding: 6px 18px; background: transparent; cursor: pointer; font-family: var(--font); font-size: 0.875rem; font-weight: 500; color: var(--text-subdued); transition: background 0.15s, color 0.15s, border-color 0.15s; white-space: nowrap; }
+.hasil-tab:hover { background: var(--surface-subdued); color: var(--text-default); }
+.hasil-tab--active { background: var(--action-default); border-color: var(--action-default); color: #fff; }
+
+/* Archetype (page-hasil-v3) */
+.archetype-hero { background: var(--surface-default); border-radius: 20px; padding: 28px; box-shadow: var(--elevation-card); margin-bottom: 16px; }
+.archetype-icon-wrap { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.archetype-icon-wrap .material-symbols-outlined { font-size: 36px; }
+.archetype-secondary { display: flex; align-items: flex-start; gap: 10px; background: var(--surface-subdued); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
+.domain-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+.domain-row + .domain-row { border-top: 1px solid var(--border-subdued); }
+
+@media (max-width:600px) { .hasil-tabbar-inner { padding: 10px 16px; } }
+
 /* Peta Potensi (page-hasil-v2) — collapsible sections */
 .peta-section { border: 1px solid var(--border-subdued); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
 .peta-section-header { width: 100%; display: flex; align-items: center; gap: 12px; padding: 18px 20px; background: none; border: none; cursor: pointer; font-family: var(--font); text-align: left; }
@@ -254,7 +271,7 @@
   </div>
 </div>
 
-<!-- ════════════════════════════ PAGE: HASIL ═══════════════════════════════ -->
+<!-- ════════════════════════════ PAGE: HASIL (ALT 1) ══════════════════════ -->
 <div class="page" id="page-hasil">
   <header class="app-bar">
     <div class="app-bar-inner">
@@ -264,19 +281,33 @@
       <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Hasil Refleksi</p></div>
     </div>
   </header>
+  <div class="hasil-tabbar">
+    <div class="hasil-tabbar-inner">
+      <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil')">Alt 1</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+    </div>
+  </div>
   <div class="content" id="hasil-content"><!-- rendered by renderHasil() --></div>
 </div>
 
-<!-- ════════════════════════════ PAGE: PETA POTENSI (VIEW B) ═══════════════ -->
+<!-- ════════════════════════════ PAGE: PETA POTENSI (ALT 2) ═══════════════ -->
 <div class="page" id="page-hasil-v2">
   <header class="app-bar">
     <div class="app-bar-inner">
-      <button class="app-bar-back" onclick="showPage('page-hasil')" aria-label="Kembali">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
         <span class="material-symbols-outlined">arrow_back</span>
       </button>
       <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Peta Potensi</p></div>
     </div>
   </header>
+  <div class="hasil-tabbar">
+    <div class="hasil-tabbar-inner">
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil')">Alt 1</button>
+      <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+    </div>
+  </div>
   <div class="content">
     <div style="margin-bottom:24px">
       <p class="text-display-sm c-default" style="margin-bottom:8px">Peta Potensi Anda</p>
@@ -284,12 +315,29 @@
     </div>
     <div id="peta-sections"><!-- rendered by renderHasilV2() --></div>
     <div style="margin-top:32px; padding-top:16px; border-top:1px solid var(--border-subdued)">
-      <p class="text-body-sm c-subdued" style="margin-bottom:16px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>
-      <button class="btn btn-ghost btn-sm" onclick="showPage('page-hasil')" style="color:var(--action-default)">
-        <span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px">arrow_back</span> Lihat tampilan lainnya
-      </button>
+      <p class="text-body-sm c-subdued">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>
     </div>
   </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: PROFIL ARCHETYPE (ALT 3) ══════════ -->
+<div class="page" id="page-hasil-v3">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Profil Potensimu</p></div>
+    </div>
+  </header>
+  <div class="hasil-tabbar">
+    <div class="hasil-tabbar-inner">
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil')">Alt 1</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
+      <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+    </div>
+  </div>
+  <div class="content" id="hasil-v3-content"><!-- rendered by renderHasilV3() --></div>
 </div>
 
 <!-- ════════════════════════════ PAGE: INDIKATOR DETAIL ════════════════════ -->
@@ -620,6 +668,7 @@ function submitSurvey() {
   surveyState = 'completed';
   renderHasil();
   renderHasilV2();
+  renderHasilV3();
   renderHome();
   showPage('page-hasil');
 }
@@ -811,12 +860,6 @@ function renderHasil() {
       <span class="badge badge-warning">${dev.length}</span>
     </div>
     <div class="grid-2">${dev.map(hasilCard).join('')}</div>
-
-    <div style="margin-top:32px; padding-top:16px; border-top:1px solid var(--border-subdued); text-align:center">
-      <button class="btn btn-ghost btn-sm" onclick="showPage('page-hasil-v2')" style="color:var(--action-default)">
-        Lihat tampilan lainnya <span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px">arrow_forward</span>
-      </button>
-    </div>
     `;
 }
 
@@ -989,6 +1032,142 @@ function togglePetaSection(btn) {
   section.setAttribute('data-open', String(!isOpen));
 }
 
+/* ── TAB NAVIGATION ─────────────────────────────────────────────────────── */
+function switchHasilTab(pageId) {
+  if (pageId === 'page-hasil-v2') renderHasilV2();
+  if (pageId === 'page-hasil-v3') renderHasilV3();
+  showPage(pageId);
+}
+
+/* ── ARCHETYPE (VIEW C / ALT 3) ─────────────────────────────────────────── */
+// TODO: finalize semua copy dengan Mas Bukik (ETA mid-Juli 2026)
+
+const domains = [
+  { id: 'kognitif',   label: 'Kognitif',   indicators: ['Kemampuan Intelektual', 'Berpikir Kritis & Strategis'] },
+  { id: 'relasional', label: 'Relasional', indicators: ['Kemampuan Interpersonal', 'Kecerdasan Emosional'] },
+  { id: 'reflektif',  label: 'Reflektif',  indicators: ['Kesadaran Diri', 'Belajar Cepat & Mengembangkan Diri'] },
+  { id: 'eksekutif',  label: 'Eksekutif',  indicators: ['Penyelesaian Masalah', 'Motivasi & Komitmen'] }
+];
+
+const archetypeData = {
+  kognitif: {
+    name: 'Pemikir', icon: 'psychology', tileClass: 'tile-purple',
+    tagline: 'Kamu berpikir untuk menggerakkan orang lain.',
+    description: 'Kamu paling nyaman ketika memahami sesuatu dari akarnya — bukan hanya apa, tapi mengapa dan bagaimana. Kamu instinktif membangun kerangka dulu sebelum detail, proses dulu sebelum eksekusi. Orang-orang di sekitarmu mungkin tidak selalu sadar, tapi mereka merasakan bedanya: ada logika yang menjaga segalanya tetap masuk akal.',
+    kontribusi: 'Kamu merancang proses atau program yang bermakna, atau membimbing rekan lain dalam berpikir lebih sistematis tentang pekerjaannya.'
+  },
+  relasional: {
+    name: 'Penggerak', icon: 'groups', tileClass: 'tile-cyan',
+    tagline: 'Kamu tumbuh lewat hubungan.',
+    description: 'Hubungan adalah modal utamamu. Kamu bisa membaca suasana dengan cepat — tahu siapa yang sedang struggle, siapa yang butuh ditantang, dan siapa yang perlu ditenangkan dulu sebelum bisa bergerak. Ruang kerja di sekitarmu cenderung punya rasa aman yang sulit dijelaskan tapi langsung terasa.',
+    kontribusi: 'Kamu paling berdampak saat menjadi jembatan — antarrekan, antara pimpinan dan tim, atau antara lembaga dan komunitas yang dilayani. Energimu menular.'
+  },
+  reflektif: {
+    name: 'Pemerhati', icon: 'self_improvement', tileClass: 'tile-green',
+    tagline: 'Kamu belajar sambil bekerja.',
+    description: 'Kamu punya kemampuan yang langka: tahu kapan cara lamamu nggak lagi works, dan cukup fleksibel untuk mengubahnya. Kamu mungkin yang paling sering bertanya ke diri sendiri "kenapa tadi tidak berjalan?" setelah satu hari kerja, dan itu bukan kelemahan — itu yang bikin kamu terus berkembang.',
+    kontribusi: 'Kontribusimu paling berdampak saat kamu mendokumentasikan dan membagikan proses belajarmu sendiri ke rekan sejawat. Pengalamanmu tentang "gagal dan revisi" adalah yang paling jarang tersebar, dan paling dibutuhkan.'
+  },
+  eksekutif: {
+    name: 'Pejuang', icon: 'bolt', tileClass: 'tile-orange',
+    tagline: 'Kamu tidak berhenti sampai selesai.',
+    description: 'Hambatan yang bikin orang lain berhenti adalah puzzle yang harus kamu pecahkan. Kamu punya bakat aneh untuk tetap bergerak meski sumber daya terbatas, jadwal kacau, atau dukungan minim. Dan alasanmu konsisten: karena orang yang kamu layani perlu hasil yang nyata, bukan alasan yang rapi.',
+    kontribusi: 'Ada program atau proyek yang butuh seseorang yang nggak nyerah di tengah jalan. Atau saat tim butuh orang yang bisa mengubah kebijakan abstrak menjadi tindakan nyata di lapangan.'
+  }
+};
+
+// Generic blurbs for secondary archetype — finalize dengan Mas Bukik
+const secondaryBlurbs = {
+  kognitif:   { relasional: 'Kamu juga punya naluri relasional — cara berpikirmu paling kuat saat diuji lewat percakapan nyata.', reflektif: 'Kamu juga reflektif — kerangka berpikirmu terus terasah lewat pengalaman yang kamu olah dengan sadar.', eksekutif: 'Kamu juga seorang pelaksana — ideamu tidak berhenti di kepala, tapi bergerak jadi tindakan nyata.' },
+  relasional: { kognitif: 'Kamu juga analitis — hubungan yang kamu bangun didukung kemampuan membaca konteks dengan tajam.', reflektif: 'Kamu juga reflektif — kamu tumbuh bersama orang-orang yang kamu layani, bukan hanya di depan mereka.', eksekutif: 'Kamu juga seorang pelaksana — kepedulianmu tidak berhenti di empati, tapi bergerak jadi dukungan konkret.' },
+  reflektif:  { kognitif: 'Kamu juga analitis — refleksimu didukung kemampuan berpikir yang terstruktur dan kritis.', relasional: 'Kamu juga relasional — belajarmu paling dalam terjadi lewat interaksi dan percakapan dengan orang lain.', eksekutif: 'Kamu juga pelaksana — hasil refleksimu tidak berhenti jadi catatan, tapi menggerakkan perubahan nyata.' },
+  eksekutif:  { kognitif: 'Kamu juga analitis — tindakanmu didasari pertimbangan yang matang, bukan sekadar reaktif.', relasional: 'Kamu juga relasional — cara kamu menggerakkan sesuatu melibatkan orang lain, bukan hanya memaksakan hasil.', reflektif: 'Kamu juga reflektif — kamu belajar dari setiap hambatan dan menjadi lebih efektif setiap kalinya.' }
+};
+
+function getDomainScores() {
+  const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
+  return domains.map(d => ({
+    ...d,
+    score: d.indicators.map(name => (source.find(i => i.name === name) || { level: 0 }).level)
+                        .reduce((a, b) => a + b, 0) / d.indicators.length
+  })).sort((a, b) => b.score - a.score);
+}
+
+function getDomainTierLabel(score) {
+  if (score >= 4.0) return { label: 'Dominan',    cls: 'badge-success' };
+  if (score >= 2.0) return { label: 'Kuat',        cls: 'badge-info' };
+  return               { label: 'Berkembang',  cls: 'badge-neutral' };
+}
+
+function getSecondaryLabel(sortedDomains) {
+  const gap = sortedDomains[0].score - sortedDomains[1].score;
+  if (gap < 0.5) return null;
+  const primary = sortedDomains[0].id;
+  const secondary = sortedDomains[1];
+  const blurb = (secondaryBlurbs[primary] || {})[secondary.id] || '';
+  return { ...archetypeData[secondary.id], blurb };
+}
+
+function renderHasilV3() {
+  const sorted = getDomainScores();
+  const primary = archetypeData[sorted[0].id];
+  const secondary = getSecondaryLabel(sorted);
+
+  const secondaryHtml = secondary ? `
+    <div class="archetype-secondary" style="margin-bottom:20px">
+      <span class="material-symbols-outlined" style="font-size:20px;color:var(--text-subdued);flex-shrink:0">add</span>
+      <div>
+        <p class="text-body-bold c-default" style="margin-bottom:2px">+ ${secondary.name}</p>
+        <p class="text-body-sm c-subdued">${secondary.blurb}</p>
+      </div>
+    </div>` : '';
+
+  const domainRows = sorted.map(d => {
+    const tier = getDomainTierLabel(d.score);
+    return `
+      <div class="domain-row">
+        <div style="flex:1; min-width:0">
+          <p class="text-body-bold c-default">${d.label}</p>
+          <p class="text-body-sm c-subdued" style="margin-top:1px">${d.indicators.join(' · ')}</p>
+        </div>
+        <span class="badge ${tier.cls}" style="flex-shrink:0">${tier.label}</span>
+      </div>`;
+  }).join('');
+
+  document.getElementById('hasil-v3-content').innerHTML = `
+    <div style="margin-bottom:24px">
+      <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensimu</p>
+      <p class="text-body c-subdued" style="line-height:1.65">Ini adalah asesmen untuk memahami potensi Anda, sehingga Anda tahu bakat mana yang harus diruncingkan. Bukan label baik/buruk, lebih supaya memperdalam pemahaman diri.</p>
+    </div>
+
+    <div class="archetype-hero">
+      <div class="archetype-icon-wrap ${primary.tileClass}">
+        <span class="material-symbols-outlined">${primary.icon}</span>
+      </div>
+      <p class="text-display-sm c-default" style="margin-bottom:6px">${primary.name}</p>
+      <p class="text-body-bold c-subdued" style="font-style:italic; margin-bottom:20px">${primary.tagline}</p>
+      <hr class="separator" style="margin-bottom:20px">
+      <p class="text-body c-default" style="line-height:1.65; margin-bottom:16px">${primary.description}</p>
+      <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px">Kontribusimu paling berdampak saat:</p>
+      <p class="text-body c-default" style="line-height:1.65">${primary.kontribusi}</p>
+    </div>
+
+    ${secondaryHtml}
+
+    <div class="peta-section" data-open="false" style="margin-bottom:24px">
+      <button class="peta-section-header" onclick="togglePetaSection(this)">
+        <span class="peta-section-title">4 Domain Potensimu</span>
+        <span class="material-symbols-outlined peta-chevron">expand_more</span>
+      </button>
+      <div class="peta-section-body">
+        ${domainRows}
+      </div>
+    </div>
+
+    <p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued)">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>
+  `;
+}
+
 /* ── INIT ────────────────────────────────────────────────────────────────── */
 renderHome();
 
@@ -1018,6 +1197,7 @@ function cheatCompleted() {
   computedResults = computeScores();
   renderHasil();
   renderHasilV2();
+  renderHasilV3();
   renderHome();
   showPage('page-home');
   toast('Demo: semua jawaban terisi');
