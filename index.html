@@ -164,6 +164,21 @@
 
 /* Archetype (page-hasil-v3) */
 .archetype-hero { background: var(--surface-default); border-radius: 20px; padding: 28px; box-shadow: var(--elevation-card); margin-bottom: 16px; }
+.action-box { border-radius: 12px; padding: 14px 16px; margin-top: 14px; display: flex; align-items: flex-start; gap: 12px; }
+.action-box--menonjol   { background: #ecfdf5; }
+.action-box--berkembang { background: #eff6ff; }
+.action-box--belum-muncul { background: var(--surface-subdued); }
+.action-box-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.action-box--menonjol   .action-box-icon { background: #d1fae5; color: #059669; }
+.action-box--berkembang .action-box-icon { background: #dbeafe; color: #2563eb; }
+.action-box--belum-muncul .action-box-icon { background: #e5e7eb; color: #6b7280; }
+.action-box-icon .material-symbols-outlined { font-size: 18px; }
+.action-box-body {}
+.action-box-heading { font-family: var(--font); font-size: 0.8125rem; font-weight: 700; margin-bottom: 2px; }
+.action-box--menonjol   .action-box-heading { color: #065f46; }
+.action-box--berkembang .action-box-heading { color: #1e40af; }
+.action-box--belum-muncul .action-box-heading { color: var(--text-default); }
+.action-box-text { font-family: var(--font); font-size: 0.8125rem; color: var(--text-subdued); line-height: 1.5; }
 .archetype-icon-wrap { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
 .archetype-icon-wrap .material-symbols-outlined { font-size: 36px; }
 .archetype-secondary { display: flex; align-items: flex-start; gap: 10px; background: var(--surface-subdued); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
@@ -981,6 +996,25 @@ const indicatorDescriptions = {
   }
 };
 
+const ACTION_BOX_DATA = {
+  'Menonjol':     { icon: 'emoji_events', modClass: 'action-box--menonjol',    heading: 'Ini saatnya ditajamkan',        text: 'Coba cari komunitas atau proyek nyata yang bisa mengasah potensi ini lebih jauh.' },
+  'Berkembang':   { icon: 'trending_up',  modClass: 'action-box--berkembang',   heading: 'Masih ada ruang untuk tumbuh', text: 'Luangkan waktu untuk berlatih dan eksplorasi lebih dalam di area ini.' },
+  'Belum Muncul': { icon: 'info',         modClass: 'action-box--belum-muncul', heading: 'Belum jadi prioritas sekarang', text: 'Tidak apa-apa jika ini belum menonjol — fokus dulu pada yang sudah kuat.' }
+};
+
+function buildActionBox(tierLabel) {
+  const d = ACTION_BOX_DATA[tierLabel];
+  if (!d) return '';
+  return `
+    <div class="action-box ${d.modClass}">
+      <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
+      <div class="action-box-body">
+        <div class="action-box-heading">${d.heading}</div>
+        <div class="action-box-text">${d.text}</div>
+      </div>
+    </div>`;
+}
+
 function buildIndicatorCard(ind) {
   const i = indicators.findIndex(x => x.name === ind.name);
   const tier = getTier(ind.level);
@@ -996,6 +1030,7 @@ function buildIndicatorCard(ind) {
       </div>
       <p class="text-body c-default peta-card-desc">${desc}</p>
       <p class="text-body-sm peta-card-arahan"><em>→ ${tier.arahan}</em></p>
+      ${buildActionBox(tier.label)}
     </div>`;
 }
 
