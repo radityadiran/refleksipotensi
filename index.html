@@ -502,6 +502,36 @@ let answers = {};        // key: `${indIdx}-${qIdx}` → optionIndex (0–4)
 let surveyState = 'not_started'; // 'not_started' | 'in_progress' | 'completed'
 let computedResults = null;
 
+/* ── PERSISTENCE ─────────────────────────────────────────────────────────── */
+const LS_KEY = 'pemetaan_potensi_v1';
+
+function saveProgress() {
+  localStorage.setItem(LS_KEY, JSON.stringify({ answers, currentItem, surveyState }));
+}
+
+function clearProgress() {
+  localStorage.removeItem(LS_KEY);
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.surveyState === 'in_progress' || data.surveyState === 'completed') {
+      answers = data.answers || {};
+      currentItem = data.currentItem || 0;
+      surveyState = data.surveyState;
+      if (surveyState === 'completed') {
+        computedResults = computeScores();
+        renderHasil();
+        renderHasilV2();
+        renderHasilV3();
+      }
+    }
+  } catch (e) { clearProgress(); }
+}
+
 /* ── HELPERS ─────────────────────────────────────────────────────────────── */
 const qKey = (i, q) => `${i}-${q}`;
 const answeredCount = () => Object.keys(answers).length;
@@ -554,8 +584,15 @@ function toast(msg) {
 }
 
 /* ── HOME ────────────────────────────────────────────────────────────────── */
+function resumeSurvey() {
+  window.addEventListener('beforeunload', beforeUnloadHandler);
+  renderCurrentItem();
+  showPage('page-soal');
+}
+
 function renderHome() {
   const completed = surveyState === 'completed';
+  const inProgress = surveyState === 'in_progress';
 
   const indGridItems = indicators.map((ind, i) => `
     <div class="ind-row">
@@ -564,6 +601,10 @@ function renderHome() {
       </div>
       <span class="text-body-sm c-default" style="line-height:1.3">${ind.name}</span>
     </div>`).join('');
+
+  const answered = answeredCount();
+  const completedInds = indicators.filter((_, i) => indCompleted(i)).length;
+  const answerPct = Math.round((answered / TOTAL_Q) * 100);
 
   const step1Body = completed
     ? `<div class="banner banner-success" style="padding:18px 20px">
@@ -594,8 +635,8 @@ function renderHome() {
         </div>
         <div class="commit-stats">
           <div class="commit-stat">
-            <span class="commit-stat-num">64</span>
-            <span class="commit-stat-label">pertanyaan</span>
+            <span class="commit-stat-num">${inProgress ? `${answered} <span style="font-size:1rem;font-weight:500;color:var(--text-subdued)">/ 64</span>` : '64'}</span>
+            <span class="commit-stat-label">${inProgress ? 'pertanyaan dijawab' : 'pertanyaan'}</span>
           </div>
           <div class="commit-stat">
             <span class="commit-stat-num">8</span>
@@ -606,6 +647,7 @@ function renderHome() {
             <span class="commit-stat-label">menit</span>
           </div>
         </div>
+        ${inProgress ? `<div class="progressbar" style="margin-bottom:16px"><div class="progressbar-track"><div class="progressbar-value" style="width:${answerPct}%"></div></div></div>` : ''}
         <button class="ind-list-toggle" aria-expanded="false" onclick="toggleIndList(this)">
           <span class="text-body-sm-bold c-subdued">Apa saja 8 indikatornya?</span>
           <span class="material-symbols-outlined">expand_more</span>
@@ -613,8 +655,8 @@ function renderHome() {
         <div class="ind-list" id="ind-list">
           ${indGridItems}
         </div>
-        <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')" style="margin-top:8px">
-          Mulai refleksi
+        <button class="btn btn-blue btn-lg btn-full" onclick="${inProgress ? 'resumeSurvey()' : "showPage('page-panduan')"}" style="margin-top:8px">
+          ${inProgress ? 'Lanjutkan Pemetaan' : 'Mulai refleksi'}
           <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
         </button>
       </div>`;
@@ -635,6 +677,11 @@ function renderHome() {
           <span class="material-symbols-outlined icon subdued lg">lock</span>
           <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh refleksi untuk melihat profil potensi Anda.</p>
         </div>
+        ${inProgress ? `
+        <div style="margin-top:16px; position:relative;">
+          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${Math.round(completedInds/8*100)}%"></div></div></div>
+          <p class="text-body-sm c-subdued" style="margin-top:8px">Selesai ${completedInds} dari 8 indikator</p>
+        </div>` : ''}
       </div>`;
 
   document.getElementById('home-content').innerHTML = `
@@ -684,11 +731,11 @@ function startSurvey() {
 
 function exitSurvey() {
   closeModal('modal-exit');
-  // Exit = full reset
   answers = {};
   currentItem = 0;
   surveyState = 'not_started';
   computedResults = null;
+  clearProgress();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
@@ -700,6 +747,7 @@ function submitSurvey() {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   computedResults = computeScores();
   surveyState = 'completed';
+  saveProgress();
   renderHasil();
   renderHasilV2();
   renderHasilV3();
@@ -837,6 +885,7 @@ function renderSectionBreak(item) {
 
 function selectAnswer(iIdx, qIdx, optIdx) {
   answers[qKey(iIdx, qIdx)] = optIdx;
+  saveProgress();
   const item = surveyItems[currentItem];
   if (item.type === 'question' && item.indicatorIndex === iIdx && item.questionIndex === qIdx) {
     renderQuestion(item);
@@ -1223,6 +1272,7 @@ function renderHasilV3() {
 }
 
 /* ── INIT ────────────────────────────────────────────────────────────────── */
+loadProgress();
 renderHome();
 
 /* ── DEMO CHEAT BAR ─────────────────────────────────────────────────────── */
@@ -1231,6 +1281,7 @@ function cheatNotStarted() {
   surveyState = 'not_started';
   computedResults = null;
   currentItem = 0;
+  clearProgress();
   renderHome();
   showPage('page-home');
   toast('Demo: belum diisi');
