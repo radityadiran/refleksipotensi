@@ -446,7 +446,7 @@
     </div>
     <p class="text-heading-lg c-default" style="margin-bottom:8px">Semua bagian selesai!</p>
     <p class="text-body c-subdued" style="margin-bottom:28px">90 soal sudah kamu jawab. Profil potensimu sudah siap.</p>
-    <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-hasil')">
+    <button class="btn btn-blue btn-lg btn-full" onclick="switchHasilTab('page-hasil-v4')">
       Lihat Hasil Refleksimu <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
     </button>
   </div>
@@ -467,6 +467,7 @@
       <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil')">Alt 1</button>
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v4')">Terbaru ★</button>
     </div>
   </div>
   <div class="content" id="hasil-content"><!-- rendered by renderHasil() --></div>
@@ -487,6 +488,7 @@
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil')">Alt 1</button>
       <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v4')">Terbaru ★</button>
     </div>
   </div>
   <div class="content">
@@ -516,9 +518,31 @@
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil')">Alt 1</button>
       <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
       <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v4')">Terbaru ★</button>
     </div>
   </div>
   <div class="content" id="hasil-v3-content"><!-- rendered by renderHasilV3() --></div>
+</div>
+
+<!-- ════════════════════════════ PAGE: PROFIL POTENSI (ALT 4 / TERBARU) ════ -->
+<div class="page" id="page-hasil-v4">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Profil Potensimu</p></div>
+    </div>
+  </header>
+  <div class="hasil-tabbar">
+    <div class="hasil-tabbar-inner">
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil')">Alt 1</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v2')">Alt 2</button>
+      <button class="hasil-tab" onclick="switchHasilTab('page-hasil-v3')">Alt 3</button>
+      <button class="hasil-tab hasil-tab--active" onclick="switchHasilTab('page-hasil-v4')">Terbaru ★</button>
+    </div>
+  </div>
+  <div class="content" id="hasil-v4-content"><!-- rendered by renderHasilV4() --></div>
 </div>
 
 <!-- ════════════════════════════ PAGE: INDIKATOR DETAIL ════════════════════ -->
@@ -548,7 +572,7 @@
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
       <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Lanjutkan pengerjaan</button>
-      <button class="btn btn-danger btn-lg btn-full" onclick="exitSurvey()">Keluar</button>
+      <button class="btn btn-blue btn-lg btn-full" onclick="exitSurvey()">Keluar</button>
     </div>
   </div>
 </div>
@@ -691,7 +715,7 @@ function loadProgress() {
     const p = getProgress();
     if (p.batch3) {
       computedResults = computeScores();
-      renderHasil(); renderHasilV2(); renderHasilV3();
+      renderHasil(); renderHasilV2(); renderHasilV3(); renderHasilV4();
     }
   } catch(e) { clearInProgress(); }
 }
@@ -753,7 +777,7 @@ function renderHome() {
   let ctaText, ctaAction, progressIndicatorHtml = '';
   if (allDone) {
     ctaText = 'Lihat hasil refleksimu';
-    ctaAction = "showPage('page-hasil')";
+    ctaAction = "switchHasilTab('page-hasil-v4')";
   } else if (p.batch2) {
     ctaText = 'Lanjutkan ke Bagian 3';
     ctaAction = "showPage('page-intro-batch3')";
@@ -818,6 +842,13 @@ function renderHome() {
             <span class="commit-stat-label">menit</span>
           </div>
         </div>
+        <div class="note-warning" style="margin-bottom:16px">
+          <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
+          <div>
+            <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Data jawabanmu tersimpan selama 1 hari. Setelah itu, jawaban akan hilang secara otomatis.</p>
+            <p class="text-body-sm c-subdued" style="line-height:1.55">Disarankan untuk menyelesaikan seluruh bagian dalam satu sesi atau dalam hari yang sama.</p>
+          </div>
+        </div>
         <button class="ind-list-toggle" aria-expanded="false" onclick="toggleIndList(this)">
           <span class="text-body-sm-bold c-subdued">Apa saja 8 indikatornya?</span>
           <span class="material-symbols-outlined">expand_more</span>
@@ -836,10 +867,10 @@ function renderHome() {
     ? `<div class="banner banner-success">
         <div class="hasil-banner">
           <div class="col gap-8">
-            <p class="text-heading-sm c-default">Hasil refleksi sudah tersedia</p>
+            <p class="text-heading-sm c-default">Hasil pemetaan potensi sudah tersedia</p>
             <p class="text-body-sm c-subdued">Lihat profil potensi Anda dan rekomendasi pengembangannya.</p>
           </div>
-          <button class="btn btn-blue btn-md" onclick="showPage('page-hasil')">Periksa hasil</button>
+          <button class="btn btn-blue btn-md" onclick="switchHasilTab('page-hasil-v4')">Periksa hasil</button>
         </div>
       </div>`
     : `<div class="locked-box">
@@ -871,7 +902,7 @@ function renderHome() {
         <div class="step-bubble${allDone ? '' : ' inactive'}">2</div>
       </div>
       <div class="timeline-body">
-        <p class="text-heading-lg c-default step-title">Pelajari hasil refleksi</p>
+        <p class="text-heading-lg c-default step-title">Pelajari hasil pemetaan potensi</p>
         ${step2Body}
       </div>
     </div>`;
@@ -924,7 +955,7 @@ function completeBatch(batchNum) {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   if (batchNum === 3) {
     computedResults = computeScores();
-    renderHasil(); renderHasilV2(); renderHasilV3();
+    renderHasil(); renderHasilV2(); renderHasilV3(); renderHasilV4();
   }
   renderHome();
   showPage(`page-break-batch${batchNum}`);
@@ -1245,6 +1276,116 @@ function buildIndicatorCard(ind) {
     </div>`;
 }
 
+/* ── ALT 4 (TERBARU) ─────────────────────────────────────────────────────── */
+function getTierV4(level) {
+  if (level >= 4) return { label: 'Potensi Kuat',      badgeClass: 'badge-success' };
+  if (level >= 2) return { label: 'Potensi Bertumbuh', badgeClass: 'badge-info' };
+  return           { label: 'Potensi Minor',           badgeClass: 'badge-neutral' };
+}
+
+const ACTION_BOX_DATA_V4 = {
+  'Potensi Kuat':      { icon: 'emoji_events', modClass: 'action-box--menonjol',    heading: 'Andalkan ini',        text: 'Ini adalah area di mana potensimu paling menonjol. Terus kembangkan dan jadikan ini kekuatan utamamu.' },
+  'Potensi Bertumbuh': { icon: 'eco',          modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sedang tumbuh. Tidak perlu dipaksakan — biarkan berkembang seiring pengalamanmu.' },
+  'Potensi Minor':     { icon: 'search',       modClass: 'action-box--belum-muncul', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak apa-apa — fokus dulu pada kekuatanmu.' },
+};
+
+function buildIndicatorCardV4(ind) {
+  const i = indicators.findIndex(x => x.name === ind.name);
+  const tier = getTierV4(ind.level);
+  return `
+    <div class="card peta-card">
+      <div class="peta-card-header">
+        <div class="ind-icon-sm ${TILES[i]}" style="flex-shrink:0">
+          <span class="material-symbols-outlined">${ind.icon}</span>
+        </div>
+        <span class="text-body-bold c-default" style="flex:1;min-width:0">${ind.name}</span>
+        <span class="badge ${tier.badgeClass}" style="flex-shrink:0">${tier.label}</span>
+      </div>
+      <p class="text-body c-default peta-card-desc">${ind.desc}</p>
+    </div>`;
+}
+
+function getRecommendationTargets(inds) {
+  const maxLevel = Math.max(...inds.map(i => i.level));
+  const minLevel = Math.min(...inds.map(i => i.level));
+  const highest = inds.filter(i => i.level === maxLevel);
+  const lowest = inds.filter(i => i.level === minLevel);
+  return { highest, lowest: maxLevel === minLevel ? [] : lowest };
+}
+
+function buildRekCard(ind, rek) {
+  const i = indicators.findIndex(x => x.name === ind.name);
+  return `
+    <div class="card" style="padding:16px 20px;margin-bottom:12px">
+      <div class="row gap-10" style="align-items:center;margin-bottom:12px">
+        <div class="ind-icon-sm ${TILES[i]}">
+          <span class="material-symbols-outlined">${ind.icon}</span>
+        </div>
+        <p class="text-body-bold c-default">${ind.name}</p>
+      </div>
+      <p class="text-body-sm c-subdued" style="margin-bottom:10px;font-style:italic">${rek.note}</p>
+      <div style="padding:4px 0">
+        ${rek.items.map(([t, s]) => `
+          <div class="rek-item">
+            <div class="rek-dot"></div>
+            <div class="col">
+              <p class="text-body-bold c-default">${t}</p>
+              <p class="text-body-sm c-subdued" style="margin-top:2px;line-height:1.5">${s}</p>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderHasilV4() {
+  const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
+  const tierOrder = ['Potensi Kuat', 'Potensi Bertumbuh', 'Potensi Minor'];
+  const badgeClasses = { 'Potensi Kuat': 'badge-success', 'Potensi Bertumbuh': 'badge-info', 'Potensi Minor': 'badge-neutral' };
+
+  let html = `<div style="margin-bottom:8px">
+    <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensimu</p>
+    <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensimu berdasarkan hasil pemetaan. Tidak ada yang benar atau salah — ini adalah titik awal untuk berkembang.</p>
+  </div>`;
+
+  for (const tierLabel of tierOrder) {
+    const inds = source.filter(ind => getTierV4(ind.level).label === tierLabel).sort((a, b) => b.level - a.level);
+    if (inds.length === 0) continue;
+    const d = ACTION_BOX_DATA_V4[tierLabel];
+    html += `
+      <div style="margin-top:24px">
+        <div class="section-head" style="margin-bottom:12px">
+          <p class="text-heading-sm c-default">${tierLabel}</p>
+          <span class="badge ${badgeClasses[tierLabel]}">${inds.length}</span>
+        </div>
+        <div class="action-box ${d.modClass}" style="margin-bottom:14px">
+          <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
+          <div class="action-box-body">
+            <div class="action-box-heading">${d.heading}</div>
+            <div class="action-box-text">${d.text}</div>
+          </div>
+        </div>
+        ${inds.map(buildIndicatorCardV4).join('')}
+      </div>`;
+  }
+
+  // Rekomendasi section
+  const { highest, lowest } = getRecommendationTargets(source);
+  html += `<hr class="separator" style="margin:28px 0 20px">
+    <p class="text-heading-sm c-default" style="margin-bottom:20px">Langkah Selanjutnya</p>`;
+
+  if (highest.length > 0) {
+    html += `<p class="text-body-bold c-default" style="margin-bottom:12px">Kekuatan Utamamu</p>`;
+    html += highest.map(ind => buildRekCard(ind, REK.baik)).join('');
+  }
+  if (lowest.length > 0) {
+    html += `<p class="text-body-bold c-default" style="margin-top:20px;margin-bottom:12px">Area yang Perlu Perhatian</p>`;
+    html += lowest.map(ind => buildRekCard(ind, REK.perlu)).join('');
+  }
+
+  html += `<p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued);margin-top:24px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>`;
+  document.getElementById('hasil-v4-content').innerHTML = html;
+}
+
 function renderHasilV2() {
   const sectionConfigs = {
     'Menonjol':     { title: 'Bakat Dominanmu',             badgeClass: 'badge-success', sub: n => `Dari 8 potensi yang diukur, ${n} ini paling mengalir buat kamu:`, defaultOpen: true  },
@@ -1282,6 +1423,7 @@ function togglePetaSection(btn) {
 function switchHasilTab(pageId) {
   if (pageId === 'page-hasil-v2') renderHasilV2();
   if (pageId === 'page-hasil-v3') renderHasilV3();
+  if (pageId === 'page-hasil-v4') renderHasilV4();
   showPage(pageId);
 }
 
@@ -1448,7 +1590,7 @@ function cheatCompleted() {
     localStorage.setItem(LS_B3, 'true');
   } catch(e) {}
   computedResults = computeScores();
-  renderHasil(); renderHasilV2(); renderHasilV3(); renderHome();
+  renderHasil(); renderHasilV2(); renderHasilV3(); renderHasilV4(); renderHome();
   showPage('page-home');
   toast('Demo: semua jawaban terisi');
 }
