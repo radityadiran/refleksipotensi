@@ -260,10 +260,10 @@
       <p class="text-body-lg-bold c-default" style="margin-bottom:12px">Penting:</p>
       <div class="note-warning">
         <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
-        <p class="text-body c-default">Refleksi ini harus diselesaikan dalam satu sesi. Jika keluar di tengah pengerjaan, jawaban tidak tersimpan dan Anda perlu mengulang dari awal.</p>
+        <p class="text-body c-default">Refleksi ini terdiri dari 3 bagian yang bisa dikerjakan secara terpisah. Jawaban otomatis tersimpan — kamu bisa tutup dan lanjutkan kapan saja dari beranda.</p>
       </div>
     </div>
-    <button class="btn btn-blue btn-lg btn-full" style="margin-top:24px" onclick="startSurvey()">Mulai</button>
+    <button class="btn btn-blue btn-lg btn-full" style="margin-top:24px" onclick="showPage('page-intro-batch1')">Mulai</button>
   </div>
 </div>
 
@@ -273,7 +273,7 @@
     <div class="soal-topbar-inner">
       <div class="col">
         <p class="text-body-bold c-default">Pemetaan Potensi</p>
-        <p class="text-helper c-subdued">Peran: Guru</p>
+        <p class="text-helper c-subdued" id="soal-topbar-sub">Bagian 1 dari 3</p>
       </div>
       <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
         <span class="material-symbols-outlined">close</span>
@@ -281,6 +281,7 @@
     </div>
   </div>
   <div id="soal-body"><!-- rendered by renderCurrentItem() --></div>
+
   <div class="soal-bottombar">
     <div class="soal-bottombar-inner">
       <button class="btn btn-white btn-md" id="btn-prev" onclick="goPrev()">
@@ -290,6 +291,164 @@
         Selanjutnya <span class="material-symbols-outlined">arrow_forward</span>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: INTRO BATCH 1 ══════════════════════ -->
+<div class="page" id="page-intro-batch1">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Pemetaan Potensi</p></div>
+    </div>
+  </header>
+  <div class="break-content" style="text-align:left">
+    <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:12px">Bagian 1 dari 3</p>
+    <p class="text-display-sm c-default" style="margin-bottom:12px">Analisis Kasus</p>
+    <p class="text-body c-subdued" style="line-height:1.65;margin-bottom:28px">Baca setiap cerita singkat dan pilih kesimpulan yang paling valid berdasarkan informasi yang tersedia.</p>
+    <div class="commit-stats" style="margin-bottom:28px">
+      <div class="commit-stat"><span class="commit-stat-num">20</span><span class="commit-stat-label">soal</span></div>
+      <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.25rem">±35</span><span class="commit-stat-label">menit</span></div>
+    </div>
+    <button class="btn btn-blue btn-lg btn-full" onclick="startBatch(1)">
+      Mulai Bagian 1 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: INTRO BATCH 2 ══════════════════════ -->
+<div class="page" id="page-intro-batch2">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Pemetaan Potensi</p></div>
+    </div>
+  </header>
+  <div class="break-content" style="text-align:left">
+    <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:12px">Bagian 2 dari 3</p>
+    <p class="text-display-sm c-default" style="margin-bottom:12px">Situasi Kerja</p>
+    <p class="text-body c-subdued" style="line-height:1.65;margin-bottom:28px">Baca setiap situasi kerja dan pilih respons yang paling efektif menurut kamu.</p>
+    <div class="commit-stats" style="margin-bottom:28px">
+      <div class="commit-stat"><span class="commit-stat-num">40</span><span class="commit-stat-label">soal</span></div>
+      <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.25rem">±50</span><span class="commit-stat-label">menit</span></div>
+    </div>
+    <button class="btn btn-blue btn-lg btn-full" onclick="startBatch(2)">
+      Mulai Bagian 2 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: INTRO BATCH 3 ══════════════════════ -->
+<div class="page" id="page-intro-batch3">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="app-bar-titles"><p class="text-heading-sm c-inverse">Pemetaan Potensi</p></div>
+    </div>
+  </header>
+  <div class="break-content" style="text-align:left">
+    <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:12px">Bagian 3 dari 3</p>
+    <p class="text-display-sm c-default" style="margin-bottom:12px">Refleksi Diri</p>
+    <p class="text-body c-subdued" style="line-height:1.65;margin-bottom:28px">Baca setiap pernyataan dan pilih seberapa sesuai pernyataan tersebut dengan dirimu. Tidak ada jawaban benar atau salah.</p>
+    <div class="commit-stats" style="margin-bottom:28px">
+      <div class="commit-stat"><span class="commit-stat-num">30</span><span class="commit-stat-label">soal</span></div>
+      <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.25rem">±13</span><span class="commit-stat-label">menit</span></div>
+    </div>
+    <button class="btn btn-blue btn-lg btn-full" onclick="startBatch(3)">
+      Mulai Bagian 3 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: BREAK BATCH 1 ══════════════════════ -->
+<div class="page" id="page-break-batch1">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+    </div>
+  </header>
+  <div class="break-content">
+    <div class="break-parts" style="margin-bottom:0">
+      <div class="break-part done"></div>
+      <div class="break-part" style="background:var(--action-default)"></div>
+      <div class="break-part"></div>
+    </div>
+    <div class="break-icon-lg tile-green" style="margin-top:28px">
+      <span class="material-symbols-outlined">celebration</span>
+    </div>
+    <p class="text-heading-lg c-default" style="margin-bottom:8px">Bagian 1 selesai!</p>
+    <p class="text-body c-subdued" style="margin-bottom:28px">20 soal sudah kamu jawab dalam waktu ±35 menit.</p>
+    <button class="btn btn-blue btn-lg btn-full" style="margin-bottom:12px" onclick="showPage('page-intro-batch2')">
+      Lanjut ke Bagian 2 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
+    <button class="btn btn-white btn-lg btn-full" onclick="showPage('page-home')">Kembali ke Beranda</button>
+    <div class="break-jeda-note" style="margin-top:20px">
+      <p class="text-body-sm c-subdued">Kamu bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: BREAK BATCH 2 ══════════════════════ -->
+<div class="page" id="page-break-batch2">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+    </div>
+  </header>
+  <div class="break-content">
+    <div class="break-parts" style="margin-bottom:0">
+      <div class="break-part done"></div>
+      <div class="break-part done"></div>
+      <div class="break-part" style="background:var(--action-default)"></div>
+    </div>
+    <div class="break-icon-lg tile-green" style="margin-top:28px">
+      <span class="material-symbols-outlined">celebration</span>
+    </div>
+    <p class="text-heading-lg c-default" style="margin-bottom:8px">Bagian 2 selesai!</p>
+    <p class="text-body c-subdued" style="margin-bottom:28px">40 soal sudah kamu jawab dalam waktu ±50 menit.</p>
+    <button class="btn btn-blue btn-lg btn-full" style="margin-bottom:12px" onclick="showPage('page-intro-batch3')">
+      Lanjut ke Bagian 3 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
+    <button class="btn btn-white btn-lg btn-full" onclick="showPage('page-home')">Kembali ke Beranda</button>
+    <div class="break-jeda-note" style="margin-top:20px">
+      <p class="text-body-sm c-subdued">Kamu bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════ PAGE: BREAK BATCH 3 ══════════════════════ -->
+<div class="page" id="page-break-batch3">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <button class="app-bar-back" onclick="showPage('page-home')" aria-label="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+    </div>
+  </header>
+  <div class="break-content">
+    <div class="break-parts" style="margin-bottom:0">
+      <div class="break-part done"></div>
+      <div class="break-part done"></div>
+      <div class="break-part done"></div>
+    </div>
+    <div class="break-icon-lg tile-green" style="margin-top:28px">
+      <span class="material-symbols-outlined">workspace_premium</span>
+    </div>
+    <p class="text-heading-lg c-default" style="margin-bottom:8px">Semua bagian selesai!</p>
+    <p class="text-body c-subdued" style="margin-bottom:28px">90 soal sudah kamu jawab. Profil potensimu sudah siap.</p>
+    <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-hasil')">
+      Lihat Hasil Refleksimu <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+    </button>
   </div>
 </div>
 
@@ -379,20 +538,6 @@
 </div>
 
 <!-- ════════════════════════════ DIALOGS ═══════════════════════════════════ -->
-<div class="dialog-overlay" id="modal-confirm">
-  <div class="dialog-content" role="alertdialog" aria-modal="true">
-    <div class="dialog-header">
-      <p class="text-heading-md c-default">Konfirmasi Pengumpulan</p>
-    </div>
-    <div class="dialog-body">
-      <p class="text-body c-subdued">Setelah dikumpulkan, seluruh jawaban tidak bisa diubah lagi. Periksa kembali sebelum melanjutkan.</p>
-    </div>
-    <div class="dialog-footer">
-      <button class="btn btn-white btn-md" onclick="closeModal('modal-confirm')">Kembali</button>
-      <button class="btn btn-blue btn-md" onclick="submitSurvey()">Kumpulkan</button>
-    </div>
-  </div>
-</div>
 
 <div class="dialog-overlay" id="modal-exit">
   <div class="dialog-content" role="alertdialog" aria-modal="true">
@@ -415,8 +560,20 @@
 /* ── DATA ────────────────────────────────────────────────────────────────── */
 const TILES = ['tile-blue','tile-green','tile-purple','tile-cyan','tile-orange','tile-pink','tile-blue','tile-orange'];
 const LABELS = ['A','B','C','D','E'];
-const Q_PER_IND = 8;
-const TOTAL_Q = 64;
+const LIKERT_OPTS = ['Sangat Sesuai', 'Sesuai', 'Kurang Sesuai', 'Tidak Sesuai'];
+const TOTAL_Q = 90;
+
+// Questions per indicator (indexed 0–7, matching IND_BASE order)
+// ind 0 (Kemampuan Intelektual): 20q — Batch 1
+// ind 1,3,4,5 (Interpersonal, BerpikirKritis, Penyelesaian, KecerdasanEmosi): 10q each — Batch 2
+// ind 2,6,7 (Kesadaran Diri, BelajarCepat, Motivasi): 10q each — Batch 3
+const IND_Q_COUNTS = [20, 10, 10, 10, 10, 10, 10, 10];
+
+const BATCH_CONFIG = [
+  { num: 1, label: 'Analisis Kasus',  totalQ: 20, timeEst: '±35 menit', indIndices: [0],          qPerInd: 20, isLikert: false },
+  { num: 2, label: 'Situasi Kerja',   totalQ: 40, timeEst: '±50 menit', indIndices: [1, 3, 4, 5],  qPerInd: 10, isLikert: false },
+  { num: 3, label: 'Refleksi Diri',   totalQ: 30, timeEst: '±13 menit', indIndices: [2, 6, 7],      qPerInd: 10, isLikert: true  },
+];
 
 const REK = {
   baik: {
@@ -467,10 +624,10 @@ const IND_BASE = [
     q1: { kasus: 'Anda harus mengerjakan laporan perkembangan 30 anak dalam waktu dua hari.', pertanyaan: 'Bagaimana cara Anda menyelesaikannya?', opsi: ['Mengerjakan seadanya dengan menyalin laporan anak lain.','Mengatur waktu dengan disiplin dan menyelesaikannya dengan teliti.','Meminta orang tua mengisi sendiri laporan anaknya.','Menunda sampai lewat tenggat karena malas.','Menangis dan merasa tidak sanggup mengerjakannya.'] } }
 ];
 
-// Expand each indicator to 8 questions (q1 real, q2–8 placeholder)
-const indicators = IND_BASE.map(ind => ({
+// Expand each indicator to its question count (q1 real, rest placeholder)
+const indicators = IND_BASE.map((ind, idx) => ({
   ...ind,
-  questions: Array.from({ length: Q_PER_IND }, (_, i) =>
+  questions: Array.from({ length: IND_Q_COUNTS[idx] }, (_, i) =>
     i === 0 ? ind.q1 : {
       kasus: `[Konten akan diperbarui] ${ind.q1.kasus}`,
       pertanyaan: ind.q1.pertanyaan,
@@ -479,80 +636,84 @@ const indicators = IND_BASE.map(ind => ({
   )
 }));
 
-// Flat survey items: 64 questions + 3 breaks (at Q16, Q32, Q48) = 67 slots
-// Each question retains indicatorIndex + questionIndex for scoring only, not for display
-const surveyItems = (() => {
-  const qs = [];
-  for (let i = 0; i < indicators.length; i++)
-    for (let q = 0; q < Q_PER_IND; q++)
-      qs.push({ type: 'question', indicatorIndex: i, questionIndex: q });
-
-  const items = [];
-  for (let idx = 0; idx < qs.length; idx++) {
-    items.push(qs[idx]);
-    if ((idx + 1) % 16 === 0 && idx + 1 < qs.length)
-      items.push({ type: 'break', afterQuestion: idx + 1 });
-  }
-  return items;
-})();
+// Survey items per batch (flat arrays of questions only — no break items)
+const batchItems = BATCH_CONFIG.map(cfg =>
+  cfg.indIndices.flatMap(indIdx =>
+    Array.from({ length: cfg.qPerInd }, (_, q) => ({
+      indicatorIndex: indIdx,
+      questionIndex: q,
+      isLikert: cfg.isLikert,
+    }))
+  )
+);
 
 /* ── STATE ───────────────────────────────────────────────────────────────── */
-let currentItem = 0;
-let answers = {};        // key: `${indIdx}-${qIdx}` → optionIndex (0–4)
-let surveyState = 'not_started'; // 'not_started' | 'in_progress' | 'completed'
+let currentBatch = 1;       // 1, 2, or 3
+let currentBatchItem = 0;   // index within batchItems[currentBatch-1]
+let answers = {};            // key: `${indIdx}-${qIdx}` → optionIndex (0–3 or 0–4)
 let computedResults = null;
 
 /* ── PERSISTENCE ─────────────────────────────────────────────────────────── */
-const LS_KEY = 'pemetaan_potensi_v1';
+const LS_KEY  = 'pemetaan_potensi_v1'; // in-progress mid-batch state
+const LS_B1   = 'rp_batch1_done';
+const LS_B2   = 'rp_batch2_done';
+const LS_B3   = 'rp_batch3_done';
 
-function saveProgress() {
-  localStorage.setItem(LS_KEY, JSON.stringify({ answers, currentItem, surveyState }));
+function getProgress() {
+  try {
+    return {
+      batch1: localStorage.getItem(LS_B1) === 'true',
+      batch2: localStorage.getItem(LS_B2) === 'true',
+      batch3: localStorage.getItem(LS_B3) === 'true',
+    };
+  } catch(e) { return { batch1: false, batch2: false, batch3: false }; }
 }
 
-function clearProgress() {
-  localStorage.removeItem(LS_KEY);
+function saveProgress() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify({ answers, currentBatch, currentBatchItem }));
+  } catch(e) {}
+}
+
+function clearInProgress() {
+  try { localStorage.removeItem(LS_KEY); } catch(e) {}
 }
 
 function loadProgress() {
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-    if (data.surveyState === 'in_progress' || data.surveyState === 'completed') {
-      answers = data.answers || {};
-      currentItem = data.currentItem || 0;
-      surveyState = data.surveyState;
-      if (surveyState === 'completed') {
-        computedResults = computeScores();
-        renderHasil();
-        renderHasilV2();
-        renderHasilV3();
-      }
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.answers) answers = data.answers;
+      if (data.currentBatch) currentBatch = data.currentBatch;
+      if (data.currentBatchItem !== undefined) currentBatchItem = data.currentBatchItem;
     }
-  } catch (e) { clearProgress(); }
+    const p = getProgress();
+    if (p.batch3) {
+      computedResults = computeScores();
+      renderHasil(); renderHasilV2(); renderHasilV3();
+    }
+  } catch(e) { clearInProgress(); }
+}
+
+function resetProgress() {
+  try { [LS_KEY, LS_B1, LS_B2, LS_B3].forEach(k => localStorage.removeItem(k)); } catch(e) {}
+  console.log('Progress reset.');
 }
 
 /* ── HELPERS ─────────────────────────────────────────────────────────────── */
 const qKey = (i, q) => `${i}-${q}`;
-const answeredCount = () => Object.keys(answers).length;
-
-function indAnsweredCount(indIdx) {
-  let n = 0;
-  for (let q = 0; q < Q_PER_IND; q++) if (answers[qKey(indIdx, q)] !== undefined) n++;
-  return n;
-}
-
-function indCompleted(indIdx) { return indAnsweredCount(indIdx) === Q_PER_IND; }
 
 /* ── SCORING ─────────────────────────────────────────────────────────────── */
 function computeScores() {
   const indScores = indicators.map((ind, i) => {
-    // Prototype scoring: option index 2 (C) = ideal answer
-    let correct = 0;
-    for (let q = 0; q < Q_PER_IND; q++) {
-      if (answers[qKey(i, q)] === 2) correct++;
+    const qCount = IND_Q_COUNTS[i];
+    let correct = 0, total = 0;
+    for (let q = 0; q < qCount; q++) {
+      const a = answers[qKey(i, q)];
+      if (a !== undefined) { total++; if (a === 2) correct++; }
     }
-    const level = Math.round((correct / Q_PER_IND) * 5);
+    const level = total > 0 ? Math.round((correct / total) * 5) : 0;
     return { ...ind, level, status: level >= 3 ? 'baik' : 'perlu' };
   });
   const totalRaw = indScores.reduce((sum, ind) => sum + ind.level, 0); // max 40
@@ -584,15 +745,27 @@ function toast(msg) {
 }
 
 /* ── HOME ────────────────────────────────────────────────────────────────── */
-function resumeSurvey() {
-  window.addEventListener('beforeunload', beforeUnloadHandler);
-  renderCurrentItem();
-  showPage('page-soal');
-}
-
 function renderHome() {
-  const completed = surveyState === 'completed';
-  const inProgress = surveyState === 'in_progress';
+  const p = getProgress();
+  const allDone = p.batch3;
+  const anyDone = p.batch1 || p.batch2;
+
+  let ctaText, ctaAction, progressIndicatorHtml = '';
+  if (allDone) {
+    ctaText = 'Lihat hasil refleksimu';
+    ctaAction = "showPage('page-hasil')";
+  } else if (p.batch2) {
+    ctaText = 'Lanjutkan ke Bagian 3';
+    ctaAction = "showPage('page-intro-batch3')";
+    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 &amp; 2 selesai &middot; Bagian 3 belum dikerjakan</p>';
+  } else if (p.batch1) {
+    ctaText = 'Lanjutkan ke Bagian 2';
+    ctaAction = "showPage('page-intro-batch2')";
+    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 selesai &middot; Bagian 2 belum dikerjakan</p>';
+  } else {
+    ctaText = 'Mulai refleksi';
+    ctaAction = "showPage('page-intro-batch1')";
+  }
 
   const indGridItems = indicators.map((ind, i) => `
     <div class="ind-row">
@@ -602,16 +775,14 @@ function renderHome() {
       <span class="text-body-sm c-default" style="line-height:1.3">${ind.name}</span>
     </div>`).join('');
 
-  const answered = answeredCount();
-  const completedInds = indicators.filter((_, i) => indCompleted(i)).length;
-  const answerPct = Math.round((answered / TOTAL_Q) * 100);
+  const batchesDone = (p.batch1 ? 1 : 0) + (p.batch2 ? 1 : 0);
 
-  const step1Body = completed
+  const step1Body = allDone
     ? `<div class="banner banner-success" style="padding:18px 20px">
         <div class="row gap-12" style="justify-content:space-between">
           <div class="col gap-4">
             <p class="text-heading-sm c-default">Semua refleksi selesai</p>
-            <p class="text-body-sm c-subdued">64 pertanyaan telah dijawab untuk 8 indikator.</p>
+            <p class="text-body-sm c-subdued">90 pertanyaan telah dijawab dalam 3 bagian.</p>
           </div>
           <span class="done-flag"><span class="material-symbols-outlined" style="font-size:28px">check_circle</span></span>
         </div>
@@ -635,19 +806,18 @@ function renderHome() {
         </div>
         <div class="commit-stats">
           <div class="commit-stat">
-            <span class="commit-stat-num">${inProgress ? `${answered} <span style="font-size:1rem;font-weight:500;color:var(--text-subdued)">/ 64</span>` : '64'}</span>
-            <span class="commit-stat-label">${inProgress ? 'pertanyaan dijawab' : 'pertanyaan'}</span>
+            <span class="commit-stat-num">90</span>
+            <span class="commit-stat-label">pertanyaan</span>
           </div>
           <div class="commit-stat">
             <span class="commit-stat-num">8</span>
             <span class="commit-stat-label">indikator</span>
           </div>
           <div class="commit-stat">
-            <span class="commit-stat-num">16</span>
+            <span class="commit-stat-num" style="font-size:1.25rem">&#177;98</span>
             <span class="commit-stat-label">menit</span>
           </div>
         </div>
-        ${inProgress ? `<div class="progressbar" style="margin-bottom:16px"><div class="progressbar-track"><div class="progressbar-value" style="width:${answerPct}%"></div></div></div>` : ''}
         <button class="ind-list-toggle" aria-expanded="false" onclick="toggleIndList(this)">
           <span class="text-body-sm-bold c-subdued">Apa saja 8 indikatornya?</span>
           <span class="material-symbols-outlined">expand_more</span>
@@ -655,13 +825,14 @@ function renderHome() {
         <div class="ind-list" id="ind-list">
           ${indGridItems}
         </div>
-        <button class="btn btn-blue btn-lg btn-full" onclick="${inProgress ? 'resumeSurvey()' : "showPage('page-panduan')"}" style="margin-top:8px">
-          ${inProgress ? 'Lanjutkan Pemetaan' : 'Mulai refleksi'}
+        <button class="btn btn-blue btn-lg btn-full" onclick="${ctaAction}" style="margin-top:8px">
+          ${ctaText}
           <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
         </button>
+        ${progressIndicatorHtml}
       </div>`;
 
-  const step2Body = completed
+  const step2Body = allDone
     ? `<div class="banner banner-success">
         <div class="hasil-banner">
           <div class="col gap-8">
@@ -675,19 +846,19 @@ function renderHome() {
         <span class="lock-watermark material-symbols-outlined">lock_open</span>
         <div class="row gap-12" style="align-items:flex-start; position:relative;">
           <span class="material-symbols-outlined icon subdued lg">lock</span>
-          <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh refleksi untuk melihat profil potensi Anda.</p>
+          <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh 3 bagian untuk melihat profil potensi Anda.</p>
         </div>
-        ${inProgress ? `
+        ${anyDone ? `
         <div style="margin-top:16px; position:relative;">
-          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${Math.round(completedInds/8*100)}%"></div></div></div>
-          <p class="text-body-sm c-subdued" style="margin-top:8px">Selesai ${completedInds} dari 8 indikator</p>
+          <div class="progressbar"><div class="progressbar-track"><div class="progressbar-value" style="width:${Math.round(batchesDone/3*100)}%"></div></div></div>
+          <p class="text-body-sm c-subdued" style="margin-top:8px">Selesai ${batchesDone} dari 3 bagian</p>
         </div>` : ''}
       </div>`;
 
   document.getElementById('home-content').innerHTML = `
     <div class="timeline-step">
       <div class="timeline-rail">
-        <div class="step-bubble${completed ? ' done' : ''}">${completed ? '<span class="material-symbols-outlined">check</span>' : '1'}</div>
+        <div class="step-bubble${allDone ? ' done' : ''}">${allDone ? '<span class="material-symbols-outlined">check</span>' : '1'}</div>
         <div class="timeline-line"></div>
       </div>
       <div class="timeline-body">
@@ -697,7 +868,7 @@ function renderHome() {
     </div>
     <div class="timeline-step">
       <div class="timeline-rail">
-        <div class="step-bubble${completed ? '' : ' inactive'}">2</div>
+        <div class="step-bubble${allDone ? '' : ' inactive'}">2</div>
       </div>
       <div class="timeline-body">
         <p class="text-heading-lg c-default step-title">Pelajari hasil refleksi</p>
@@ -720,14 +891,43 @@ function beforeUnloadHandler(e) {
   e.returnValue = '';
 }
 
-function startSurvey() {
-  currentItem = 0;
-  answers = {};
-  surveyState = 'in_progress';
+function startBatch(batchNum) {
+  const cfg = BATCH_CONFIG[batchNum - 1];
+  currentBatch = batchNum;
+  // Resume mid-batch if in-progress for this batch
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.currentBatch === batchNum) {
+        currentBatchItem = data.currentBatchItem || 0;
+        if (data.answers) answers = { ...answers, ...data.answers };
+      } else {
+        currentBatchItem = 0;
+      }
+    } else {
+      currentBatchItem = 0;
+    }
+  } catch(e) { currentBatchItem = 0; }
+
+  const sub = document.getElementById('soal-topbar-sub');
+  if (sub) sub.textContent = `Bagian ${batchNum} dari 3 — ${cfg.label}`;
   saveProgress();
   window.addEventListener('beforeunload', beforeUnloadHandler);
   renderCurrentItem();
   showPage('page-soal');
+}
+
+function completeBatch(batchNum) {
+  try { localStorage.setItem(`rp_batch${batchNum}_done`, 'true'); } catch(e) {}
+  clearInProgress();
+  window.removeEventListener('beforeunload', beforeUnloadHandler);
+  if (batchNum === 3) {
+    computedResults = computeScores();
+    renderHasil(); renderHasilV2(); renderHasilV3();
+  }
+  renderHome();
+  showPage(`page-break-batch${batchNum}`);
 }
 
 function exitSurvey() {
@@ -737,158 +937,105 @@ function exitSurvey() {
   showPage('page-home');
 }
 
-
-function submitSurvey() {
-  closeModal('modal-confirm');
-  window.removeEventListener('beforeunload', beforeUnloadHandler);
-  computedResults = computeScores();
-  surveyState = 'completed';
-  saveProgress();
-  renderHasil();
-  renderHasilV2();
-  renderHasilV3();
-  renderHome();
-  showPage('page-hasil');
-}
-
 function goNext() {
-  const item = surveyItems[currentItem];
-
-  if (item.type === 'break') {
-    currentItem++;
-    renderCurrentItem();
-    window.scrollTo(0, 0);
-    return;
-  }
-
-  // Question: require answer before proceeding
+  const items = batchItems[currentBatch - 1];
+  const item = items[currentBatchItem];
   if (answers[qKey(item.indicatorIndex, item.questionIndex)] === undefined) {
     toast('Silakan pilih jawaban terlebih dahulu');
     return;
   }
-
-  // Last question → confirm submit
-  if (currentItem === surveyItems.length - 1) {
-    document.getElementById('modal-confirm').classList.add('show');
+  if (currentBatchItem === items.length - 1) {
+    completeBatch(currentBatch);
     return;
   }
-
-  currentItem++;
+  currentBatchItem++;
+  saveProgress();
   renderCurrentItem();
   window.scrollTo(0, 0);
 }
 
 function goPrev() {
-  if (currentItem === 0) {
+  if (currentBatchItem === 0) {
     document.getElementById('modal-exit').classList.add('show');
     return;
   }
-  currentItem--;
+  currentBatchItem--;
   renderCurrentItem();
   window.scrollTo(0, 0);
 }
 
 /* ── RENDER SURVEY ITEM ──────────────────────────────────────────────────── */
 function renderCurrentItem() {
-  const item = surveyItems[currentItem];
-
-  // Update bottombar buttons
+  const cfg = BATCH_CONFIG[currentBatch - 1];
+  const items = batchItems[currentBatch - 1];
   const btnPrev = document.getElementById('btn-prev');
   const btnNext = document.getElementById('btn-next');
-  btnPrev.style.visibility = currentItem === 0 ? 'hidden' : 'visible';
-  if (item.type === 'break') {
-    btnNext.innerHTML = 'Lanjutkan <span class="material-symbols-outlined">arrow_forward</span>';
-  } else if (currentItem === surveyItems.length - 1) {
-    btnNext.innerHTML = 'Simpan dan kumpulkan';
-  } else {
-    btnNext.innerHTML = 'Selanjutnya <span class="material-symbols-outlined">arrow_forward</span>';
-  }
-
-  if (item.type === 'break') {
-    renderSectionBreak(item);
-  } else {
-    renderQuestion(item);
-  }
-}
-
-function questionNumber(itemIndex) {
-  // Count question slots up to and including itemIndex
-  let n = 0;
-  for (let i = 0; i <= itemIndex; i++) if (surveyItems[i].type === 'question') n++;
-  return n;
+  btnPrev.style.visibility = currentBatchItem === 0 ? 'hidden' : 'visible';
+  btnNext.innerHTML = currentBatchItem === items.length - 1
+    ? `Selesaikan Bagian ${currentBatch}`
+    : `Selanjutnya <span class="material-symbols-outlined">arrow_forward</span>`;
+  const sub = document.getElementById('soal-topbar-sub');
+  if (sub) sub.textContent = `Bagian ${currentBatch} dari 3 — ${cfg.label}`;
+  renderQuestion(items[currentBatchItem]);
 }
 
 function renderQuestion(item) {
-  const { indicatorIndex: iIdx, questionIndex: qIdx } = item;
+  const cfg = BATCH_CONFIG[currentBatch - 1];
+  const items = batchItems[currentBatch - 1];
+  const { indicatorIndex: iIdx, questionIndex: qIdx, isLikert } = item;
   const ind = indicators[iIdx];
   const q = ind.questions[qIdx];
   const selected = answers[qKey(iIdx, qIdx)];
-  const globalNum = questionNumber(currentItem);
-  const pct = Math.round((answeredCount() / TOTAL_Q) * 100);
+  const batchQNum = currentBatchItem + 1;
+  const pct = Math.round((batchQNum / cfg.totalQ) * 100);
+
+  const optionsHtml = isLikert
+    ? LIKERT_OPTS.map((o, i) => `
+        <div class="selbox-option${selected === i ? ' checked' : ''}"
+             onclick="selectAnswer(${iIdx},${qIdx},${i})"
+             role="radio" aria-checked="${selected === i}">
+          <div class="selbox-radio"><div class="selbox-dot"></div></div>
+          <span class="selbox-text">${o}</span>
+        </div>`).join('')
+    : q.opsi.map((o, i) => `
+        <div class="selbox-option${selected === i ? ' checked' : ''}"
+             onclick="selectAnswer(${iIdx},${qIdx},${i})"
+             role="radio" aria-checked="${selected === i}">
+          <div class="selbox-radio"><div class="selbox-dot"></div></div>
+          <span class="selbox-label">${LABELS[i]}</span>
+          <span class="selbox-text">${o}</span>
+        </div>`).join('');
+
+  const kasusHtml = isLikert ? '' : `
+    <div class="kasus">
+      <p class="text-eyebrow-sm c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px">${currentBatch === 1 ? 'Analisis Kasus' : 'Situasi'}</p>
+      <p class="text-body c-default" style="line-height:1.7">${q.kasus}</p>
+    </div>`;
+
+  const questionText = isLikert ? q.kasus : q.pertanyaan;
 
   document.getElementById('soal-body').innerHTML = `
     <div class="soal-content">
-      <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">Pertanyaan ${globalNum} dari ${TOTAL_Q}</p>
+      <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">Soal ${batchQNum} dari ${cfg.totalQ}</p>
       <div class="progressbar" style="margin-bottom:24px">
         <div class="progressbar-track"><div class="progressbar-value" style="width:${pct}%"></div></div>
       </div>
-      <div class="kasus">
-        <p class="text-eyebrow-sm c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px">Studi kasus</p>
-        <p class="text-body c-default" style="line-height:1.7">${q.kasus}</p>
-      </div>
-      <p class="text-heading-sm c-action" style="margin-bottom:16px">${q.pertanyaan}</p>
-      <div class="selbox">
-        ${q.opsi.map((o, i) => `
-          <div class="selbox-option${selected === i ? ' checked' : ''}"
-               onclick="selectAnswer(${iIdx},${qIdx},${i})"
-               role="radio" aria-checked="${selected === i}">
-            <div class="selbox-radio"><div class="selbox-dot"></div></div>
-            <span class="selbox-label">${LABELS[i]}</span>
-            <span class="selbox-text">${o}</span>
-          </div>`).join('')}
-      </div>
-    </div>`;
-}
-
-function renderSectionBreak(item) {
-  const done = item.afterQuestion;  // 16, 32, or 48
-  const pct = Math.round((done / TOTAL_Q) * 100);
-  // 4 segments: each 25% — segment index 0–3; done segment = done/16 - 1
-  const segDone = done / 16;        // 1, 2, or 3
-  const milestones = { 16: ['25%', 'Seperempat perjalanan selesai! Tetap semangat.'],
-                       32: ['50%', 'Sudah setengah jalan! Anda hebat.'],
-                       48: ['75%', 'Tiga perempat selesai! Hampir sampai.'] };
-  const [label, msg] = milestones[done] || [`${pct}%`, 'Terus semangat!'];
-
-  document.getElementById('soal-body').innerHTML = `
-    <div class="break-content">
-      <span class="material-symbols-outlined" style="font-size:56px;color:#268326">celebration</span>
-      <p class="text-heading-lg c-default" style="margin-top:12px;margin-bottom:6px">${label} selesai!</p>
-      <p class="text-body c-subdued" style="margin-bottom:24px">${msg}</p>
-
-      <div class="break-parts" style="margin-bottom:24px">
-        ${Array.from({ length: 4 }, (_, i) =>
-          `<div class="break-part ${i < segDone ? 'done' : i === segDone ? 'next' : ''}"></div>`
-        ).join('')}
-      </div>
-      <p class="text-body-sm c-subdued" style="margin-bottom:28px">${TOTAL_Q - done} pertanyaan tersisa</p>
-
-      <hr class="separator" style="margin-bottom:24px">
-      <div class="break-jeda-note">
-        <p class="text-body-sm c-subdued">Silakan ambil jeda sejenak sebelum melanjutkan.</p>
+      ${kasusHtml}
+      <p class="text-heading-sm c-action" style="margin-bottom:16px">${questionText}</p>
+      <div class="selbox">${optionsHtml}</div>
     </div>`;
 }
 
 function selectAnswer(iIdx, qIdx, optIdx) {
   answers[qKey(iIdx, qIdx)] = optIdx;
   saveProgress();
-  const item = surveyItems[currentItem];
-  if (item.type === 'question' && item.indicatorIndex === iIdx && item.questionIndex === qIdx) {
+  const items = batchItems[currentBatch - 1];
+  const item = items[currentBatchItem];
+  if (item.indicatorIndex === iIdx && item.questionIndex === qIdx) {
     renderQuestion(item);
-    // Re-sync next button label after answering last question
     const btnNext = document.getElementById('btn-next');
-    if (currentItem === surveyItems.length - 1) {
-      btnNext.innerHTML = 'Simpan dan kumpulkan';
+    if (currentBatchItem === items.length - 1) {
+      btnNext.innerHTML = `Selesaikan Bagian ${currentBatch}`;
     }
   }
 }
@@ -1274,10 +1421,10 @@ renderHome();
 /* ── DEMO CHEAT BAR ─────────────────────────────────────────────────────── */
 function cheatNotStarted() {
   answers = {};
-  surveyState = 'not_started';
+  currentBatch = 1;
+  currentBatchItem = 0;
   computedResults = null;
-  currentItem = 0;
-  clearProgress();
+  resetProgress();
   renderHome();
   showPage('page-home');
   toast('Demo: belum diisi');
@@ -1285,21 +1432,23 @@ function cheatNotStarted() {
 
 function cheatCompleted() {
   answers = {};
-  // PRD target distribution: Menonjol (4-5): Kemampuan Interpersonal, Kecerdasan Emosional, Motivasi & Komitmen
-  // Berkembang (2-3): Kemampuan Intelektual, Kesadaran Diri, Penyelesaian Masalah, Belajar Cepat
-  // Belum Muncul (0-1): Berpikir Kritis & Strategis
-  // Mapping by IND_BASE order [0..7]: Intelektual, Interpersonal, Kesadaran, BerpikirKritis, Penyelesaian, KecerdasanEmosi, BelajarCepat, Motivasi
-  const correctPerInd = [3, 6, 5, 1, 3, 8, 5, 6];
+  // Target distribution (0-indexed ind order: Intelektual, Interpersonal, Kesadaran, BerpikirKritis, Penyelesaian, KecerdasanEmosi, BelajarCepat, Motivasi)
+  // Menonjol: Interpersonal(1), KecerdasanEmosi(5), Motivasi(7)
+  // Berkembang: Intelektual(0), Kesadaran(2), Penyelesaian(4), BelajarCepat(6)
+  // Belum Muncul: BerpikirKritis(3)
+  const correctFractions = [0.5, 0.8, 0.6, 0.1, 0.4, 1.0, 0.6, 0.8];
   indicators.forEach((_, i) => {
-    const correct = correctPerInd[i];
-    for (let q = 0; q < Q_PER_IND; q++) answers[qKey(i, q)] = q < correct ? 2 : 0;
+    const qCount = IND_Q_COUNTS[i];
+    const correct = Math.round(correctFractions[i] * qCount);
+    for (let q = 0; q < qCount; q++) answers[qKey(i, q)] = q < correct ? 2 : 0;
   });
-  surveyState = 'completed';
+  try {
+    localStorage.setItem(LS_B1, 'true');
+    localStorage.setItem(LS_B2, 'true');
+    localStorage.setItem(LS_B3, 'true');
+  } catch(e) {}
   computedResults = computeScores();
-  renderHasil();
-  renderHasilV2();
-  renderHasilV3();
-  renderHome();
+  renderHasil(); renderHasilV2(); renderHasilV3(); renderHome();
   showPage('page-home');
   toast('Demo: semua jawaban terisi');
 }
