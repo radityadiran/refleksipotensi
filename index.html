@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Refleksi Potensi — Seragam</title>
+<title>Pemetaan Potensi — Seragam</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,23 +50,33 @@
 .step-bubble .material-symbols-outlined { font-size: 20px; }
 .step-title { margin: 4px 0 16px; }
 
-/* Commit card (home step 1) */
-.commit-card { background: var(--surface-default); border-radius: 16px; box-shadow: var(--elevation-card); padding: 28px 28px 24px; margin-bottom: 20px; }
-.commit-stats { display: flex; gap: 0; margin: 20px 0 22px; }
-.commit-stat { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 16px 12px; position: relative; }
-.commit-stat + .commit-stat::before { content: ''; position: absolute; left: 0; top: 16px; bottom: 16px; width: 1px; background: var(--gray-10); }
-.commit-stat-num { font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--action-default); }
-.commit-stat-label { font-size: 0.8125rem; font-weight: 500; color: var(--text-subdued); margin-top: 4px; line-height: 1.3; }
-.commit-note { display: flex; gap: 10px; align-items: flex-start; background: #fef8f0; border-radius: var(--radius-base); padding: 14px 16px; margin-bottom: 22px; }
-.commit-note-ic { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; color: #af5b00; }
+/* Intro card (home section 1) */
+.intro-card { background: var(--surface-default); border-radius: 16px; box-shadow: var(--elevation-card); overflow: hidden; margin-bottom: 20px; }
 
-/* Indicator accordion (home step 1) */
-.ind-list-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 0; cursor: pointer; background: none; border: none; font-family: var(--font); border-top: 1px solid var(--gray-10); }
-.ind-list-toggle .material-symbols-outlined { font-size: 20px; color: var(--text-subdued); transition: transform 0.25s ease; }
-.ind-list-toggle[aria-expanded="true"] .material-symbols-outlined { transform: rotate(180deg); }
-.ind-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; max-height: 0; opacity: 0; }
-.ind-list.open { max-height: 500px; opacity: 1; margin-bottom: 8px; }
-.ind-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+/* Value props */
+.vp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border-subdued); }
+.vp-col { padding: 20px 18px 18px; }
+.vp-col + .vp-col { border-left: 1px solid var(--border-subdued); }
+.vp-illus { width: 100%; aspect-ratio: 4/3; background: var(--surface-subdued); border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.vp-illus .material-symbols-outlined { font-size: 40px; color: var(--text-subdued); }
+.vp-heading { font-size: 0.875rem; font-weight: 700; color: var(--text-default); line-height: 1.4; margin-bottom: 6px; }
+.vp-body { font-size: 0.8125rem; color: var(--text-subdued); line-height: 1.6; }
+
+/* Stats row */
+.intro-stats { display: flex; border-bottom: 1px solid var(--border-subdued); }
+.intro-stat-main { flex: 1; padding: 16px 18px; background: var(--surface-subdued); font-size: 0.8125rem; font-weight: 600; color: var(--text-default); line-height: 1.5; display: flex; align-items: center; }
+.intro-stat { padding: 16px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-width: 72px; position: relative; }
+.intro-stat::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 1px; background: var(--border-subdued); }
+.intro-stat-num { font-size: 1.625rem; font-weight: 700; line-height: 1.1; color: var(--action-default); }
+.intro-stat-label { font-size: 0.75rem; font-weight: 500; color: var(--text-subdued); margin-top: 3px; }
+
+/* Indicator grid */
+.ind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 8px 12px 16px; }
+.ind-row { display: flex; align-items: center; gap: 10px; padding: 8px 6px; }
+.ind-icon-sm { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* CTA */
+.intro-cta { padding: 0 20px 20px; }
 .ind-icon-sm { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .ind-icon-sm .material-symbols-outlined { font-size: 18px; }
 .done-flag { display: inline-flex; align-items: center; gap: 8px; color: #268326; font-weight: 600; font-size: 1rem; flex-shrink: 0; white-space: nowrap; }
@@ -217,7 +227,7 @@
           <span class="material-symbols-outlined">more_horiz</span>
         </button>
       </div>
-      <p class="text-display-md c-inverse" style="font-size:2rem; margin-bottom:8px; margin-top:4px;">Refleksi Potensi</p>
+      <p class="text-display-md c-inverse" style="font-size:2rem; margin-bottom:8px; margin-top:4px;">Pemetaan Potensi</p>
       <button class="app-hero-link" onclick="toast('Membuka artikel Refleksi Potensi')">Pelajari artikel Model Potensi</button>
     </div>
   </header>
@@ -265,7 +275,7 @@
   <div class="soal-topbar">
     <div class="soal-topbar-inner">
       <div class="col">
-        <p class="text-body-bold c-default">Refleksi Potensi</p>
+        <p class="text-body-bold c-default">Pemetaan Potensi</p>
         <p class="text-helper c-subdued">Peran: Guru</p>
       </div>
       <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
@@ -550,7 +560,7 @@ function toast(msg) {
 function renderHome() {
   const completed = surveyState === 'completed';
 
-  const indRows = indicators.map((ind, i) => `
+  const indGridItems = indicators.map((ind, i) => `
     <div class="ind-row">
       <div class="ind-icon-sm ${TILES[i]}">
         <span class="material-symbols-outlined">${ind.icon}</span>
@@ -568,36 +578,36 @@ function renderHome() {
           <span class="done-flag"><span class="material-symbols-outlined" style="font-size:28px">check_circle</span></span>
         </div>
       </div>`
-    : `<div class="commit-card">
-        <p class="text-heading-md c-default" style="line-height:1.5">Jawab 64 pertanyaan untuk memetakan potensi Anda di 8 area sebagai guru.</p>
-        <div class="commit-stats">
-          <div class="commit-stat">
-            <span class="commit-stat-num">64</span>
-            <span class="commit-stat-label">pertanyaan</span>
+    : `<div class="intro-card">
+        <div class="vp-row">
+          <div class="vp-col">
+            <div class="vp-illus"><span class="material-symbols-outlined">school</span></div>
+            <p class="vp-heading">Petakan potensimu sebagai pendidik</p>
+            <p class="vp-body">Kenali 8 area potensimu berdasarkan indikator resmi ASN dan pahami di mana kekuatan sesungguhnya berada.</p>
           </div>
-          <div class="commit-stat">
-            <span class="commit-stat-num">8</span>
-            <span class="commit-stat-label">indikator</span>
-          </div>
-          <div class="commit-stat">
-            <span class="commit-stat-num">~16</span>
-            <span class="commit-stat-label">menit</span>
+          <div class="vp-col">
+            <div class="vp-illus"><span class="material-symbols-outlined">verified_user</span></div>
+            <p class="vp-heading">Jadi dasar penempatan yang lebih tepat</p>
+            <p class="vp-body">Sebagai bagian dari Manajemen Talenta ASN, hasil refleksimu membantu memastikan penempatan tenaga pendidik sesuai potensi yang dimiliki.</p>
           </div>
         </div>
-        <div class="commit-note">
-          <span class="material-symbols-outlined commit-note-ic">info</span>
-          <p class="text-body-sm c-default" style="line-height:1.55">Refleksi dikerjakan <strong>sekali jalan</strong> — jawaban tidak bisa diubah setelah dikumpulkan. Pilih waktu yang tenang agar hasilnya akurat.</p>
+        <div class="intro-stats">
+          <div class="intro-stat-main">Pahami potensimu berdasarkan 8 indikator potensi ASN</div>
+          <div class="intro-stat">
+            <span class="intro-stat-num">64</span>
+            <span class="intro-stat-label">pertanyaan</span>
+          </div>
+          <div class="intro-stat">
+            <span class="intro-stat-num">16</span>
+            <span class="intro-stat-label">menit</span>
+          </div>
         </div>
-        <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">
-          Mulai refleksi
-          <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
-        </button>
-        <button class="ind-list-toggle" aria-expanded="false" onclick="toggleIndList(this)">
-          <span class="text-body-sm-bold c-subdued">Apa saja 8 indikatornya?</span>
-          <span class="material-symbols-outlined">expand_more</span>
-        </button>
-        <div class="ind-list" id="ind-list">
-          ${indRows}
+        <div class="ind-grid">${indGridItems}</div>
+        <div class="intro-cta">
+          <button class="btn btn-blue btn-lg btn-full" onclick="showPage('page-panduan')">
+            Mulai refleksi
+            <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+          </button>
         </div>
       </div>`;
 
@@ -626,7 +636,7 @@ function renderHome() {
         <div class="timeline-line"></div>
       </div>
       <div class="timeline-body">
-        <p class="text-heading-lg c-default step-title">Refleksikan potensi Anda</p>
+        <p class="text-heading-lg c-default step-title">Kenali Potensi dan Kembangkan Diri</p>
         ${step1Body}
       </div>
     </div>
@@ -641,12 +651,6 @@ function renderHome() {
     </div>`;
 }
 
-function toggleIndList(btn) {
-  const list = document.getElementById('ind-list');
-  const expanded = btn.getAttribute('aria-expanded') === 'true';
-  btn.setAttribute('aria-expanded', String(!expanded));
-  list.classList.toggle('open', !expanded);
-}
 
 /* ── SURVEY FLOW ─────────────────────────────────────────────────────────── */
 function beforeUnloadHandler(e) {
