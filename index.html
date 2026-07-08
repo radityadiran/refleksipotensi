@@ -399,11 +399,11 @@
     <div class="dialog-body" style="padding:28px 24px 18px;">
       <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">warning</span></div>
       <p class="text-heading-md c-default" style="margin-bottom:6px">Keluar dari refleksi?</p>
-      <p class="text-body c-subdued">Refleksi ini harus diselesaikan dalam satu sesi. Jika keluar sekarang, seluruh jawaban akan hilang dan Anda perlu mengulang dari awal.</p>
+      <p class="text-body c-subdued">Jawaban Anda sudah tersimpan. Anda bisa melanjutkan dari posisi terakhir kapan saja.</p>
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
       <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Lanjutkan pengerjaan</button>
-      <button class="btn btn-danger btn-lg btn-full" onclick="exitSurvey()">Keluar dan ulang nanti</button>
+      <button class="btn btn-danger btn-lg btn-full" onclick="exitSurvey()">Keluar</button>
     </div>
   </div>
 </div>
@@ -724,6 +724,7 @@ function startSurvey() {
   currentItem = 0;
   answers = {};
   surveyState = 'in_progress';
+  saveProgress();
   window.addEventListener('beforeunload', beforeUnloadHandler);
   renderCurrentItem();
   showPage('page-soal');
@@ -731,11 +732,6 @@ function startSurvey() {
 
 function exitSurvey() {
   closeModal('modal-exit');
-  answers = {};
-  currentItem = 0;
-  surveyState = 'not_started';
-  computedResults = null;
-  clearProgress();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
