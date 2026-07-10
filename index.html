@@ -204,6 +204,12 @@
 .peta-section[data-open="false"] .peta-chevron { transform: rotate(-90deg); }
 .peta-section-body { padding: 0 20px 20px; }
 .peta-card { padding: 18px; margin-bottom: 10px; }
+
+/* Saran numbered list (Alt 4 rekomendasi) */
+.saran-list { list-style: none; padding: 0; margin: 0; counter-reset: saran; }
+.saran-item { display: flex; gap: 12px; padding: 10px 0; counter-increment: saran; }
+.saran-item + .saran-item { border-top: 1px solid var(--border-subdued); }
+.saran-item::before { content: counter(saran); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--action-default); color: #fff; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
 .peta-card:last-child { margin-bottom: 0; }
 .peta-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .peta-card-desc { line-height: 1.65; margin-bottom: 10px; }
@@ -1268,10 +1274,86 @@ function buildIndicatorCard(ind) {
 }
 
 /* ── ALT 4 (TERBARU) ─────────────────────────────────────────────────────── */
+
+// Bank konten rekomendasi (Mas Bukik, Juli 2026)
+// Ind 1 (Kemampuan Intelektual) dan Ind 6 (Kecerdasan Emosional) sudah lengkap.
+// Ind 2,3,4,5,7,8 → placeholder; cari // TODO: content bank untuk update.
+const indicatorContent = {
+  1: {
+    descriptions: {
+      tinggi: "Menunjukkan penerapan strategi berpikir terstruktur yang konsisten dalam mengurai informasi kompleks dan menyusun kesimpulan yang tepat. Mampu memilah data yang relevan dari yang tidak relevan ketika menghadapi laporan atau informasi yang memuat banyak variabel sekaligus. Kesimpulan yang disusun tetap konsisten dan dapat dipertanggungjawabkan bahkan ketika informasi yang tersedia saling bertentangan atau tidak lengkap.",
+      sedang: "Menunjukkan penerapan strategi berpikir terstruktur pada sebagian situasi, namun ketepatan penyusunan kesimpulan belum konsisten pada informasi yang lebih kompleks. Pada persoalan dengan sedikit variabel, mampu menyusun kesimpulan yang tepat, namun pada informasi yang melibatkan banyak data yang harus ditimbang bersamaan, prosesnya cenderung kurang sistematis. Kemampuan memilah data relevan sudah ada, namun terkadang masih terpengaruh oleh informasi yang sebenarnya kurang mendukung kesimpulan yang diambil.",
+      rendah: "Penerapan strategi berpikir terstruktur dalam mengurai informasi kompleks masih perlu penguatan, khususnya saat informasi memuat beberapa data yang perlu ditimbang bersamaan. Pada laporan atau data dengan banyak variabel, kesimpulan yang diambil cenderung didasarkan pada sebagian informasi saja tanpa mempertimbangkan data lain yang tersedia. Pola ini paling terlihat ketika informasi yang diberikan mengandung angka atau fakta yang tampak bertentangan dan perlu ditelusuri lebih lanjut sebelum menarik kesimpulan."
+    },
+    saran: {
+      optimalisasi: [
+        "Mengambil peran menelaah dokumen atau laporan kompleks sebelum dibahas bersama tim, untuk membantu mengidentifikasi poin krusial lebih awal. Telaah awal ini dapat berupa ringkasan poin-poin kunci atau daftar pertanyaan yang perlu diklarifikasi sebelum pertemuan berlangsung. Kontribusi ini membantu tim menghemat waktu diskusi karena poin-poin penting sudah lebih dahulu teridentifikasi.",
+        "Membagikan cara mengurai persoalan kompleks kepada rekan kerja saat menghadapi laporan atau data yang rumit. Cara ini dapat disampaikan melalui contoh konkret, misalnya bagaimana memilah data yang relevan atau menyusun kerangka berpikir sebelum menarik kesimpulan. Berbagi pendekatan ini membantu meningkatkan kemampuan berpikir terstruktur di tingkat tim, bukan hanya pada diri sendiri.",
+        "Mengambil bagian dalam penyusunan analisis atau kajian yang menuntut penataan informasi dari berbagai sumber. Keterlibatan ini dapat berupa menyusun kerangka analisis awal atau menyatukan data dari berbagai pihak sebelum dibahas lebih lanjut. Peran ini memberi ruang untuk terus mengasah kemampuan mengurai kompleksitas pada persoalan yang levelnya lebih tinggi."
+      ],
+      perbaikan: [
+        "Membiasakan menuliskan poin-poin kunci sebelum menarik kesimpulan dari laporan atau data yang kompleks. Poin-poin ini dapat berupa daftar fakta, angka, atau pernyataan penting yang ditemukan dalam informasi yang sedang ditelaah. Kebiasaan ini membantu memastikan kesimpulan yang diambil benar-benar didasarkan pada keseluruhan informasi, bukan sebagian saja.",
+        "Meminta rekan kerja memeriksa alur penalaran sebelum kesimpulan penting disampaikan ke pihak lain. Pemeriksaan ini dapat dilakukan secara singkat dengan menjelaskan cara kesimpulan tersebut disusun dan meminta masukan apakah ada data yang belum dipertimbangkan. Langkah ini membantu menangkap celah penalaran yang mungkin belum disadari sebelum kesimpulan disampaikan secara resmi.",
+        "Mengikuti pelatihan yang melatih keterampilan mengurai informasi kompleks menjadi bagian-bagian yang lebih mudah dikelola. Pelatihan semacam ini dapat mencakup teknik memilah data, menyusun kerangka berpikir, atau berlatih dengan studi kasus yang melibatkan banyak variabel sekaligus. Penerapan hasil pelatihan sebaiknya dimulai dari kasus-kasus dengan kompleksitas rendah sebelum diterapkan pada persoalan yang lebih rumit."
+      ]
+    }
+  },
+  2: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  },
+  3: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  },
+  4: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  },
+  5: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  },
+  6: {
+    descriptions: {
+      tinggi: "Menunjukkan kepekaan dan ketepatan yang konsisten dalam mengelola respons emosi, baik pada diri sendiri maupun orang lain, pada situasi kerja yang menuntut. Mampu mengenali perubahan suasana emosi dalam suatu pertemuan atau interaksi kerja dan menyesuaikan responsnya tanpa mengabaikan substansi permasalahan yang sedang dibahas. Ketepatan ini tetap terjaga bahkan pada situasi yang melibatkan tekanan, kritik, atau perbedaan pendapat yang tajam.",
+      sedang: "Menunjukkan kepekaan terhadap emosi dalam sebagian situasi kerja, namun ketepatan pengelolaannya belum konsisten pada situasi yang lebih menuntut. Pada pertemuan atau interaksi dengan tekanan rendah hingga sedang, mampu merespons secara tepat, tetapi pada situasi bermuatan konflik atau kritik yang tajam, responsnya cenderung kurang stabil. Kepekaan terhadap dampak emosi pada orang lain sudah ada, namun penerapannya dalam tindakan nyata belum sepenuhnya konsisten.",
+      rendah: "Kepekaan dan ketepatan pengelolaan respons emosi pada situasi kerja masih perlu penguatan, khususnya pada situasi yang melibatkan tekanan atau konflik. Pada pertemuan atau interaksi yang memicu emosi kuat, respons yang diberikan cenderung kurang mempertimbangkan dampaknya terhadap diri sendiri maupun orang lain di sekitar. Pola ini paling terlihat pada situasi yang menuntut penyeimbangan antara penyampaian substansi dan pengelolaan suasana emosi peserta lain."
+    },
+    saran: {
+      optimalisasi: [
+        "Menjadi rujukan rekan kerja saat situasi tim sedang tegang, dengan berbagi cara menenangkan diskusi tanpa mengabaikan substansi masalah. Peran ini dapat dijalankan secara alami saat rapat atau diskusi mulai memanas, tanpa perlu menunggu penunjukan formal. Konsistensi dalam peran ini membantu membangun kepercayaan tim terhadap kemampuan menjaga suasana kerja yang konstruktif.",
+        "Membagikan pengalaman menangani situasi emosional yang menantang pada forum internal unit kerja. Berbagi pengalaman ini dapat dilakukan melalui sesi refleksi singkat atau diskusi informal, dengan menekankan langkah konkret yang pernah diambil, bukan sekadar hasil akhirnya. Pendekatan ini membantu rekan kerja lain belajar dari situasi nyata, bukan hanya teori pengelolaan emosi.",
+        "Mengambil peran mediasi ringan saat terjadi perbedaan pendapat antaranggota tim. Peran ini dapat dimulai dengan menawarkan diri membantu menjembatani komunikasi ketika terlihat ada kesalahpahaman yang belum terselesaikan. Kesediaan mengambil peran ini secara proaktif memperkuat fungsi kepemimpinan informal dalam menjaga kekompakan tim."
+      ],
+      perbaikan: [
+        "Membiasakan jeda singkat sebelum merespons dalam situasi yang memicu emosi kuat, untuk memberi ruang menilai respons yang tepat. Jeda ini dapat berupa menarik napas sejenak, mencatat poin yang ingin disampaikan, atau meminta waktu singkat sebelum menanggapi secara langsung. Kebiasaan ini paling bermanfaat diterapkan pada pertemuan yang berpotensi memicu perdebatan atau kritik terbuka.",
+        "Meminta umpan balik dari rekan kerja mengenai cara mengelola situasi bermuatan emosi pada pertemuan-pertemuan sebelumnya. Umpan balik ini dapat digali melalui percakapan singkat setelah pertemuan berlangsung, dengan menanyakan bagaimana respons yang diberikan terlihat dari sudut pandang rekan kerja. Pendekatan ini membantu mengenali pola respons yang mungkin belum disadari sendiri, terutama pada situasi yang melibatkan tekanan.",
+        "Mengikuti pelatihan atau pendampingan yang berfokus pada pengelolaan emosi dalam konteks kepemimpinan atau kerja tim. Pelatihan semacam ini dapat mencakup teknik komunikasi saat menghadapi kritik, cara menjaga ketenangan dalam diskusi yang memanas, atau simulasi situasi kerja yang menantang secara emosional. Penerapan hasil pelatihan sebaiknya dipraktikkan bertahap pada situasi kerja nyata, dimulai dari interaksi berskala kecil."
+      ]
+    }
+  },
+  7: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  },
+  8: { // TODO: content bank
+    descriptions: { tinggi: "Deskripsi detail untuk indikator ini sedang disusun.", sedang: "Deskripsi detail untuk indikator ini sedang disusun.", rendah: "Deskripsi detail untuk indikator ini sedang disusun." },
+    saran: { optimalisasi: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."], perbaikan: ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."] }
+  }
+};
+
+// Threshold resmi: >4=Tinggi, 2.5–4=Sedang, <2.5=Rendah
+function getTierKey(level) {
+  if (level > 4) return 'tinggi';
+  if (level >= 2.5) return 'sedang';
+  return 'rendah';
+}
+
 function getTierV4(level) {
-  if (level >= 4) return { label: 'Potensi Kuat',      badgeClass: 'badge-success' };
-  if (level >= 2) return { label: 'Potensi Bertumbuh', badgeClass: 'badge-info' };
-  return           { label: 'Potensi Minor',           badgeClass: 'badge-neutral' };
+  if (level > 4)   return { label: 'Potensi Kuat',      badgeClass: 'badge-success' };
+  if (level >= 2.5) return { label: 'Potensi Bertumbuh', badgeClass: 'badge-info' };
+  return            { label: 'Potensi Minor',            badgeClass: 'badge-neutral' };
 }
 
 const ACTION_BOX_DATA_V4 = {
@@ -1283,6 +1365,11 @@ const ACTION_BOX_DATA_V4 = {
 function buildIndicatorCardV4(ind) {
   const i = indicators.findIndex(x => x.name === ind.name);
   const tier = getTierV4(ind.level);
+  const contentId = i + 1;
+  const tierKey = getTierKey(ind.level);
+  const desc = indicatorContent[contentId]
+    ? indicatorContent[contentId].descriptions[tierKey]
+    : "Deskripsi detail untuk indikator ini sedang disusun.";
   return `
     <div class="card peta-card">
       <div class="peta-card-header">
@@ -1292,16 +1379,48 @@ function buildIndicatorCardV4(ind) {
         <span class="text-body-bold c-default" style="flex:1;min-width:0">${ind.name}</span>
         <span class="badge ${tier.badgeClass}" style="flex-shrink:0">${tier.label}</span>
       </div>
-      <p class="text-body c-default peta-card-desc">${ind.desc}</p>
+      <p class="text-body c-default peta-card-desc">${desc}</p>
     </div>`;
+}
+
+function correctCountForInd(indIdx) {
+  let count = 0;
+  for (let q = 0; q < IND_Q_COUNTS[indIdx]; q++) {
+    if (answers[qKey(indIdx, q)] === 2) count++;
+  }
+  return count;
+}
+
+function breakTieHighest(tied) {
+  if (tied.length <= 1) return tied;
+  const counts = tied.map(ind => {
+    const indIdx = indicators.findIndex(x => x.name === ind.name);
+    return { ind, count: correctCountForInd(indIdx) };
+  });
+  const maxCount = Math.max(...counts.map(c => c.count));
+  return counts.filter(c => c.count === maxCount).map(c => c.ind);
+}
+
+function breakTieLowest(tied) {
+  if (tied.length <= 1) return tied;
+  const counts = tied.map(ind => {
+    const indIdx = indicators.findIndex(x => x.name === ind.name);
+    return { ind, count: correctCountForInd(indIdx) };
+  });
+  const minCount = Math.min(...counts.map(c => c.count));
+  return counts.filter(c => c.count === minCount).map(c => c.ind);
 }
 
 function getRecommendationTargets(inds) {
   const maxLevel = Math.max(...inds.map(i => i.level));
   const minLevel = Math.min(...inds.map(i => i.level));
-  const highest = inds.filter(i => i.level === maxLevel);
-  const lowest = inds.filter(i => i.level === minLevel);
-  return { highest, lowest: maxLevel === minLevel ? [] : lowest };
+  if (maxLevel === minLevel) return { highest: inds, lowest: [] };
+  const tiedHighest = inds.filter(i => i.level === maxLevel);
+  const tiedLowest  = inds.filter(i => i.level === minLevel);
+  return {
+    highest: breakTieHighest(tiedHighest),
+    lowest:  breakTieLowest(tiedLowest),
+  };
 }
 
 function buildRekCard(ind, rek) {
@@ -1362,15 +1481,36 @@ function renderHasilV4() {
   // Rekomendasi section
   const { highest, lowest } = getRecommendationTargets(source);
   html += `<hr class="separator" style="margin:28px 0 20px">
-    <p class="text-heading-sm c-default" style="margin-bottom:20px">Langkah Selanjutnya</p>`;
+    <p class="text-heading-sm c-default" style="margin-bottom:20px">Rekomendasi</p>`;
+
+  const buildSaranBlock = (ind, saranKey, headingLabel) => {
+    const i = indicators.findIndex(x => x.name === ind.name);
+    const contentId = i + 1;
+    const saranList = indicatorContent[contentId]
+      ? indicatorContent[contentId].saran[saranKey]
+      : ["Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun.", "Saran spesifik untuk indikator ini sedang disusun."];
+    return `
+      <div class="card" style="padding:16px 20px;margin-bottom:12px">
+        <div class="row gap-10" style="align-items:center;margin-bottom:10px">
+          <div class="ind-icon-sm ${TILES[i]}">
+            <span class="material-symbols-outlined">${ind.icon}</span>
+          </div>
+          <p class="text-body-bold c-default">${ind.name}</p>
+        </div>
+        <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px">${headingLabel}</p>
+        <ol class="saran-list">
+          ${saranList.map(s => `<li class="saran-item"><p class="text-body-sm c-default" style="line-height:1.6">${s}</p></li>`).join('')}
+        </ol>
+      </div>`;
+  };
 
   if (highest.length > 0) {
-    html += `<p class="text-body-bold c-default" style="margin-bottom:12px">Kekuatan Utamamu</p>`;
-    html += highest.map(ind => buildRekCard(ind, REK.baik)).join('');
+    html += `<p class="text-body-bold c-default" style="margin-bottom:12px">Cara mengoptimalkan kekuatan ini</p>`;
+    html += highest.map(ind => buildSaranBlock(ind, 'optimalisasi', 'Saran optimalisasi')).join('');
   }
   if (lowest.length > 0) {
-    html += `<p class="text-body-bold c-default" style="margin-top:20px;margin-bottom:12px">Area yang Perlu Perhatian</p>`;
-    html += lowest.map(ind => buildRekCard(ind, REK.perlu)).join('');
+    html += `<p class="text-body-bold c-default" style="margin-top:24px;margin-bottom:12px">Langkah untuk berkembang</p>`;
+    html += lowest.map(ind => buildSaranBlock(ind, 'perbaikan', 'Saran pengembangan')).join('');
   }
 
   html += `<p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued);margin-top:24px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>`;
