@@ -76,6 +76,7 @@
 .ind-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; }
 .ind-icon-sm { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .ind-icon-sm .material-symbols-outlined { font-size: 18px; }
+.ind-icon-sm img, .ind-icon img, .vp-icon img { width: 100%; height: 100%; object-fit: contain; }
 .done-flag { display: inline-flex; align-items: center; gap: 8px; color: #268326; font-weight: 600; font-size: 1rem; flex-shrink: 0; white-space: nowrap; }
 .done-flag .material-symbols-outlined { font-size: 24px; font-variation-settings: 'FILL' 1; }
 
@@ -124,14 +125,16 @@
 .break-part.next { background: var(--action-default); }
 .break-icon-lg { width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 24px auto 16px; }
 .break-icon-lg .material-symbols-outlined { font-size: 40px; }
+.break-icon-lg img { width: 60px; height: 60px; object-fit: contain; }
 .break-jeda-note { background: var(--surface-subdued); border-radius: var(--radius-base); padding: 12px 16px; margin-top: 20px; text-align: left; }
 
 /* Hasil */
 .score-card { display: flex; align-items: center; gap: 20px; padding: 24px; margin-bottom: 8px; }
 .score-number { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--action-default); }
 .hasil-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.hasil-banner-art { width: 64px; height: 64px; border-radius: 50%; background: #9ae5b9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hasil-banner-art { width: 64px; height: 64px; border-radius: 50%; background: #eafaf0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .hasil-banner-art .material-symbols-outlined { font-size: 36px; color: #135d15; }
+.hasil-banner-art img { width: 46px; height: 46px; object-fit: contain; }
 .section-head { display: flex; align-items: center; gap: 8px; margin: 28px 0 14px; }
 .hasil-card { padding: 18px; gap: 12px; }
 .hasil-card .ind-eyebrow { display: flex; align-items: center; gap: 10px; }
@@ -175,11 +178,12 @@
 .action-box--menonjol   { background: #ecfdf5; }
 .action-box--berkembang { background: #eff6ff; }
 .action-box--belum-muncul { background: var(--surface-subdued); }
-.action-box-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.action-box-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
 .action-box--menonjol   .action-box-icon { background: #d1fae5; color: #059669; }
 .action-box--berkembang .action-box-icon { background: #dbeafe; color: #2563eb; }
 .action-box--belum-muncul .action-box-icon { background: #e5e7eb; color: #6b7280; }
 .action-box-icon .material-symbols-outlined { font-size: 18px; }
+.action-box-icon img { width: 100%; height: 100%; object-fit: contain; }
 .action-box-body {}
 .action-box-heading { font-family: var(--font); font-size: 0.8125rem; font-weight: 700; margin-bottom: 2px; }
 .action-box--menonjol   .action-box-heading { color: #065f46; }
@@ -198,7 +202,11 @@
 .peta-section { border: 1px solid var(--border-subdued); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
 .peta-section-header { width: 100%; display: flex; align-items: center; gap: 12px; padding: 18px 20px; background: none; border: none; cursor: pointer; font-family: var(--font); text-align: left; }
 .peta-section-header:hover { background: var(--surface-subdued); }
-.peta-section-title { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-default); }
+.peta-section-title { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-default); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tag-capsule { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 625rem; font-size: 0.8125rem; font-weight: 600; }
+.tag-capsule-tinggi { background: #9ae5b9; color: #135d15; }
+.tag-capsule-sedang { background: #98dafb; color: #04287e; }
+.tag-capsule-rendah { background: #ffdfa3; color: #8b5104; }
 .peta-chevron { font-size: 22px; color: var(--text-subdued); transition: transform 0.2s ease; flex-shrink: 0; }
 .peta-section[data-open="false"] .peta-section-body { display: none; }
 .peta-section[data-open="false"] .peta-chevron { transform: rotate(-90deg); }
@@ -224,9 +232,7 @@
 
 .rek-group-desc { font-size: 0.8125rem; color: var(--text-subdued); margin: 2px 0 12px; }
 .rek-preview-row { display: flex; gap: 10px 20px; flex-wrap: wrap; }
-.rek-preview-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--text-default); font-weight: 500; }
-.rek-preview-chip .ind-icon-sm { width: 24px; height: 24px; border-radius: 6px; }
-.rek-preview-chip .ind-icon-sm .material-symbols-outlined { font-size: 15px; }
+.rek-preview-chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 625rem; background: #fff; border: 1px solid var(--border-subdued); font-size: 0.8125rem; color: var(--text-default); font-weight: 500; }
 
 /* Sedang tier gets a neutral/muted action box — should not compete for attention */
 .action-box--berkembang { background: var(--surface-subdued); }
@@ -470,8 +476,8 @@
       <div class="break-part done"></div>
       <div class="break-part done"></div>
     </div>
-    <div class="break-icon-lg tile-green" style="margin-top:28px">
-      <span class="material-symbols-outlined">workspace_premium</span>
+    <div class="break-icon-lg" style="margin-top:28px">
+      <img src="icons/spot/medal-premium.png" alt="">
     </div>
     <p class="text-heading-lg c-default" style="margin-bottom:8px">Semua bagian selesai</p>
     <p class="text-body c-subdued" style="margin-bottom:28px">Anda telah menjawab 90 soal. Profil potensi Anda sudah siap.</p>
@@ -651,7 +657,7 @@ const REK = {
 // Base indicators — questions array; entries beyond draft count are content placeholders
 // kunci = 0-based index of correct/best option
 const IND_BASE = [
-  { name: 'Kemampuan Intelektual', icon: 'psychology',
+  { name: 'Kemampuan Intelektual', icon: 'psychology', spot: 'intelektual.png',
     desc: 'Kapasitas mengolah informasi kompleks dan menerjemahkan konsep abstrak ke dalam kegiatan bermain-belajar.',
     questions: [
       { kasus: 'SMAN Nusantara mencatat data selama dua tahun berturut-turut. Jumlah siswa meningkat dari 480 menjadi 520. Jumlah guru tetap 32 orang. Nilai rata-rata ujian akhir naik dari 68,4 menjadi 74,2. Sebanyak 156 siswa tahun ini mengikuti program bimbingan belajar internal yang baru diluncurkan, sementara tahun lalu program tersebut belum ada. Frekuensi rapat koordinasi guru meningkat dari 2 menjadi 4 kali per bulan.', pertanyaan: 'Kesimpulan mana yang paling didukung oleh informasi di atas?', opsi: ['Peningkatan nilai rata-rata ujian akhir menunjukkan bahwa kualitas pengajaran guru di sekolah ini membaik.','Program bimbingan belajar adalah faktor utama yang berkontribusi terhadap naiknya nilai rata-rata ujian.','Dengan jumlah siswa yang bertambah sementara jumlah guru tetap, rata-rata jumlah siswa per guru tahun ini lebih tinggi dibandingkan tahun lalu.','Peningkatan frekuensi rapat koordinasi mendorong kerja sama guru yang lebih baik sehingga nilai siswa ikut naik.','Naiknya nilai rata-rata ujian sepenuhnya dapat dijelaskan oleh bertambahnya jumlah siswa yang aktif mengikuti bimbingan belajar.'], kunci: 2 },
@@ -662,7 +668,7 @@ const IND_BASE = [
       { kasus: 'Realisasi anggaran perjalanan dinas sebuah direktorat turun 40%. Frekuensi rapat koordinasi dengan dinas daerah naik dari 15 menjadi 38 kali per triwulan; 30 di antaranya diselenggarakan daring, sisanya tatap muka. Pada triwulan sebelumnya, seluruh rapat dilakukan tatap muka. Keluhan daerah terkait koordinasi turun dari 12 menjadi 9.', pertanyaan: 'Kesimpulan mana yang paling didukung oleh informasi di atas?', opsi: ['Rapat daring terbukti lebih efektif menyelesaikan persoalan koordinasi dengan daerah.','Penurunan anggaran perjalanan dinas disebabkan oleh berkurangnya kebutuhan koordinasi.','Daerah lebih menyukai koordinasi melalui rapat daring dibandingkan tatap muka.','Kualitas koordinasi meningkat seiring bertambahnya frekuensi rapat.','Seluruh penambahan frekuensi rapat koordinasi berasal dari rapat daring, karena jumlah rapat tatap muka justru berkurang dari periode sebelumnya.'], kunci: 4 },
     ]
   },
-  { name: 'Kemampuan Interpersonal', icon: 'diversity_3',
+  { name: 'Kemampuan Interpersonal', icon: 'diversity_3', spot: 'interpersonal.png',
     desc: 'Keterampilan membangun relasi positif, kolaboratif, dan empatik dengan anak didik, sejawat, serta orang tua/wali murid.',
     questions: [
       { kasus: 'Anda adalah wali kelas yang sedang memimpin rapat persiapan laporan hasil belajar semester. Di tengah diskusi, seorang rekan guru menyatakan bahwa cara Anda menghitung nilai akhir tidak sesuai dengan yang telah disepakati bersama sebelumnya — ada komponen nilai yang menurutnya terlewat. Beberapa guru lain yang hadir mulai terlihat ragu dan menunggu respons Anda.', pertanyaan: 'Respons apa yang paling tepat untuk Anda ambil dalam situasi ini?', opsi: ['Menjelaskan kembali cara perhitungan yang Anda gunakan beserta dasar kesepakatannya, agar diskusi dapat segera dilanjutkan.','Membuka dokumen kesepakatan penilaian bersama di rapat, memverifikasi apakah memang ada komponen yang terlewat, lalu menyepakati koreksi jika diperlukan.','Meminta rekan guru lain untuk memberikan pandangan mengenai cara perhitungan mana yang terlihat lebih sesuai sebelum rapat dilanjutkan.','Meminta rekan tersebut mendiskusikan keberatannya secara terpisah setelah rapat berakhir, agar jalannya rapat tidak terganggu.','Mencatat keberatan tersebut sebagai bahan tindak lanjut, lalu melanjutkan rapat dengan perhitungan yang sudah ada karena waktunya terbatas.'], kunci: 1 },
@@ -670,7 +676,7 @@ const IND_BASE = [
       { kasus: 'Seorang pegawai yang baru tiga bulan pindah ke unit Anda tampak semakin jarang berbicara dalam rapat tim, setelah dua usulannya pada rapat-rapat sebelumnya tidak dibahas lebih lanjut. Dalam pekerjaan harian ia tetap menyelesaikan tugas dengan baik.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Memberinya peran memimpin salah satu agenda rapat berikutnya agar kepercayaan dirinya kembali tumbuh.','Mengajaknya berbincang santai di luar rapat untuk memahami pandangannya, lalu pada rapat berikutnya membuka ruang secara khusus agar usulannya terbahas.','Menyampaikan di awal rapat berikutnya bahwa semua usulan anggota akan dicatat dan ditindaklanjuti.','Memberinya waktu menyesuaikan diri terlebih dahulu karena tiga bulan masih tergolong masa adaptasi.','Meminta pegawai senior yang dekat dengannya untuk mengajaknya lebih aktif dalam diskusi tim.'], kunci: 1 },
     ]
   },
-  { name: 'Kesadaran Diri', icon: 'self_improvement',
+  { name: 'Kesadaran Diri', icon: 'self_improvement', spot: 'kesadaran-diri.png',
     desc: 'Kemampuan mengenali kekuatan, keterbatasan, dan emosi pribadi serta dampaknya terhadap lingkungan belajar.',
     questions: [
       { kasus: 'Seorang guru baru saja menyelesaikan sesi observasi mengajar yang diwajibkan sekolah. Pada sesi umpan balik, pengawas menyampaikan bahwa penjelasannya terlalu cepat dan terlalu asumtif terhadap tingkat pemahaman siswa. Beberapa rekan guru yang turut mengobservasi tampak mengangguk setuju dengan penilaian tersebut.', pertanyaan: 'Ketika Anda menghadapi situasi seperti ini, apa yang biasanya Anda lakukan?', opsi: ['Meninjau ulang catatan atau rekaman sesi mengajar itu sendiri untuk mengidentifikasi momen spesifik di mana penjelasan mungkin terlalu cepat, sebelum mengubah pendekatan.','Menerima catatan tersebut, lalu mengajar di sesi berikutnya dengan cara yang sama karena yakin penyesuaian kecepatan sudah dilakukan secara otomatis.','Meminta pengawas menunjukkan momen spesifik dalam sesi tersebut yang dinilai terlalu cepat, lalu bersama-sama merancang langkah penyesuaian konkret untuk sesi berikutnya.','Menjelaskan kepada pengawas bahwa materi yang diajarkan memang padat dan perlu tempo cepat agar semua topik tersampaikan dalam waktu yang tersedia.','Menerima masukan tersebut dan berencana untuk mencoba cara mengajar yang berbeda di sesi berikutnya, meski belum tahu persis bagian mana yang perlu diubah terlebih dahulu.'], kunci: 2 },
@@ -678,7 +684,7 @@ const IND_BASE = [
       { kasus: 'Sari menerima hasil survei internal unit: sebagian besar anggota timnya menilai arahan darinya sering berubah-ubah. Sari sendiri merasa ia selalu menyesuaikan arahan dengan perkembangan situasi, bukan berubah-ubah tanpa alasan.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Menilai bahwa anggota tim kurang tanggap mengikuti perkembangan situasi yang memang dinamis.','Membahas hasil survei secara terbuka dengan tim untuk memahami momen yang mereka maksud, lalu menyepakati cara mengomunikasikan perubahan arahan ke depan.','Melanjutkan cara kerja sekarang karena perubahan arahan memang bagian dari dinamika pekerjaan.','Mencoba mengenali sendiri kapan saja saya mengubah arahan tanpa menjelaskan alasannya kepada tim.','Memaklumi hasil survei karena situasi kerja unit memang sering berubah di luar kendali saya.'], kunci: 1 },
     ]
   },
-  { name: 'Berpikir Kritis & Strategis', icon: 'query_stats',
+  { name: 'Berpikir Kritis & Strategis', icon: 'query_stats', spot: 'kritis-strategis.png',
     desc: 'Kemampuan menganalisis situasi kelas secara mendalam dan merancang langkah jangka panjang.',
     questions: [
       { kasus: 'Pimpinan meminta unit Anda segera mereplikasi program layanan yang dinilai sukses di provinsi lain, dan meminta rencana implementasi dalam dua minggu. Dari paparan yang tersedia, keberhasilan program itu banyak dikaitkan dengan dukungan anggaran daerah dan jumlah pendamping lapangan yang besar.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menyusun rencana implementasi penuh sesuai arahan agar momentum dukungan pimpinan tidak hilang.','Menjalankan program secara serentak dengan penyesuaian kecil mengikuti anggaran yang tersedia.','Mengusulkan penundaan program sampai tersedia anggaran dan pendamping yang setara dengan provinsi asal.','Menelaah faktor apa saja yang membuat program itu berhasil di provinsi asal, memeriksa mana yang tersedia di wilayah kerja Anda, lalu mengusulkan uji coba terbatas sebagai bagian dari rencana implementasi.','Meminta provinsi asal memaparkan programnya langsung kepada pimpinan agar keputusan diambil dengan informasi yang lengkap.'], kunci: 3 },
@@ -686,7 +692,7 @@ const IND_BASE = [
       { kasus: 'Memasuki triwulan akhir, penyerapan anggaran unit Anda baru 55 persen. Pola serupa terjadi dalam dua tahun terakhir dan selalu diselesaikan dengan memadatkan banyak kegiatan di akhir tahun. Pimpinan meminta Anda memastikan penyerapan tahun ini optimal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menyusun jadwal percepatan seluruh kegiatan yang tertunda agar target penyerapan tercapai.','Memprioritaskan kegiatan yang paling sederhana pelaksanaannya agar angka realisasi cepat bertambah.','Mengajukan revisi anggaran untuk mengalihkan dana ke kegiatan yang lebih siap dijalankan.','Melaporkan kepada pimpinan proyeksi penyerapan yang realistis beserta risiko bila seluruh kegiatan dipaksakan.','Merealisasikan kegiatan prioritas yang memang siap dijalankan, sambil menelaah penyebab pola keterlambatan yang berulang dan mengusulkan perbaikan perencanaan untuk tahun berikutnya.'], kunci: 4 },
     ]
   },
-  { name: 'Penyelesaian Masalah', icon: 'handyman',
+  { name: 'Penyelesaian Masalah', icon: 'handyman', spot: 'penyelesaian-masalah.png',
     desc: 'Ketangkasan menemukan solusi kreatif dan praktis atas kendala teknis maupun pedagogis di sekolah.',
     questions: [
       { kasus: 'Tim Anda memverifikasi formulir usulan bantuan sarana dari sekolah. Setiap periode, lebih dari separuh formulir harus dikembalikan atau dikoreksi manual karena kesalahan pengisian, sehingga verifikasi selalu melewati jadwal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menambah petugas verifikasi pada periode puncak agar koreksi selesai tepat waktu.','Menyelenggarakan pelatihan pengisian formulir bagi seluruh sekolah sebelum periode berikutnya.','Menelusuri pola kesalahan yang paling sering muncul untuk menemukan bagian formulir atau petunjuk yang membingungkan, lalu memperbaikinya dari sumbernya.','Membentuk tim kecil khusus yang menangani koreksi agar petugas lain fokus pada verifikasi.','Mengembalikan seluruh formulir yang salah kepada sekolah disertai catatan perbaikan yang rinci.'], kunci: 2 },
@@ -694,7 +700,7 @@ const IND_BASE = [
       { kasus: 'Loket layanan terpadu di kantor Anda selalu mengalami penumpukan antrean pada minggu pertama setiap bulan dan memicu keluhan. Di luar minggu itu antrean normal. Jumlah petugas dan jam layanan sudah maksimal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Mengajukan penambahan loket dan petugas tidak tetap khusus untuk minggu pertama.','Memperpanjang jam layanan selama minggu pertama setiap bulan.','Mengumumkan kepada masyarakat agar sedapat mungkin mengurus layanan di luar minggu pertama.','Menganalisis data antrean untuk mengetahui jenis layanan apa yang menumpuk di minggu pertama dan mengapa terkonsentrasi di waktu itu, lalu merancang penanganan khusus untuk jenis layanan tersebut.','Menerapkan sistem nomor antrean daring agar masyarakat tidak perlu menunggu di lokasi.'], kunci: 3 },
     ]
   },
-  { name: 'Kecerdasan Emosional', icon: 'favorite',
+  { name: 'Kecerdasan Emosional', icon: 'favorite', spot: 'emosional.png',
     desc: 'Kemampuan mengelola emosi pribadi dan merespons tantrum atau konflik dengan tenang dan bijak.',
     questions: [
       { kasus: 'Dalam rapat lintas unit, Anda baru mengetahui bahwa usulan program yang Anda siapkan selama dua bulan diputuskan tidak dilanjutkan — keputusan itu disampaikan pimpinan secara sepintas sebelum berpindah agenda. Beberapa peserta melirik ke arah Anda menunggu reaksi.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menanyakan langsung dalam forum alasan keputusan tersebut agar semua peserta mendengar penjelasan yang sama.','Menyampaikan secara terbuka bahwa Anda kecewa namun menghormati keputusan pimpinan.','Tidak menanggapi dan mengikuti agenda selanjutnya seolah tidak terjadi apa-apa.','Meminta jeda sejenak untuk menenangkan diri sebelum rapat dilanjutkan.','Menanggapi singkat bahwa Anda mencatat keputusan itu dan akan meminta penjelasan setelah rapat, lalu mengikuti agenda berikutnya dengan sikap biasa.'], kunci: 4 },
@@ -702,7 +708,7 @@ const IND_BASE = [
       { kasus: 'Menjelang tenggat laporan gabungan, di grup pesan kerja yang beranggotakan seluruh tim, seorang rekan menulis bahwa keterlambatan terjadi karena data dari Anda selalu terlambat. Anda mengetahui keterlambatan sebenarnya berasal dari beberapa pihak, termasuk revisi mendadak dari rekan itu sendiri. Pesan tersebut sudah dibaca hampir semua anggota.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menjelaskan kronologi lengkap di grup disertai bukti tangkapan layar agar duduk perkara jelas bagi semua anggota.','Membalas dengan menunjukkan bahwa revisi mendadak dari rekan tersebut juga berkontribusi pada keterlambatan.','Membalas singkat dan netral bahwa Anda akan memeriksa kronologinya, lalu menghubungi rekan tersebut secara pribadi untuk meluruskan, dan menyepakati klarifikasi bersama di grup.','Tidak membalas di grup dan langsung menyelesaikan bagian laporan Anda agar pekerjaan tidak semakin tertunda.','Menghubungi ketua tim agar persoalan tersebut diluruskan olehnya sebagai pihak yang netral.'], kunci: 2 },
     ]
   },
-  { name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch',
+  { name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch', spot: 'belajar-cepat.png',
     desc: 'Agilitas menguasai metode/teknologi baru dan proaktif mencari peluang peningkatan kompetensi.',
     questions: [
       { kasus: 'Unit kerja Raka akan diwajibkan menggunakan aplikasi pengolah data baru mulai bulan depan. Panduan resmi dan jadwal pelatihannya belum tersedia lengkap.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Membaca sekilas daftar fitur aplikasi tersebut agar tidak asing ketika pelatihan resmi dimulai.','Tetap menggunakan cara kerja lama sampai aplikasi benar-benar diwajibkan.','Mencoba aplikasi itu pada pekerjaan nyata berskala kecil, mencatat kendalanya, lalu membagikan cara penggunaannya kepada rekan satu unit.','Menunggu pelatihan resmi karena mempelajari tanpa panduan berisiko menimbulkan kebiasaan yang salah.','Mencoba sendiri fitur-fitur utama menggunakan data latihan sampai merasa cukup terbiasa.'], kunci: 2 },
@@ -710,7 +716,7 @@ const IND_BASE = [
       { kasus: 'Dalam forum lintas unit, Bima melihat unit lain menggunakan cara kerja yang tampak jauh lebih ringkas untuk jenis tugas yang serupa dengan tugas unitnya.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Mempelajari cara kerja itu, mengujinya pada satu pekerjaan di unit saya, lalu mengusulkan penerapannya bila terbukti lebih baik.','Menanyakan garis besar cara kerja itu karena penasaran, tanpa menindaklanjutinya lebih jauh.','Menunggu apakah cara kerja itu nantinya dijadikan standar bersama sebelum mempelajarinya.','Mempelajari detail cara kerja itu sampai memahami logikanya, sebagai tambahan wawasan pribadi.','Tetap menggunakan cara kerja unit saya karena sudah berjalan dan terbukti selama ini.'], kunci: 0 },
     ]
   },
-  { name: 'Motivasi & Komitmen', icon: 'bolt',
+  { name: 'Motivasi & Komitmen', icon: 'bolt', spot: 'motivasi-komitmen.png',
     desc: 'Ketekunan menjalankan tugas guru meskipun menghadapi hambatan administratif atau keterbatasan fasilitas.',
     questions: [
       { kasus: 'Usulan perbaikan proses kerja dari Tia sudah dua kali diajukan dan belum juga ditindaklanjuti pimpinan. Sementara itu pekerjaan rutinnya sendiri sedang padat.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Mengajukan kembali usulan itu bila diminta atau ketika ada forum resmi yang membahasnya.','Terus mematangkan usulan tersebut sambil menunggu momen yang lebih tepat untuk mengajukannya kembali.','Memfokuskan energi pada pekerjaan rutin dan tidak mengajukan usulan itu lagi.','Sesekali menyinggung usulan itu dalam rapat, meskipun semangat saya menurun setiap kali belum ada tanggapan.','Memecah usulan menjadi perbaikan-perbaikan kecil yang dapat dijalankan di lingkup tim sendiri, sambil terus membangun dukungan untuk usulan utuhnya.'], kunci: 4 },
@@ -899,14 +905,14 @@ function renderHome() {
     : `<div class="commit-card">
         <div class="vp-row">
           <div class="vp-card">
-            <div class="vp-icon tile-blue"><span class="material-symbols-outlined">explore</span></div>
+            <div class="vp-icon"><img src="icons/spot/explore-beacon.png" alt=""></div>
             <div class="col gap-4">
               <p class="text-heading-sm c-default">Petakan potensi Anda sebagai pendidik</p>
               <p class="text-body-sm c-subdued" style="line-height:1.55">Kenali 8 area potensi Anda berdasarkan indikator resmi ASN dan pahami di mana kekuatan sesungguhnya berada.</p>
             </div>
           </div>
           <div class="vp-card">
-            <div class="vp-icon tile-green"><span class="material-symbols-outlined">verified</span></div>
+            <div class="vp-icon"><img src="icons/spot/verified-badge.png" alt=""></div>
             <div class="col gap-4">
               <p class="text-heading-sm c-default">Jadi dasar penempatan yang lebih tepat</p>
               <p class="text-body-sm c-subdued" style="line-height:1.55">Sebagai bagian dari Manajemen Talenta ASN, hasil asesmen Anda membantu memastikan penempatan tenaga pendidik sesuai potensi.</p>
@@ -1195,7 +1201,7 @@ function renderHasil() {
             <span class="material-symbols-outlined">auto_awesome</span> ${rekCount} rekomendasi pengembangan
           </span>
         </div>
-        <div class="hasil-banner-art"><span class="material-symbols-outlined">workspace_premium</span></div>
+        <div class="hasil-banner-art"><img src="icons/spot/medal-premium.png" alt=""></div>
       </div>
     </div>
 
@@ -1334,9 +1340,9 @@ const indicatorDescriptions = {
 };
 
 const ACTION_BOX_DATA = {
-  'Menonjol':     { icon: 'emoji_events', modClass: 'action-box--menonjol',    heading: 'Ini saatnya ditajamkan',        text: 'Coba cari komunitas atau proyek nyata yang bisa mengasah potensi ini lebih jauh.' },
-  'Berkembang':   { icon: 'trending_up',  modClass: 'action-box--berkembang',   heading: 'Masih ada ruang untuk tumbuh', text: 'Luangkan waktu untuk berlatih dan eksplorasi lebih dalam di area ini.' },
-  'Belum Muncul': { icon: 'info',         modClass: 'action-box--belum-muncul', heading: 'Belum jadi prioritas sekarang', text: 'Tidak apa-apa jika ini belum menonjol — fokus dulu pada yang sudah kuat.' }
+  'Menonjol':     { img: 'icons/spot/medal-premium.png', modClass: 'action-box--menonjol',    heading: 'Ini saatnya ditajamkan',        text: 'Coba cari komunitas atau proyek nyata yang bisa mengasah potensi ini lebih jauh.' },
+  'Berkembang':   { img: 'icons/spot/growth-chart.png',  modClass: 'action-box--berkembang',   heading: 'Masih ada ruang untuk tumbuh', text: 'Luangkan waktu untuk berlatih dan eksplorasi lebih dalam di area ini.' },
+  'Belum Muncul': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--belum-muncul', heading: 'Belum jadi prioritas sekarang', text: 'Tidak apa-apa jika ini belum menonjol — fokus dulu pada yang sudah kuat.' }
 };
 
 function buildActionBox(tierLabel) {
@@ -1344,7 +1350,7 @@ function buildActionBox(tierLabel) {
   if (!d) return '';
   return `
     <div class="action-box ${d.modClass}">
-      <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
+      <div class="action-box-icon"><img src="${d.img}" alt=""></div>
       <div class="action-box-body">
         <div class="action-box-heading">${d.heading}</div>
         <div class="action-box-text">${d.text}</div>
@@ -1359,8 +1365,8 @@ function buildIndicatorCard(ind) {
   return `
     <div class="card peta-card">
       <div class="peta-card-header">
-        <div class="ind-icon-sm ${TILES[i]}" style="flex-shrink:0">
-          <span class="material-symbols-outlined">${ind.icon}</span>
+        <div class="ind-icon-sm" style="flex-shrink:0">
+          <img src="icons/spot/${ind.spot}" alt="">
         </div>
         <span class="text-body-bold c-default" style="flex:1;min-width:0">${ind.name}</span>
         <span class="badge ${tier.badgeClass}" style="flex-shrink:0">${tier.label}</span>
@@ -1512,14 +1518,13 @@ function getTierV4(level) {
 }
 
 const ACTION_BOX_DATA_V4 = {
-  'Potensi Tinggi': { icon: 'emoji_events', modClass: 'action-box--menonjol',    heading: 'Kekuatan utama Anda', text: 'Potensi Anda paling menonjol di area ini. Andalkan dan terus pertajam — di sinilah kontribusi Anda paling terasa.' },
-  'Potensi Sedang': { icon: 'eco',          modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih berkembang. Tidak perlu dipaksakan — biarkan berkembang seiring pengalaman Anda.' },
-  'Potensi Rendah': { icon: 'search',       modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak masalah — fokus terlebih dahulu pada kekuatan Anda.' },
+  'Potensi Tinggi': { img: 'icons/spot/medal-premium.png', modClass: 'action-box--menonjol',    heading: 'Kekuatan utama Anda', text: 'Potensi Anda paling menonjol di area ini. Andalkan dan terus pertajam — di sinilah kontribusi Anda paling terasa.' },
+  'Potensi Sedang': { img: 'icons/spot/growth-chart.png',  modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih berkembang. Tidak perlu dipaksakan — biarkan berkembang seiring pengalaman Anda.' },
+  'Potensi Rendah': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak masalah — fokus terlebih dahulu pada kekuatan Anda.' },
 };
 
 function buildIndicatorCardV4(ind) {
   const i = indicators.findIndex(x => x.name === ind.name);
-  const tier = getTierV4(ind.level);
   const contentId = i + 1;
   const tierKey = getTierKey(ind.level);
   const desc = indicatorContent[contentId]
@@ -1528,11 +1533,10 @@ function buildIndicatorCardV4(ind) {
   return `
     <div class="card peta-card">
       <div class="peta-card-header">
-        <div class="ind-icon-sm ${TILES[i]}" style="flex-shrink:0">
-          <span class="material-symbols-outlined">${ind.icon}</span>
+        <div class="ind-icon-sm" style="flex-shrink:0">
+          <img src="icons/spot/${ind.spot}" alt="">
         </div>
         <span class="text-body-bold c-default" style="flex:1;min-width:0">${ind.name}</span>
-        <span class="badge ${tier.badgeClass}" style="flex-shrink:0">${tier.label}</span>
       </div>
       <p class="text-body c-default peta-card-desc">${desc}</p>
     </div>`;
@@ -1552,8 +1556,8 @@ function buildRekCard(ind, rek) {
   return `
     <div class="card" style="padding:16px 20px;margin-bottom:12px">
       <div class="row gap-10" style="align-items:center;margin-bottom:12px">
-        <div class="ind-icon-sm ${TILES[i]}">
-          <span class="material-symbols-outlined">${ind.icon}</span>
+        <div class="ind-icon-sm">
+          <img src="icons/spot/${ind.spot}" alt="">
         </div>
         <p class="text-body-bold c-default">${ind.name}</p>
       </div>
@@ -1580,8 +1584,8 @@ function buildSaranBlockShared(ind, saranKey, headingLabel) {
   return `
     <div class="card" style="padding:16px 20px;margin-bottom:12px">
       <div class="row" style="align-items:center;gap:14px;margin-bottom:14px">
-        <div class="ind-icon-sm ${TILES[i]}" style="width:40px;height:40px;border-radius:10px">
-          <span class="material-symbols-outlined" style="font-size:22px">${ind.icon}</span>
+        <div class="ind-icon-sm" style="width:40px;height:40px;border-radius:10px">
+          <img src="icons/spot/${ind.spot}" alt="">
         </div>
         <p class="text-body-bold c-default">${ind.name}</p>
       </div>
@@ -1592,19 +1596,15 @@ function buildSaranBlockShared(ind, saranKey, headingLabel) {
     </div>`;
 }
 
-function buildRekGroupShared(tierKey, label, desc, inds, saranKey, headingLabel, badgeClass) {
+function buildRekGroupShared(tierKey, label, inds, saranKey, headingLabel, badgeClass) {
   if (inds.length === 0) return '';
-  const chips = inds.map(ind => {
-    const i = indicators.findIndex(x => x.name === ind.name);
-    return `<span class="rek-preview-chip"><span class="ind-icon-sm ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></span>${ind.name}</span>`;
-  }).join('');
+  const chips = inds.map(ind => `<span class="rek-preview-chip">${ind.name}</span>`).join('');
   return `
     <div class="peta-section" data-open="false">
       <button class="peta-section-header" style="align-items:flex-start" onclick="togglePetaSection(this)">
         <div class="col" style="flex:1;min-width:0">
           <span class="peta-section-title">${label}</span>
-          <span class="rek-group-desc">${desc}</span>
-          <div class="rek-preview-row">${chips}</div>
+          <div class="rek-preview-row" style="margin-top:8px">${chips}</div>
         </div>
         <span class="badge ${badgeClass}">${inds.length}</span>
         <span class="material-symbols-outlined peta-chevron">expand_more</span>
@@ -1618,13 +1618,23 @@ function buildRekGroupShared(tierKey, label, desc, inds, saranKey, headingLabel,
 function renderHasilV4() {
   const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
 
-  // DR-2: attention order is Tinggi → Rendah → Sedang. Sedang collapsed by default (least attention).
+  // Cards Profil Potensi dibiarkan uncollapsed by default untuk sekarang.
   const tierMeta = {
     'Potensi Tinggi': { key: 'tinggi', defaultOpen: true },
     'Potensi Rendah': { key: 'rendah', defaultOpen: true },
-    'Potensi Sedang': { key: 'sedang', defaultOpen: false },
+    'Potensi Sedang': { key: 'sedang', defaultOpen: true },
   };
   const tierOrder = ['Potensi Tinggi', 'Potensi Rendah', 'Potensi Sedang'];
+  const tierTagline = {
+    'Potensi Tinggi': 'Andalkan dan Pertajam',
+    'Potensi Sedang': 'Pertahankan',
+    'Potensi Rendah': 'Benahi Perlahan',
+  };
+  const tierCapsuleClass = {
+    'Potensi Tinggi': 'tag-capsule-tinggi',
+    'Potensi Sedang': 'tag-capsule-sedang',
+    'Potensi Rendah': 'tag-capsule-rendah',
+  };
 
   // ── Zona 1: Profil Potensi ──────────────────────────────────────────────
   let html = `<div class="v4-zone" data-zone="profil">
@@ -1643,18 +1653,12 @@ function renderHasilV4() {
     html += `
       <div class="peta-section" data-open="${meta.defaultOpen}" style="margin-top:16px">
         <button class="peta-section-header" onclick="togglePetaSection(this)">
-          <span class="peta-section-title">${tierLabel}</span>
+          <span class="peta-section-title">${tierLabel}<span class="tag-capsule ${tierCapsuleClass[tierLabel]}">${tierTagline[tierLabel]}</span></span>
           <span class="badge ${tier.badgeClass}">${inds.length}</span>
           <span class="material-symbols-outlined peta-chevron">expand_more</span>
         </button>
         <div class="peta-section-body">
-          <div class="action-box ${d.modClass}" style="margin-bottom:14px">
-            <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
-            <div class="action-box-body">
-              <div class="action-box-heading">${d.heading}</div>
-              <div class="action-box-text">${d.text}</div>
-            </div>
-          </div>
+          <p class="text-body-sm c-subdued" style="margin-bottom:14px;line-height:1.6">${d.text}</p>
           ${inds.map(buildIndicatorCardV4).join('')}
         </div>
       </div>`;
@@ -1667,8 +1671,8 @@ function renderHasilV4() {
   html += `<div class="v4-zone v4-zone--rekomendasi" data-zone="rekomendasi">
     <div class="zone-tag"><span class="zone-tag-num">2</span><span class="zone-tag-label">Rekomendasi — langkah yang bisa Anda ambil</span></div>
     <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
-    ${buildRekGroupShared('tinggi', 'Optimalkan Potensi Tinggi Anda', 'Perkuat area yang sudah menonjol', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
-    ${buildRekGroupShared('rendah', 'Berkembang di Potensi Rendah', 'Langkah kecil untuk area yang belum banyak muncul', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
+    ${buildRekGroupShared('tinggi', 'Potensi Tinggi: Andalkan dan Pertajam', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
+    ${buildRekGroupShared('rendah', 'Potensi Rendah: Benahi Perlahan', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
   </div>`;
 
   html += `<p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued);margin-top:24px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>`;
