@@ -214,6 +214,29 @@
 .peta-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .peta-card-desc { line-height: 1.65; margin-bottom: 10px; }
 .peta-card-arahan { color: var(--text-subdued); }
+
+/* ── Alt 4 design polish (DR-1..DR-4) ─────────────────────────────────────── */
+.v4-zone { margin-bottom: 8px; }
+.zone-tag { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.zone-tag-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gray-90, #212121); color: #fff; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.zone-tag-label { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; color: var(--text-subdued); }
+.v4-zone--rekomendasi { margin-top: 8px; padding-top: 24px; border-top: 1px solid var(--border-subdued); }
+
+.rek-group-desc { font-size: 0.8125rem; color: var(--text-subdued); margin: 2px 0 12px; }
+.rek-preview-row { display: flex; gap: 10px 20px; flex-wrap: wrap; }
+.rek-preview-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--text-default); font-weight: 500; }
+.rek-preview-chip .ind-icon-sm { width: 24px; height: 24px; border-radius: 6px; }
+.rek-preview-chip .ind-icon-sm .material-symbols-outlined { font-size: 15px; }
+
+/* Sedang tier gets a neutral/muted action box — should not compete for attention */
+.action-box--berkembang { background: var(--surface-subdued); }
+.action-box--berkembang .action-box-icon { background: #d8d8d8; color: #5e5e5e; }
+.action-box--berkembang .action-box-heading { color: var(--text-default); }
+/* Rendah tier gets a soft amber cue — distinct class so Alt 3's neutral "Belum Muncul" box is untouched */
+.action-box--rendah-v4 { background: #fef3e2; }
+.action-box--rendah-v4 .action-box-icon { background: #fce3b6; color: #8b5104; }
+.action-box--rendah-v4 .action-box-heading { color: #8b5104; }
+
 </style>
 </head>
 <body>
@@ -1484,14 +1507,14 @@ function getTierKey(level) {
 
 function getTierV4(level) {
   if (level >= 4) return { label: 'Potensi Tinggi', badgeClass: 'badge-success' };
-  if (level >= 2) return { label: 'Potensi Sedang', badgeClass: 'badge-info' };
-  return           { label: 'Potensi Rendah',        badgeClass: 'badge-neutral' };
+  if (level >= 2) return { label: 'Potensi Sedang', badgeClass: 'badge-neutral' };
+  return           { label: 'Potensi Rendah',        badgeClass: 'badge-warning' };
 }
 
 const ACTION_BOX_DATA_V4 = {
   'Potensi Tinggi': { icon: 'emoji_events', modClass: 'action-box--menonjol',    heading: 'Kekuatan utamamu',    text: 'Potensimu paling menonjol di area ini. Andalkan dan terus pertajam — di sinilah kontribusimu paling terasa.' },
   'Potensi Sedang': { icon: 'eco',          modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih tumbuh. Tidak perlu dipaksakan — biarkan berkembang seiring pengalamanmu.' },
-  'Potensi Rendah': { icon: 'search',       modClass: 'action-box--belum-muncul', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak apa-apa — fokus dulu pada kekuatanmu.' },
+  'Potensi Rendah': { icon: 'search',       modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak apa-apa — fokus dulu pada kekuatanmu.' },
 };
 
 function buildIndicatorCardV4(ind) {
@@ -1548,71 +1571,105 @@ function buildRekCard(ind, rek) {
     </div>`;
 }
 
+function buildSaranBlockShared(ind, saranKey, headingLabel) {
+  const i = indicators.findIndex(x => x.name === ind.name);
+  const contentId = i + 1;
+  const saranList = indicatorContent[contentId]
+    ? indicatorContent[contentId].saran[saranKey]
+    : ["Saran untuk indikator ini menunggu bank konten final.", "Saran untuk indikator ini menunggu bank konten final.", "Saran untuk indikator ini menunggu bank konten final."];
+  return `
+    <div class="card" style="padding:16px 20px;margin-bottom:12px">
+      <div class="row" style="align-items:center;gap:14px;margin-bottom:14px">
+        <div class="ind-icon-sm ${TILES[i]}" style="width:40px;height:40px;border-radius:10px">
+          <span class="material-symbols-outlined" style="font-size:22px">${ind.icon}</span>
+        </div>
+        <p class="text-body-bold c-default">${ind.name}</p>
+      </div>
+      <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px">${headingLabel}</p>
+      <ol class="saran-list">
+        ${saranList.map(s => `<li class="saran-item"><p class="text-body-sm c-default" style="line-height:1.6">${s}</p></li>`).join('')}
+      </ol>
+    </div>`;
+}
+
+function buildRekGroupShared(tierKey, label, desc, inds, saranKey, headingLabel, badgeClass) {
+  if (inds.length === 0) return '';
+  const chips = inds.map(ind => {
+    const i = indicators.findIndex(x => x.name === ind.name);
+    return `<span class="rek-preview-chip"><span class="ind-icon-sm ${TILES[i]}"><span class="material-symbols-outlined">${ind.icon}</span></span>${ind.name}</span>`;
+  }).join('');
+  return `
+    <div class="peta-section" data-open="false">
+      <button class="peta-section-header" style="align-items:flex-start" onclick="togglePetaSection(this)">
+        <div class="col" style="flex:1;min-width:0">
+          <span class="peta-section-title">${label}</span>
+          <span class="rek-group-desc">${desc}</span>
+          <div class="rek-preview-row">${chips}</div>
+        </div>
+        <span class="badge ${badgeClass}">${inds.length}</span>
+        <span class="material-symbols-outlined peta-chevron">expand_more</span>
+      </button>
+      <div class="peta-section-body">
+        ${inds.map(ind => buildSaranBlockShared(ind, saranKey, headingLabel)).join('')}
+      </div>
+    </div>`;
+}
+
 function renderHasilV4() {
   const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
-  const tierOrder = ['Potensi Tinggi', 'Potensi Sedang', 'Potensi Rendah'];
-  const badgeClasses = { 'Potensi Tinggi': 'badge-success', 'Potensi Sedang': 'badge-info', 'Potensi Rendah': 'badge-neutral' };
 
-  let html = `<div style="margin-bottom:8px">
-    <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensimu</p>
-    <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensimu berdasarkan hasil asesmen. Tidak ada yang benar atau salah — ini adalah titik awal untuk berkembang.</p>
-  </div>`;
+  // DR-2: attention order is Tinggi → Rendah → Sedang. Sedang collapsed by default (least attention).
+  const tierMeta = {
+    'Potensi Tinggi': { key: 'tinggi', defaultOpen: true },
+    'Potensi Rendah': { key: 'rendah', defaultOpen: true },
+    'Potensi Sedang': { key: 'sedang', defaultOpen: false },
+  };
+  const tierOrder = ['Potensi Tinggi', 'Potensi Rendah', 'Potensi Sedang'];
+
+  // ── Zona 1: Profil Potensi ──────────────────────────────────────────────
+  let html = `<div class="v4-zone" data-zone="profil">
+    <div class="zone-tag"><span class="zone-tag-num">1</span><span class="zone-tag-label">Profil Potensi — apa hasilmu</span></div>
+    <div style="margin-bottom:8px">
+      <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensimu</p>
+      <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensimu berdasarkan hasil asesmen. Tidak ada yang benar atau salah — ini adalah titik awal untuk berkembang.</p>
+    </div>`;
 
   for (const tierLabel of tierOrder) {
     const inds = source.filter(ind => getTierV4(ind.level).label === tierLabel).sort((a, b) => b.level - a.level);
     if (inds.length === 0) continue;
+    const meta = tierMeta[tierLabel];
     const d = ACTION_BOX_DATA_V4[tierLabel];
+    const tier = getTierV4(inds[0].level);
     html += `
-      <div style="margin-top:24px">
-        <div class="section-head" style="margin-bottom:12px">
-          <p class="text-heading-sm c-default">${tierLabel}</p>
-          <span class="badge ${badgeClasses[tierLabel]}">${inds.length}</span>
-        </div>
-        <div class="action-box ${d.modClass}" style="margin-bottom:14px">
-          <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
-          <div class="action-box-body">
-            <div class="action-box-heading">${d.heading}</div>
-            <div class="action-box-text">${d.text}</div>
+      <div class="peta-section" data-open="${meta.defaultOpen}" style="margin-top:16px">
+        <button class="peta-section-header" onclick="togglePetaSection(this)">
+          <span class="peta-section-title">${tierLabel}</span>
+          <span class="badge ${tier.badgeClass}">${inds.length}</span>
+          <span class="material-symbols-outlined peta-chevron">expand_more</span>
+        </button>
+        <div class="peta-section-body">
+          <div class="action-box ${d.modClass}" style="margin-bottom:14px">
+            <div class="action-box-icon"><span class="material-symbols-outlined">${d.icon}</span></div>
+            <div class="action-box-body">
+              <div class="action-box-heading">${d.heading}</div>
+              <div class="action-box-text">${d.text}</div>
+            </div>
           </div>
+          ${inds.map(buildIndicatorCardV4).join('')}
         </div>
-        ${inds.map(buildIndicatorCardV4).join('')}
       </div>`;
   }
+  html += `</div>`; // .v4-zone[data-zone=profil]
 
-  // Rekomendasi section — tier-based: hanya Potensi Tinggi & Potensi Rendah. Potensi Sedang tidak pernah muncul di sini.
+  // ── Zona 2: Rekomendasi (DR-4: decision moment dulu, konten belakangan) ─
   const { tinggi, rendah } = getRecommendationTargets(source);
-  html += `<hr class="separator" style="margin:28px 0 20px">
-    <p class="text-heading-sm c-default" style="margin-bottom:20px">Rekomendasi</p>`;
 
-  const buildSaranBlock = (ind, saranKey, headingLabel) => {
-    const i = indicators.findIndex(x => x.name === ind.name);
-    const contentId = i + 1;
-    const saranList = indicatorContent[contentId]
-      ? indicatorContent[contentId].saran[saranKey]
-      : ["Saran untuk indikator ini menunggu bank konten final.", "Saran untuk indikator ini menunggu bank konten final.", "Saran untuk indikator ini menunggu bank konten final."];
-    return `
-      <div class="card" style="padding:16px 20px;margin-bottom:12px">
-        <div class="row gap-10" style="align-items:center;margin-bottom:10px">
-          <div class="ind-icon-sm ${TILES[i]}">
-            <span class="material-symbols-outlined">${ind.icon}</span>
-          </div>
-          <p class="text-body-bold c-default">${ind.name}</p>
-        </div>
-        <p class="text-helper-bold c-subdued" style="text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px">${headingLabel}</p>
-        <ol class="saran-list">
-          ${saranList.map(s => `<li class="saran-item"><p class="text-body-sm c-default" style="line-height:1.6">${s}</p></li>`).join('')}
-        </ol>
-      </div>`;
-  };
-
-  if (tinggi.length > 0) {
-    html += `<p class="text-body-bold c-default" style="margin-bottom:12px">Cara mengoptimalkan kekuatan ini</p>`;
-    html += tinggi.map(ind => buildSaranBlock(ind, 'optimalisasi', 'Saran optimalisasi')).join('');
-  }
-  if (rendah.length > 0) {
-    html += `<p class="text-body-bold c-default" style="margin-top:24px;margin-bottom:12px">Langkah untuk berkembang</p>`;
-    html += rendah.map(ind => buildSaranBlock(ind, 'perbaikan', 'Saran pengembangan')).join('');
-  }
+  html += `<div class="v4-zone v4-zone--rekomendasi" data-zone="rekomendasi">
+    <div class="zone-tag"><span class="zone-tag-num">2</span><span class="zone-tag-label">Rekomendasi — apa yang bisa kamu lakukan</span></div>
+    <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6">Pilih salah satu arah dulu, lalu buka untuk lihat sarannya.</p>
+    ${buildRekGroupShared('tinggi', 'Optimalkan Potensi Tinggi-mu', 'Dobel-turunkan di area yang sudah menonjol', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
+    ${buildRekGroupShared('rendah', 'Berkembang di Potensi Rendah', 'Langkah kecil untuk area yang belum banyak muncul', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
+  </div>`;
 
   html += `<p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued);margin-top:24px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>`;
   document.getElementById('hasil-v4-content').innerHTML = html;
