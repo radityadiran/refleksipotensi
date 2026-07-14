@@ -986,7 +986,7 @@ function renderHome() {
     ? (() => {
         const src = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
         const topInd = [...src].sort((a, b) => b.level - a.level)[0];
-        const hint = topInd ? `Potensi tertinggi Anda ada di <b>${topInd.name}</b> — buka untuk melihat selengkapnya.` : '';
+        const hint = topInd ? `Potensi tertinggi Anda ada di <b>${topInd.name}</b>. Buka untuk melihat selengkapnya.` : '';
         return `<div class="card" style="padding:20px 20px 22px">
         <div class="row gap-12" style="justify-content:space-between; align-items:flex-start; margin-bottom:14px">
           <div class="col gap-4">
@@ -1417,9 +1417,9 @@ const indicatorContent = {
         "Mengambil bagian dalam penyusunan analisis atau kajian yang menuntut penataan informasi dari berbagai sumber. Keterlibatan ini dapat berupa menyusun kerangka analisis awal atau menyatukan data dari berbagai pihak sebelum dibahas lebih lanjut. Peran ini memberi ruang untuk terus mengasah kemampuan mengurai kompleksitas pada persoalan yang levelnya lebih tinggi."
       ],
       perbaikan: [
-        "Saat membaca laporan atau data, tandai dulu seluruh informasi yang tersedia sebelum menarik kesimpulan — pisahkan tahap mengumpulkan dari tahap menyimpulkan.",
+        "Saat membaca laporan atau data, tandai dulu seluruh informasi yang tersedia sebelum menarik kesimpulan. Pisahkan tahap mengumpulkan dari tahap menyimpulkan.",
         "Mulai dari dokumen pendek: latih membuat ringkasan yang memuat semua variabel penting, lalu minta rekan memeriksa apakah ada data yang terlewat.",
-        "Ketika menemukan dua informasi yang tampak bertentangan, jadikan itu pertanyaan untuk ditelusuri — cari data pembanding alih-alih langsung memilih salah satu."
+        "Ketika menemukan dua informasi yang tampak bertentangan, jadikan itu pertanyaan untuk ditelusuri. Cari data pembanding, alih-alih langsung memilih salah satu."
       ]
     }
   },
@@ -1428,13 +1428,13 @@ const indicatorContent = {
   // pending sampai bank konten lengkap, ditandai jelas (bukan string "sedang disusun").
   2: { // Kemampuan Interpersonal — demo tier: tinggi
     descriptions: {
-      tinggi: "Kemampuan membangun dan menjaga relasi kerja muncul secara konsisten di berbagai situasi. Dalam interaksi kelompok, kontribusi yang diberikan cenderung membuka ruang bagi pihak lain untuk terlibat, termasuk yang semula pasif. Pola ini paling terlihat pada situasi yang melibatkan perbedaan pendapat — pendekatan yang dipilih menjaga hubungan tetap berjalan tanpa menghindari substansi persoalan.",
+      tinggi: "Kemampuan membangun dan menjaga relasi kerja muncul secara konsisten di berbagai situasi. Dalam interaksi kelompok, kontribusi yang diberikan cenderung membuka ruang bagi pihak lain untuk terlibat, termasuk yang semula pasif. Pola ini paling terlihat pada situasi yang melibatkan perbedaan pendapat: pendekatan yang dipilih menjaga hubungan tetap berjalan tanpa menghindari substansi persoalan.",
       sedang: "Deskripsi untuk kategori capaian ini menunggu bank konten final.",
       rendah: "Deskripsi untuk kategori capaian ini menunggu bank konten final."
     },
     saran: {
       optimalisasi: [
-        "Ambil peran aktif dalam forum lintas unit — misalnya komunitas belajar atau kepanitiaan sekolah — tempat kemampuan membangun relasi bisa berdampak lebih luas dari lingkup kerja harian.",
+        "Ambil peran aktif dalam forum lintas unit, misalnya komunitas belajar atau kepanitiaan sekolah, tempat kemampuan membangun relasi bisa berdampak lebih luas dari lingkup kerja harian.",
         "Tawarkan diri menjadi penghubung ketika ada gesekan antar rekan atau antar kelompok; pada situasi seperti inilah kekuatan ini paling bernilai.",
         "Bagikan cara Anda membangun kepercayaan dengan rekan kerja kepada kolega yang lebih junior, misalnya melalui sesi berbagi praktik."
       ],
@@ -1465,15 +1465,15 @@ const indicatorContent = {
   },
   5: { // Penyelesaian Masalah — demo tier: tinggi
     descriptions: {
-      tinggi: "Kemampuan mengurai masalah menjadi bagian yang bisa ditindaklanjuti muncul secara konsisten, terutama pada situasi dengan sumber daya terbatas. Solusi yang diajukan cenderung praktis dan mempertimbangkan kondisi lapangan, bukan sekadar ideal di atas kertas. Pola ini paling terlihat ketika rencana awal tidak berjalan — penyesuaian dilakukan cepat tanpa kehilangan arah tujuan.",
+      tinggi: "Kemampuan mengurai masalah menjadi bagian yang bisa ditindaklanjuti muncul secara konsisten, terutama pada situasi dengan sumber daya terbatas. Solusi yang diajukan cenderung praktis dan mempertimbangkan kondisi lapangan, bukan sekadar ideal di atas kertas. Pola ini paling terlihat ketika rencana awal tidak berjalan: penyesuaian dilakukan cepat tanpa kehilangan arah tujuan.",
       sedang: "Deskripsi untuk kategori capaian ini menunggu bank konten final.",
       rendah: "Deskripsi untuk kategori capaian ini menunggu bank konten final."
     },
     saran: {
       optimalisasi: [
-        "Libatkan diri pada persoalan yang belum ada prosedurnya — di situ kemampuan mengurai masalah paling dibutuhkan.",
+        "Libatkan diri pada persoalan yang belum ada prosedurnya. Di situ kemampuan mengurai masalah paling dibutuhkan.",
         "Saat menemukan solusi yang berhasil, tuliskan langkah-langkahnya agar bisa dipakai ulang oleh rekan lain yang menghadapi persoalan serupa.",
-        "Ajak rekan berpikir bersama saat memecahkan masalah alih-alih langsung memberi jawaban — kemampuan ini lebih berdampak ketika menular."
+        "Ajak rekan berpikir bersama saat memecahkan masalah, alih-alih langsung memberi jawaban. Kemampuan ini lebih berdampak ketika menular."
       ],
       perbaikan: ["Saran untuk kategori capaian ini menunggu bank konten final.", "Saran untuk kategori capaian ini menunggu bank konten final.", "Saran untuk kategori capaian ini menunggu bank konten final."]
     }
@@ -1500,7 +1500,7 @@ const indicatorContent = {
   7: { // Belajar Cepat & Mengembangkan Diri — demo tier: sedang
     descriptions: {
       tinggi: "Deskripsi untuk kategori capaian ini menunggu bank konten final.",
-      sedang: "Kemauan mempelajari hal baru terlihat cukup jelas, khususnya pada topik yang berhubungan langsung dengan pekerjaan sehari-hari. Penyerapan materi baru berjalan baik ketika ada struktur yang jelas, namun belum optimal ketika pembelajaran menuntut inisiatif mandiri tanpa panduan. Pola ini paling terlihat pada situasi transisi — misalnya perubahan kebijakan atau perangkat kerja baru.",
+      sedang: "Kemauan mempelajari hal baru terlihat cukup jelas, khususnya pada topik yang berhubungan langsung dengan pekerjaan sehari-hari. Penyerapan materi baru berjalan baik ketika ada struktur yang jelas, namun belum optimal ketika pembelajaran menuntut inisiatif mandiri tanpa panduan. Pola ini paling terlihat pada situasi transisi, misalnya perubahan kebijakan atau perangkat kerja baru.",
       rendah: "Deskripsi untuk kategori capaian ini menunggu bank konten final."
     },
     saran: {
@@ -1518,7 +1518,7 @@ const indicatorContent = {
       optimalisasi: [
         "Pilih satu program jangka panjang yang selama ini sering terhenti di tengah jalan, dan ambil peran sebagai penjaga ritmenya.",
         "Dokumentasikan cara Anda menjaga komitmen pada tugas panjang dan bagikan ke rekan sejawat sebagai contoh praktik.",
-        "Waspadai kecenderungan mengambil terlalu banyak tanggung jawab — pilih komitmen yang paling berdampak agar energi tidak terpecah."
+        "Waspadai kecenderungan mengambil terlalu banyak tanggung jawab. Pilih komitmen yang paling berdampak agar energi tidak terpecah."
       ],
       perbaikan: ["Saran untuk kategori capaian ini menunggu bank konten final.", "Saran untuk kategori capaian ini menunggu bank konten final.", "Saran untuk kategori capaian ini menunggu bank konten final."]
     }
@@ -1534,14 +1534,14 @@ function getTierKey(level) {
 
 function getTierV4(level) {
   if (level >= 4) return { label: 'Potensi Tinggi', badgeClass: 'badge-success' };
-  if (level >= 2) return { label: 'Potensi Sedang', badgeClass: 'badge-neutral' };
-  return           { label: 'Potensi Rendah',        badgeClass: 'badge-warning' };
+  if (level >= 2) return { label: 'Potensi Berkembang', badgeClass: 'badge-neutral' };
+  return           { label: 'Potensi Belum Tampak', badgeClass: 'badge-warning' };
 }
 
 const ACTION_BOX_DATA_V4 = {
-  'Potensi Tinggi': { img: 'icons/spot/medal-premium.png', modClass: 'action-box--menonjol',    heading: 'Kekuatan utama Anda', text: 'Potensi Anda paling menonjol di area ini. Andalkan dan terus pertajam — di sinilah kontribusi Anda paling terasa.' },
-  'Potensi Sedang': { img: 'icons/spot/growth-chart.png',  modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih berkembang. Tidak perlu dipaksakan — biarkan berkembang seiring pengalaman Anda.' },
-  'Potensi Rendah': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Belum banyak muncul sejauh ini, dan itu wajar. Benahi perlahan-lahan saja, mulai dari hal yang paling kecil.' },
+  'Potensi Tinggi': { img: 'icons/spot/medal-premium.png', modClass: 'action-box--menonjol',    heading: 'Kekuatan utama Anda', text: 'Potensi Anda paling menonjol di area ini. Andalkan dan terus pertajam, di sinilah kontribusi Anda paling terasa.' },
+  'Potensi Berkembang': { img: 'icons/spot/growth-chart.png',  modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih berkembang. Tidak perlu dipaksakan, biarkan berkembang seiring pengalaman Anda.' },
+  'Potensi Belum Tampak': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Belum banyak muncul sejauh ini, dan itu wajar. Benahi perlahan-lahan saja, mulai dari hal yang paling kecil.' },
 };
 
 function buildIndicatorCardV4(ind) {
@@ -1563,8 +1563,8 @@ function buildIndicatorCardV4(ind) {
     </div>`;
 }
 
-// Tier-based (bukan max/min level): rekomendasi hanya untuk Potensi Tinggi & Potensi Rendah.
-// Potensi Sedang tidak pernah muncul di section Rekomendasi.
+// Tier-based (bukan max/min level): rekomendasi hanya untuk Potensi Tinggi & Potensi Belum Tampak.
+// Potensi Berkembang tidak pernah muncul di section Rekomendasi.
 function getRecommendationTargets(inds) {
   return {
     tinggi: inds.filter(i => i.level >= 4),
@@ -1639,27 +1639,27 @@ function buildRekGroupShared(tierKey, label, inds, saranKey, headingLabel, badge
 function renderHasilV4() {
   const source = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
 
-  // Cards Profil Potensi dibiarkan uncollapsed by default untuk sekarang.
+  // Sections default tertutup, agar tampilan tidak overwhelming saat pertama dibuka.
   const tierMeta = {
-    'Potensi Tinggi': { key: 'tinggi', defaultOpen: true },
-    'Potensi Rendah': { key: 'rendah', defaultOpen: true },
-    'Potensi Sedang': { key: 'sedang', defaultOpen: true },
+    'Potensi Tinggi': { key: 'tinggi', defaultOpen: false },
+    'Potensi Belum Tampak': { key: 'rendah', defaultOpen: false },
+    'Potensi Berkembang': { key: 'sedang', defaultOpen: false },
   };
-  const tierOrder = ['Potensi Tinggi', 'Potensi Rendah', 'Potensi Sedang'];
+  const tierOrder = ['Potensi Tinggi', 'Potensi Belum Tampak', 'Potensi Berkembang'];
   const tierTagline = {
     'Potensi Tinggi': 'Andalkan dan Pertajam',
-    'Potensi Sedang': 'Pertahankan',
-    'Potensi Rendah': 'Benahi Perlahan',
+    'Potensi Berkembang': 'Pertahankan',
+    'Potensi Belum Tampak': 'Benahi Perlahan',
   };
   const tierCapsuleClass = {
     'Potensi Tinggi': 'tag-capsule-tinggi',
-    'Potensi Sedang': 'tag-capsule-sedang',
-    'Potensi Rendah': 'tag-capsule-rendah',
+    'Potensi Berkembang': 'tag-capsule-sedang',
+    'Potensi Belum Tampak': 'tag-capsule-rendah',
   };
 
   // ── Zona 1: Profil Potensi ──────────────────────────────────────────────
   const tinggiNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Tinggi').map(ind => ind.name);
-  const rendahNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Rendah').map(ind => ind.name);
+  const rendahNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Belum Tampak').map(ind => ind.name);
   function joinNames(arr) {
     if (arr.length === 0) return '';
     if (arr.length === 1) return `<b>${arr[0]}</b>`;
@@ -1686,7 +1686,7 @@ function renderHasilV4() {
     </div>
     <div style="margin-bottom:8px">
       <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensi Anda</p>
-      <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensi Anda berdasarkan hasil asesmen. Tidak ada yang benar atau salah — ini adalah titik awal untuk berkembang.</p>
+      <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensi Anda berdasarkan hasil asesmen. Tidak ada yang benar atau salah, ini adalah titik awal untuk berkembang.</p>
     </div>`;
 
   for (const tierLabel of tierOrder) {
@@ -1717,7 +1717,7 @@ function renderHasilV4() {
     <p class="text-display-sm c-default" style="margin-bottom:8px">Rekomendasi</p>
     <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6;font-size:14px">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
     ${buildRekGroupShared('tinggi', 'Potensi Tinggi: Andalkan dan Pertajam', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
-    ${buildRekGroupShared('rendah', 'Potensi Rendah: Benahi Perlahan', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
+    ${buildRekGroupShared('rendah', 'Potensi Belum Tampak: Benahi Perlahan', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
   </div>`;
 
   html += `<p class="text-body-sm c-subdued" style="padding-top:16px; border-top:1px solid var(--border-subdued);margin-top:24px">Hasil ini hanya bisa dilihat oleh Anda dan Komite Talenta.</p>`;
