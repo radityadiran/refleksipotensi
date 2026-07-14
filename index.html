@@ -199,7 +199,7 @@
 @media (max-width:600px) { .hasil-tabbar-inner { padding: 10px 16px; } }
 
 /* Peta Potensi (page-hasil-v2) — collapsible sections */
-.peta-section { border: 1px solid var(--border-subdued); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
+.peta-section { border: 1px solid var(--border-subdued); border-radius: 16px; overflow: hidden; margin-bottom: 12px; background: #fff; }
 .peta-section-header { width: 100%; display: flex; align-items: center; gap: 12px; padding: 18px 20px; background: none; border: none; cursor: pointer; font-family: var(--font); text-align: left; }
 .peta-section-header:hover { background: var(--surface-subdued); }
 .peta-section-title { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-default); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -243,6 +243,16 @@
 .action-box--rendah-v4 .action-box-icon { background: #fce3b6; color: #8b5104; }
 .action-box--rendah-v4 .action-box-heading { color: #8b5104; }
 
+/* TLDR banner (Alt 4 profil zone) */
+.tldr-banner { display: flex; align-items: center; gap: 20px; background: #04287e; border-radius: 16px; padding: 24px 28px; margin-bottom: 20px; }
+.tldr-banner-art { width: 84px; height: 84px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
+.tldr-banner-art img { width: 60px; height: 60px; object-fit: contain; }
+.tldr-banner-body p { color: #fff; margin: 0; }
+.tldr-banner-body p.tldr-title { font-size: 1.0625rem; font-weight: 700; margin-bottom: 8px; }
+.tldr-banner-body p.tldr-text { font-size: 0.9375rem; line-height: 1.65; opacity: 0.92; }
+.tldr-banner-body p.tldr-text b { font-weight: 700; opacity: 1; }
+@media (max-width: 560px) { .tldr-banner { flex-direction: column; align-items: flex-start; } }
+
 </style>
 </head>
 <body>
@@ -260,6 +270,7 @@
         </button>
       </div>
       <p class="text-display-md c-inverse" style="font-size:2rem; margin-bottom:8px; margin-top:4px;">Asesmen Potensi</p>
+      <p class="text-body c-inverse" style="opacity: 0.85; line-height: 1.6; margin-bottom: 14px; max-width: 960px; width: 100%; height: 100%">Sekitar 2 jam untuk mengenali diri Anda lebih dalam sebagai pendidik — apa yang sudah menjadi kekuatan, dan apa yang masih bisa dikembangkan. Mulai sekarang agar arah pengembangan diri Anda semakin jelas.</p>
       <button class="app-hero-link" onclick="toast('Membuka artikel Asesmen Potensi')">Pelajari artikel Model Potensi</button>
     </div>
   </header>
@@ -893,11 +904,11 @@ function renderHome() {
   const batchesDone = (p.batch1 ? 1 : 0) + (p.batch2 ? 1 : 0);
 
   const step1Body = allDone
-    ? `<div class="banner banner-success" style="padding:18px 20px">
+    ? `<div class="card" style="padding:18px 20px">
         <div class="row gap-12" style="justify-content:space-between">
           <div class="col gap-4">
             <p class="text-heading-sm c-default">Semua refleksi selesai</p>
-            <p class="text-body-sm c-subdued">90 pertanyaan telah dijawab dalam 3 bagian.</p>
+            <p class="text-body-sm c-subdued" style="font-size:14px">90 pertanyaan telah dijawab dalam 3 bagian.</p>
           </div>
           <span class="done-flag"><span class="material-symbols-outlined" style="font-size:28px">check_circle</span></span>
         </div>
@@ -972,15 +983,25 @@ function renderHome() {
       </div>`;
 
   const step2Body = allDone
-    ? `<div class="banner banner-success">
-        <div class="hasil-banner">
-          <div class="col gap-8">
+    ? (() => {
+        const src = computedResults ? computedResults.indScores : indicators.map(ind => ({ ...ind, level: 0 }));
+        const topInd = [...src].sort((a, b) => b.level - a.level)[0];
+        const hint = topInd ? `Potensi tertinggi Anda ada di <b>${topInd.name}</b> — buka untuk melihat selengkapnya.` : '';
+        return `<div class="card" style="padding:20px 20px 22px">
+        <div class="row gap-12" style="justify-content:space-between; align-items:flex-start; margin-bottom:14px">
+          <div class="col gap-4">
             <p class="text-heading-sm c-default">Hasil asesmen potensi sudah tersedia</p>
-            <p class="text-body-sm c-subdued">Lihat profil potensi Anda dan rekomendasi pengembangannya.</p>
+            <p class="text-body-sm c-subdued" style="font-size:14px">Lihat profil potensi Anda dan rekomendasi pengembangannya.</p>
           </div>
-          <button class="btn btn-blue btn-md" onclick="switchHasilTab('page-hasil-v4')">Periksa hasil</button>
+          <span class="done-flag"><span class="material-symbols-outlined" style="font-size:28px">check_circle</span></span>
         </div>
-      </div>`
+        ${hint ? `<div class="row gap-10" style="align-items:flex-start;background:var(--surface-selected);border-radius:var(--radius-base);padding:14px 16px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:20px;color:#0746bd;flex-shrink:0">auto_awesome</span><p class="text-body-sm c-default" style="line-height:1.5">${hint}</p></div>` : ''}
+        <button class="btn btn-blue btn-lg btn-full" onclick="switchHasilTab('page-hasil-v4')">
+          Periksa hasil
+          <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+        </button>
+      </div>`;
+      })()
     : `<div class="locked-box">
         <span class="lock-watermark material-symbols-outlined">lock_open</span>
         <div class="row gap-12" style="align-items:flex-start; position:relative;">
@@ -1520,7 +1541,7 @@ function getTierV4(level) {
 const ACTION_BOX_DATA_V4 = {
   'Potensi Tinggi': { img: 'icons/spot/medal-premium.png', modClass: 'action-box--menonjol',    heading: 'Kekuatan utama Anda', text: 'Potensi Anda paling menonjol di area ini. Andalkan dan terus pertajam — di sinilah kontribusi Anda paling terasa.' },
   'Potensi Sedang': { img: 'icons/spot/growth-chart.png',  modClass: 'action-box--berkembang',   heading: 'Sedang berkembang',   text: 'Potensi di area ini sudah muncul dan masih berkembang. Tidak perlu dipaksakan — biarkan berkembang seiring pengalaman Anda.' },
-  'Potensi Rendah': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Area ini belum banyak muncul sejauh ini. Tidak masalah — fokus terlebih dahulu pada kekuatan Anda.' },
+  'Potensi Rendah': { img: 'icons/spot/lock-closed.png',   modClass: 'action-box--rendah-v4', heading: 'Perlu perhatian',     text: 'Belum banyak muncul sejauh ini, dan itu wajar. Benahi perlahan-lahan saja, mulai dari hal yang paling kecil.' },
 };
 
 function buildIndicatorCardV4(ind) {
@@ -1637,8 +1658,32 @@ function renderHasilV4() {
   };
 
   // ── Zona 1: Profil Potensi ──────────────────────────────────────────────
+  const tinggiNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Tinggi').map(ind => ind.name);
+  const rendahNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Rendah').map(ind => ind.name);
+  function joinNames(arr) {
+    if (arr.length === 0) return '';
+    if (arr.length === 1) return `<b>${arr[0]}</b>`;
+    return arr.slice(0, -1).map(n => `<b>${n}</b>`).join(', ') + ` dan <b>${arr[arr.length - 1]}</b>`;
+  }
+  let tldrText = 'Selamat, Anda telah menyelesaikan Asesmen Potensi. ';
+  if (tinggiNames.length && rendahNames.length) {
+    tldrText += `Potensi Anda paling menonjol di ${joinNames(tinggiNames)}, sementara ${joinNames(rendahNames)} masih memiliki ruang untuk berkembang. Direkomendasikan untuk terus <b>mempertajam</b> yang sudah tinggi, dan <b>membenahi perlahan-lahan</b> yang masih rendah.`;
+  } else if (tinggiNames.length) {
+    tldrText += `Potensi Anda paling menonjol di ${joinNames(tinggiNames)}. Direkomendasikan untuk terus <b>mempertajam</b> area ini.`;
+  } else if (rendahNames.length) {
+    tldrText += `${joinNames(rendahNames)} masih memiliki ruang untuk berkembang. Direkomendasikan untuk <b>membenahi perlahan-lahan</b> area ini.`;
+  } else {
+    tldrText += `Lihat gambaran lengkap potensi Anda di bawah ini.`;
+  }
+
   let html = `<div class="v4-zone" data-zone="profil">
-    <div class="zone-tag"><span class="zone-tag-num">1</span><span class="zone-tag-label">Profil Potensi — hasil Anda</span></div>
+    <div class="tldr-banner">
+      <div class="tldr-banner-art"><img src="icons/spot/medal-premium.png" alt=""></div>
+      <div class="tldr-banner-body">
+        <p class="tldr-title">Ringkasan Profil Potensi Anda</p>
+        <p class="tldr-text">${tldrText}</p>
+      </div>
+    </div>
     <div style="margin-bottom:8px">
       <p class="text-display-sm c-default" style="margin-bottom:8px">Profil Potensi Anda</p>
       <p class="text-body c-subdued" style="line-height:1.65">Berikut adalah gambaran potensi Anda berdasarkan hasil asesmen. Tidak ada yang benar atau salah — ini adalah titik awal untuk berkembang.</p>
@@ -1669,8 +1714,8 @@ function renderHasilV4() {
   const { tinggi, rendah } = getRecommendationTargets(source);
 
   html += `<div class="v4-zone v4-zone--rekomendasi" data-zone="rekomendasi">
-    <div class="zone-tag"><span class="zone-tag-num">2</span><span class="zone-tag-label">Rekomendasi — langkah yang bisa Anda ambil</span></div>
-    <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
+    <p class="text-display-sm c-default" style="margin-bottom:8px">Rekomendasi</p>
+    <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6;font-size:14px">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
     ${buildRekGroupShared('tinggi', 'Potensi Tinggi: Andalkan dan Pertajam', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
     ${buildRekGroupShared('rendah', 'Potensi Rendah: Benahi Perlahan', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
   </div>`;
