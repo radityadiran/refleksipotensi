@@ -355,7 +355,7 @@
     <p class="text-body c-subdued" style="line-height:1.65;margin-bottom:28px">Baca setiap cerita singkat dan pilih kesimpulan yang paling valid berdasarkan informasi yang tersedia.</p>
     <div class="commit-stats" style="margin-bottom:28px">
       <div class="commit-stat"><span class="commit-stat-num">20</span><span class="commit-stat-label">soal</span></div>
-      <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.25rem">±40</span><span class="commit-stat-label">menit</span></div>
+      <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.65rem">±40</span><span class="commit-stat-label">menit</span></div>
     </div>
     <button class="btn btn-blue btn-lg btn-full" onclick="startBatch(1)">
       Mulai Bagian 1 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
@@ -1003,7 +1003,7 @@ function renderHome() {
       })()
     : `<div class="locked-box">
         <span class="lock-watermark material-symbols-outlined">lock_open</span>
-        <div class="row gap-12" style="align-items:flex-start; position:relative;">
+        <div class="row gap-12" style="align-items:center; position:relative;">
           <span class="material-symbols-outlined icon subdued lg">lock</span>
           <p class="text-body-bold c-default" style="line-height:1.55">Belum ada hasil. Selesaikan seluruh 3 bagian untuk melihat profil potensi Anda.</p>
         </div>
@@ -1714,8 +1714,8 @@ function renderHasilV4() {
   html += `<div class="v4-zone v4-zone--rekomendasi" data-zone="rekomendasi">
     <p class="text-display-sm c-default" style="margin-bottom:8px">Rekomendasi</p>
     <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6;font-size:14px">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
-    ${buildRekGroupShared('tinggi', 'Potensi Tinggi: Andalkan dan Pertajam', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
-    ${buildRekGroupShared('rendah', 'Potensi Belum Tampak: Benahi Perlahan', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
+    ${buildRekGroupShared('tinggi', 'Potensi Tinggi', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
+    ${buildRekGroupShared('rendah', 'Potensi Belum Tampak', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
   </div>`;
 
   document.getElementById('hasil-v4-content').innerHTML = html;
