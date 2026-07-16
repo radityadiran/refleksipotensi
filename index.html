@@ -1645,16 +1645,6 @@ function renderHasilV4() {
     'Potensi Berkembang': { key: 'sedang', defaultOpen: false },
   };
   const tierOrder = ['Potensi Tinggi', 'Potensi Belum Tampak', 'Potensi Berkembang'];
-  const tierTagline = {
-    'Potensi Tinggi': 'Andalkan dan Pertajam',
-    'Potensi Berkembang': 'Pertahankan',
-    'Potensi Belum Tampak': 'Benahi Perlahan',
-  };
-  const tierCapsuleClass = {
-    'Potensi Tinggi': 'tag-capsule-tinggi',
-    'Potensi Berkembang': 'tag-capsule-sedang',
-    'Potensi Belum Tampak': 'tag-capsule-rendah',
-  };
 
   // ── Zona 1: Profil Potensi ──────────────────────────────────────────────
   const tinggiNames = source.filter(ind => getTierV4(ind.level).label === 'Potensi Tinggi').map(ind => ind.name);
@@ -1696,7 +1686,7 @@ function renderHasilV4() {
     html += `
       <div class="peta-section" data-open="${meta.defaultOpen}" style="margin-top:16px">
         <button class="peta-section-header" onclick="togglePetaSection(this)">
-          <span class="peta-section-title">${tierLabel}<span class="tag-capsule ${tierCapsuleClass[tierLabel]}">${tierTagline[tierLabel]}</span></span>
+          <span class="peta-section-title">${tierLabel}</span>
           <span class="badge ${tier.badgeClass}">${inds.length}</span>
           <span class="material-symbols-outlined peta-chevron">expand_more</span>
         </button>
