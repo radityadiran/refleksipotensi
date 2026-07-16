@@ -1616,14 +1616,14 @@ function buildSaranBlockShared(ind, saranKey, headingLabel) {
     </div>`;
 }
 
-function buildRekGroupShared(tierKey, label, inds, saranKey, headingLabel, badgeClass) {
+function buildRekGroupShared(tierKey, label, inds, saranKey, headingLabel, badgeClass, tagline, tagClass) {
   if (inds.length === 0) return '';
   const chips = inds.map(ind => `<span class="rek-preview-chip">${ind.name}</span>`).join('');
   return `
     <div class="peta-section" data-open="false">
       <button class="peta-section-header" style="align-items:flex-start" onclick="togglePetaSection(this)">
         <div class="col" style="flex:1;min-width:0">
-          <span class="peta-section-title">${label}</span>
+          <span class="peta-section-title">${label}<span class="tag-capsule ${tagClass}">${tagline}</span></span>
           <div class="rek-preview-row" style="margin-top:8px">${chips}</div>
         </div>
         <span class="badge ${badgeClass}">${inds.length}</span>
@@ -1714,8 +1714,8 @@ function renderHasilV4() {
   html += `<div class="v4-zone v4-zone--rekomendasi" data-zone="rekomendasi">
     <p class="text-display-sm c-default" style="margin-bottom:8px">Rekomendasi</p>
     <p class="text-body-sm c-subdued" style="margin:-6px 0 16px;line-height:1.6;font-size:14px">Pilih salah satu arah terlebih dahulu, lalu buka untuk melihat sarannya.</p>
-    ${buildRekGroupShared('tinggi', 'Potensi Tinggi', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success')}
-    ${buildRekGroupShared('rendah', 'Potensi Belum Tampak', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning')}
+    ${buildRekGroupShared('tinggi', 'Potensi Tinggi', tinggi, 'optimalisasi', 'Saran optimalisasi', 'badge-success', 'Andalkan dan Pertajam', 'tag-capsule-tinggi')}
+    ${buildRekGroupShared('rendah', 'Potensi Belum Tampak', rendah, 'perbaikan', 'Saran pengembangan', 'badge-warning', 'Benahi Perlahan', 'tag-capsule-rendah')}
   </div>`;
 
   document.getElementById('hasil-v4-content').innerHTML = html;
