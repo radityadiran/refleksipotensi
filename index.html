@@ -320,9 +320,12 @@
         <p class="text-body-bold c-default">Asesmen Potensi</p>
         <p class="text-helper c-subdued" id="soal-topbar-sub">Bagian 1 dari 3</p>
       </div>
-      <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <div class="row gap-4" style="align-items:center;flex-shrink:0">
+        <button class="btn btn-ghost btn-sm" onclick="saveAsDraft()">Simpan Sebagai Draft</button>
+        <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
     </div>
   </div>
   <div id="soal-body"><!-- rendered by renderCurrentItem() --></div>
@@ -438,6 +441,13 @@
     <div class="break-jeda-note" style="margin-top:20px">
       <p class="text-body-sm c-subdued">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
     </div>
+    <div class="note-warning" style="margin-top:16px;text-align:left">
+      <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
+      <div>
+        <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Data jawaban Anda tersimpan selama 1 hari. Setelah itu, jawaban akan hilang secara otomatis.</p>
+        <p class="text-body-sm c-subdued" style="line-height:1.55">Disarankan untuk menyelesaikan seluruh bagian dalam satu sesi atau dalam hari yang sama.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -467,6 +477,13 @@
     <button class="btn btn-white btn-lg btn-full" onclick="showPage('page-home')">Kembali ke Beranda</button>
     <div class="break-jeda-note" style="margin-top:20px">
       <p class="text-body-sm c-subdued">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
+    </div>
+    <div class="note-warning" style="margin-top:16px;text-align:left">
+      <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
+      <div>
+        <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Data jawaban Anda tersimpan selama 1 hari. Setelah itu, jawaban akan hilang secara otomatis.</p>
+        <p class="text-body-sm c-subdued" style="line-height:1.55">Disarankan untuk menyelesaikan seluruh bagian dalam satu sesi atau dalam hari yang sama.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1094,6 +1111,11 @@ function exitSurvey() {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
+}
+
+function saveAsDraft() {
+  saveProgress();
+  toast('Draf tersimpan. Anda bisa melanjutkan kapan saja dari beranda.');
 }
 
 function goNext() {
