@@ -322,7 +322,7 @@
       </div>
       <div class="row gap-4" style="align-items:center;flex-shrink:0">
         <button class="btn btn-ghost btn-sm" onclick="saveAsDraft()">Simpan Sebagai Draft</button>
-        <button class="headerbar-back" style="width:36px;height:36px" onclick="document.getElementById('modal-exit').classList.add('show')" aria-label="Tutup">
+        <button class="headerbar-back" style="width:36px;height:36px" onclick="openExitModal()" aria-label="Tutup">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
@@ -360,7 +360,7 @@
       <div class="commit-stat"><span class="commit-stat-num">20</span><span class="commit-stat-label">soal</span></div>
       <div class="commit-stat"><span class="commit-stat-num" style="font-size:1.65rem">±40</span><span class="commit-stat-label">menit</span></div>
     </div>
-    <button class="btn btn-blue btn-lg btn-full" onclick="startBatch(1)">
+    <button class="btn btn-blue btn-lg btn-full" onclick="handleStartBagian1()">
       Mulai Bagian 1 <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
     </button>
     <div class="note-warning" style="margin-top:16px">
@@ -460,7 +460,7 @@
     </button>
     <button class="btn btn-white btn-lg btn-full" onclick="showPage('page-home')">Kembali ke Beranda</button>
     <div class="break-jeda-note" style="margin-top:20px">
-      <p class="text-body-sm c-subdued">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
+      <p class="text-body-sm c-subdued" id="break-jeda-note-1">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
     </div>
   </div>
 </div>
@@ -490,7 +490,7 @@
     </button>
     <button class="btn btn-white btn-lg btn-full" onclick="showPage('page-home')">Kembali ke Beranda</button>
     <div class="break-jeda-note" style="margin-top:20px">
-      <p class="text-body-sm c-subdued">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
+      <p class="text-body-sm c-subdued" id="break-jeda-note-2">Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.</p>
     </div>
   </div>
 </div>
@@ -637,11 +637,25 @@
     <div class="dialog-body" style="padding:28px 24px 18px;">
       <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">warning</span></div>
       <p class="text-heading-md c-default" style="margin-bottom:6px">Keluar dari asesmen?</p>
-      <p class="text-body c-subdued">Jawaban Anda sudah tersimpan. Anda bisa melanjutkan dari posisi terakhir kapan saja.</p>
+      <p class="text-body c-subdued" id="modal-exit-body">Jawaban Anda sudah tersimpan. Anda bisa melanjutkan dari posisi terakhir kapan saja.</p>
     </div>
     <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
       <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-exit')">Lanjutkan pengerjaan</button>
       <button class="btn btn-blue btn-lg btn-full" onclick="exitSurvey()">Keluar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-overlay" id="modal-prestart">
+  <div class="dialog-content" role="alertdialog" aria-modal="true">
+    <div class="dialog-body" style="padding:28px 24px 18px;">
+      <div class="dialog-illus tile-blue"><span class="material-symbols-outlined">schedule</span></div>
+      <p class="text-heading-md c-default" style="margin-bottom:6px">Sebelum mulai</p>
+      <p class="text-body c-subdued">Begitu soal pertama dibuka, jawaban Anda tersimpan sampai <b id="prestart-deadline">–</b>. Setelah itu jawaban terhapus otomatis. Total pengerjaan sekitar 2,5 jam, dan dapat dicicil selama masih dalam batas waktu itu.</p>
+    </div>
+    <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
+      <button class="btn btn-blue btn-lg btn-full" onclick="confirmPrestart()">Mulai Sekarang</button>
+      <button class="btn btn-white btn-lg btn-full" onclick="closeModal('modal-prestart')">Nanti Dulu</button>
     </div>
   </div>
 </div>
@@ -799,6 +813,60 @@ const LS_KEY  = 'pemetaan_potensi_v1'; // in-progress mid-batch state
 const LS_B1   = 'rp_batch1_done';
 const LS_B2   = 'rp_batch2_done';
 const LS_B3   = 'rp_batch3_done';
+const LS_STARTED_AT = 'rp_started_at';
+const LS_EXPIRED_NOTICE = 'rp_expired_notice';
+const RETENTION_MS = 24 * 60 * 60 * 1000;
+
+function getStartedAt() { try { const v = localStorage.getItem(LS_STARTED_AT); return v ? parseInt(v, 10) : null; } catch(e) { return null; } }
+function setStartedAt(ts) { try { localStorage.setItem(LS_STARTED_AT, String(ts)); } catch(e) {} }
+function getDeadline() { const s = getStartedAt(); return s ? s + RETENTION_MS : null; }
+function formatDeadline(ts) {
+  const d = new Date(ts);
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}, ${hh}.${mm}`;
+}
+function isExpired() { const dl = getDeadline(); return dl !== null && Date.now() > dl; }
+function getExpiredNotice() { try { const raw = localStorage.getItem(LS_EXPIRED_NOTICE); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
+function clearExpiredNotice() { try { localStorage.removeItem(LS_EXPIRED_NOTICE); } catch(e) {} }
+function checkExpiry() {
+  const startedAt = getStartedAt();
+  if (startedAt !== null && isExpired()) {
+    const deadline = getDeadline();
+    try { localStorage.setItem(LS_EXPIRED_NOTICE, JSON.stringify({ startedAt, deadline })); } catch(e) {}
+    [LS_KEY, LS_B1, LS_B2, LS_B3, LS_STARTED_AT].forEach(k => { try { localStorage.removeItem(k); } catch(e) {} });
+    answers = {}; currentBatch = 1; currentBatchItem = 0; computedResults = null;
+    return true;
+  }
+  return false;
+}
+function deadlineCaption() {
+  if (getStartedAt() === null) return '';
+  const deadline = getDeadline();
+  return `<p class="text-body-sm c-subdued" style="margin-top:10px">Tersimpan sampai ${formatDeadline(deadline)}</p>`;
+}
+function buildRetentionNote() {
+  const startedAt = getStartedAt();
+  if (startedAt === null) {
+    return `<div class="note-warning" style="margin-bottom:16px">
+          <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
+          <div>
+            <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Begitu soal pertama dibuka, jawaban Anda tersimpan selama 1x24 jam.</p>
+            <p class="text-body-sm c-subdued" style="line-height:1.55">Setelah itu, jawaban akan terhapus otomatis. Disarankan menyelesaikan seluruh bagian dalam jendela waktu itu.</p>
+          </div>
+        </div>`;
+  }
+  const deadline = getDeadline();
+  return `<div class="note-warning" style="margin-bottom:16px">
+          <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
+          <div>
+            <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Anda masih punya waktu menyelesaikan asesmen potensi sebelum <b>${formatDeadline(deadline)}</b>.</p>
+            <p class="text-body-sm c-subdued" style="line-height:1.55">Setelah waktu itu, jawaban akan terhapus otomatis.</p>
+          </div>
+        </div>`;
+}
 
 function getProgress() {
   try {
@@ -821,6 +889,7 @@ function clearInProgress() {
 }
 
 function loadProgress() {
+  checkExpiry();
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
@@ -838,7 +907,7 @@ function loadProgress() {
 }
 
 function resetProgress() {
-  try { [LS_KEY, LS_B1, LS_B2, LS_B3].forEach(k => localStorage.removeItem(k)); } catch(e) {}
+  try { [LS_KEY, LS_B1, LS_B2, LS_B3, LS_STARTED_AT, LS_EXPIRED_NOTICE].forEach(k => localStorage.removeItem(k)); } catch(e) {}
   console.log('Progress reset.');
 }
 
@@ -887,6 +956,7 @@ function toast(msg) {
 
 /* ── HOME ────────────────────────────────────────────────────────────────── */
 function renderHome() {
+  checkExpiry();
   const p = getProgress();
   const allDone = p.batch3;
   const anyDone = p.batch1 || p.batch2;
@@ -903,18 +973,21 @@ function renderHome() {
   } else if (midBatchInProgress) {
     ctaText = 'Lanjutkan Asesmen';
     ctaAction = `startBatch(${currentBatch})`;
+    progressIndicatorHtml = deadlineCaption();
   } else if (p.batch2) {
     ctaText = 'Lanjutkan ke Bagian 3';
     ctaAction = "showPage('page-intro-batch3')";
-    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 &amp; 2 selesai &middot; Bagian 3 belum dikerjakan</p>';
+    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 &amp; 2 selesai &middot; Bagian 3 belum dikerjakan</p>' + deadlineCaption();
   } else if (p.batch1) {
     ctaText = 'Lanjutkan ke Bagian 2';
     ctaAction = "showPage('page-intro-batch2')";
-    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 selesai &middot; Bagian 2 belum dikerjakan</p>';
+    progressIndicatorHtml = '<p class="text-body-sm c-subdued" style="margin-top:10px">&#10003; Bagian 1 selesai &middot; Bagian 2 belum dikerjakan</p>' + deadlineCaption();
   } else {
     ctaText = 'Mulai asesmen';
     ctaAction = "showPage('page-intro-batch1')";
   }
+
+  const expiredNotice = (!anyDone && !allDone && !midBatchInProgress) ? getExpiredNotice() : null;
 
   const indGridItems = indicators.map((ind, i) => `
     <div class="ind-row">
@@ -926,6 +999,18 @@ function renderHome() {
 
   const batchesDone = (p.batch1 ? 1 : 0) + (p.batch2 ? 1 : 0);
 
+  const expiredCard = expiredNotice ? `<div class="card" style="padding:16px 18px;margin-bottom:16px">
+        <div class="row gap-12" style="align-items:flex-start">
+          <div class="ind-icon" style="width:40px;height:40px;border-radius:50%;background:#fff1e0;flex-shrink:0">
+            <span class="material-symbols-outlined" style="color:#8b5104;font-size:20px">history</span>
+          </div>
+          <div class="col gap-4">
+            <p class="text-body-bold c-default">Jawaban sebelumnya sudah terhapus</p>
+            <p class="text-body-sm c-subdued" style="line-height:1.55">Melewati batas pengerjaan 1x24 jam (mulai ${formatDeadline(expiredNotice.startedAt)}, berakhir ${formatDeadline(expiredNotice.deadline)}). Anda bisa memulai kembali dari awal.</p>
+          </div>
+        </div>
+      </div>` : '';
+
   const step1Body = allDone
     ? `<div class="card" style="padding:18px 20px">
         <div class="row gap-12" style="justify-content:space-between">
@@ -936,7 +1021,7 @@ function renderHome() {
           <span class="done-flag"><span class="material-symbols-outlined" style="font-size:28px">check_circle</span></span>
         </div>
       </div>`
-    : `<div class="commit-card">
+    : `${expiredCard}<div class="commit-card">
         <div class="vp-row">
           <div class="vp-card">
             <div class="vp-icon"><img src="icons/spot/explore-beacon.png" alt=""></div>
@@ -984,13 +1069,7 @@ function renderHome() {
         <div class="progressbar" style="margin-bottom:18px">
           <div class="progressbar-track"><div class="progressbar-value" style="width:${Math.round(totalAnswered/90*100)}%"></div></div>
         </div>` : ''}
-        <div class="note-warning" style="margin-bottom:16px">
-          <span class="note-ic"><span class="material-symbols-outlined">info</span></span>
-          <div>
-            <p class="text-body-sm c-default" style="line-height:1.55;margin-bottom:4px">Data jawaban Anda tersimpan selama 1 hari. Setelah itu, jawaban akan hilang secara otomatis.</p>
-            <p class="text-body-sm c-subdued" style="line-height:1.55">Disarankan untuk menyelesaikan seluruh bagian dalam satu sesi atau dalam hari yang sama.</p>
-          </div>
-        </div>
+        ${buildRetentionNote()}
         <button class="ind-list-toggle" aria-expanded="false" onclick="toggleIndList(this)">
           <span class="text-body-sm-bold c-subdued">Apa saja 8 indikatornya?</span>
           <span class="material-symbols-outlined">expand_more</span>
@@ -1108,6 +1187,13 @@ function completeBatch(batchNum) {
   if (batchNum === 3) {
     computedResults = computeScores();
     renderHasil(); renderHasilV2(); renderHasilV3(); renderHasilV4();
+  } else {
+    const noteEl = document.getElementById(`break-jeda-note-${batchNum}`);
+    if (noteEl) {
+      noteEl.innerHTML = getStartedAt() !== null
+        ? `Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda sebelum <b>${formatDeadline(getDeadline())}</b>.`
+        : `Anda bisa melanjutkan bagian berikutnya kapan saja dari beranda.`;
+    }
   }
   renderHome();
   showPage(`page-break-batch${batchNum}`);
@@ -1118,6 +1204,34 @@ function exitSurvey() {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
+}
+
+function openExitModal() {
+  const startedAt = getStartedAt();
+  const body = document.getElementById('modal-exit-body');
+  if (body) {
+    body.innerHTML = startedAt !== null
+      ? `Jawaban Anda sudah tersimpan sampai <b>${formatDeadline(getDeadline())}</b>. Anda bisa melanjutkan dari posisi terakhir sebelum waktu itu.`
+      : `Jawaban Anda sudah tersimpan. Anda bisa melanjutkan dari posisi terakhir kapan saja.`;
+  }
+  document.getElementById('modal-exit').classList.add('show');
+}
+
+function handleStartBagian1() {
+  if (getStartedAt() === null) {
+    const previewDeadline = Date.now() + RETENTION_MS;
+    document.getElementById('prestart-deadline').textContent = formatDeadline(previewDeadline);
+    document.getElementById('modal-prestart').classList.add('show');
+  } else {
+    startBatch(1);
+  }
+}
+
+function confirmPrestart() {
+  closeModal('modal-prestart');
+  setStartedAt(Date.now());
+  clearExpiredNotice();
+  startBatch(1);
 }
 
 function saveAsDraft() {
@@ -1144,7 +1258,7 @@ function goNext() {
 
 function goPrev() {
   if (currentBatchItem === 0) {
-    document.getElementById('modal-exit').classList.add('show');
+    openExitModal();
     return;
   }
   currentBatchItem--;
@@ -1949,6 +2063,38 @@ function cheatCompleted() {
   showPage('page-home');
   toast('Demo: semua jawaban terisi');
 }
+
+function cheatInProgressNormal() {
+  answers = {};
+  computedResults = null;
+  resetProgress();
+  setStartedAt(Date.now() - 2 * 60 * 60 * 1000);
+  clearExpiredNotice();
+  currentBatch = 1;
+  currentBatchItem = 5;
+  const items = batchItems[0];
+  for (let i = 0; i < 5; i++) {
+    const it = items[i];
+    answers[qKey(it.indicatorIndex, it.questionIndex)] = 0;
+  }
+  saveProgress();
+  renderHome();
+  showPage('page-home');
+  toast('Demo: sedang mengerjakan (normal)');
+}
+
+function cheatExpired() {
+  answers = {};
+  currentBatch = 1;
+  currentBatchItem = 0;
+  computedResults = null;
+  resetProgress();
+  const startedAt = Date.now() - (RETENTION_MS + 60 * 60 * 1000);
+  try { localStorage.setItem(LS_EXPIRED_NOTICE, JSON.stringify({ startedAt, deadline: startedAt + RETENTION_MS })); } catch(e) {}
+  renderHome();
+  showPage('page-home');
+  toast('Demo: kedaluwarsa');
+}
 </script>
 
 <!-- ── DEMO CHEAT BAR ──────────────────────────────────────────────────── -->
@@ -1967,6 +2113,12 @@ function cheatCompleted() {
     </button>
     <button onclick="cheatCompleted()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
       <span style="font-size:16px;">&#10003;</span> Sudah selesai
+    </button>
+    <button onclick="cheatInProgressNormal()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
+      <span style="font-size:16px;">&#9203;</span> Sedang mengerjakan (normal)
+    </button>
+    <button onclick="cheatExpired()" style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:6px; padding:8px 12px; text-align:left; cursor:pointer; font-size:13px; font-family:inherit; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
+      <span style="font-size:16px;">&#8635;</span> Kedaluwarsa
     </button>
   </div>
   <button id="cheat-toggle" onclick="
