@@ -831,6 +831,11 @@ function formatDeadline(ts) {
 function isExpired() { const dl = getDeadline(); return dl !== null && Date.now() > dl; }
 function getExpiredNotice() { try { const raw = localStorage.getItem(LS_EXPIRED_NOTICE); return raw ? JSON.parse(raw) : null; } catch(e) { return null; } }
 function clearExpiredNotice() { try { localStorage.removeItem(LS_EXPIRED_NOTICE); } catch(e) {} }
+function dismissExpiredNotice() {
+  clearExpiredNotice();
+  const card = document.getElementById('expired-notice-card');
+  if (card) card.remove();
+}
 function checkExpiry() {
   const startedAt = getStartedAt();
   if (startedAt !== null && isExpired()) {
@@ -999,15 +1004,18 @@ function renderHome() {
 
   const batchesDone = (p.batch1 ? 1 : 0) + (p.batch2 ? 1 : 0);
 
-  const expiredCard = expiredNotice ? `<div class="card" style="padding:16px 18px;margin-bottom:16px">
+  const expiredCard = expiredNotice ? `<div class="card" id="expired-notice-card" style="padding:16px 18px;margin-bottom:16px">
         <div class="row gap-12" style="align-items:flex-start">
           <div class="ind-icon" style="width:40px;height:40px;border-radius:50%;background:#fff1e0;flex-shrink:0">
             <span class="material-symbols-outlined" style="color:#8b5104;font-size:20px">history</span>
           </div>
-          <div class="col gap-4">
+          <div class="col gap-4" style="flex:1">
             <p class="text-body-bold c-default">Jawaban sebelumnya sudah terhapus</p>
             <p class="text-body-sm c-subdued" style="line-height:1.55">Melewati batas pengerjaan 1x24 jam (mulai ${formatDeadline(expiredNotice.startedAt)}, berakhir ${formatDeadline(expiredNotice.deadline)}). Anda bisa memulai kembali dari awal.</p>
           </div>
+          <button class="headerbar-back" style="width:28px;height:28px;flex-shrink:0" onclick="dismissExpiredNotice()" aria-label="Tutup">
+            <span class="material-symbols-outlined" style="font-size:18px">close</span>
+          </button>
         </div>
       </div>` : '';
 
