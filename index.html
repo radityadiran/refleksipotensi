@@ -660,6 +660,19 @@
   </div>
 </div>
 
+<div class="dialog-overlay" id="modal-expired-inline">
+  <div class="dialog-content" role="alertdialog" aria-modal="true">
+    <div class="dialog-body" style="padding:28px 24px 18px;">
+      <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">history</span></div>
+      <p class="text-heading-md c-default" style="margin-bottom:6px">Maaf, Jawaban Sudah Terhapus</p>
+      <p class="text-body c-subdued" id="modal-expired-inline-body">Anda melewati batas pengerjaan 1x24 jam.</p>
+    </div>
+    <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
+      <button class="btn btn-blue btn-lg btn-full" onclick="restartFromExpiredInline()">Mulai Kembali dari Awal</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:#505050;color:#fff;padding:12px 20px;border-radius:4px;font-size:0.875rem;font-weight:500;box-shadow:0px 6px 10px rgba(0,0,0,0.18);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;z-index:2000;"></div>
 
@@ -705,7 +718,7 @@ const REK = {
 // Base indicators — questions array; entries beyond draft count are content placeholders
 // kunci = 0-based index of correct/best option
 const IND_BASE = [
-  { name: 'Kemampuan Intelektual', icon: 'psychology', spot: 'intelektual.png',
+  { name: 'Kemampuan Intelektual', icon: 'psychology', spot: 'kemampuan-intelektual.svg',
     desc: 'Kapasitas mengolah informasi kompleks dan menerjemahkan konsep abstrak ke dalam kegiatan bermain-belajar.',
     questions: [
       { kasus: 'SMAN Nusantara mencatat data selama dua tahun berturut-turut. Jumlah siswa meningkat dari 480 menjadi 520. Jumlah guru tetap 32 orang. Nilai rata-rata ujian akhir naik dari 68,4 menjadi 74,2. Sebanyak 156 siswa tahun ini mengikuti program bimbingan belajar internal yang baru diluncurkan, sementara tahun lalu program tersebut belum ada. Frekuensi rapat koordinasi guru meningkat dari 2 menjadi 4 kali per bulan.', pertanyaan: 'Kesimpulan mana yang paling didukung oleh informasi di atas?', opsi: ['Peningkatan nilai rata-rata ujian akhir menunjukkan bahwa kualitas pengajaran guru di sekolah ini membaik.','Program bimbingan belajar adalah faktor utama yang berkontribusi terhadap naiknya nilai rata-rata ujian.','Dengan jumlah siswa yang bertambah sementara jumlah guru tetap, rata-rata jumlah siswa per guru tahun ini lebih tinggi dibandingkan tahun lalu.','Peningkatan frekuensi rapat koordinasi mendorong kerja sama guru yang lebih baik sehingga nilai siswa ikut naik.','Naiknya nilai rata-rata ujian sepenuhnya dapat dijelaskan oleh bertambahnya jumlah siswa yang aktif mengikuti bimbingan belajar.'], kunci: 2 },
@@ -716,7 +729,7 @@ const IND_BASE = [
       { kasus: 'Realisasi anggaran perjalanan dinas sebuah direktorat turun 40%. Frekuensi rapat koordinasi dengan dinas daerah naik dari 15 menjadi 38 kali per triwulan; 30 di antaranya diselenggarakan daring, sisanya tatap muka. Pada triwulan sebelumnya, seluruh rapat dilakukan tatap muka. Keluhan daerah terkait koordinasi turun dari 12 menjadi 9.', pertanyaan: 'Kesimpulan mana yang paling didukung oleh informasi di atas?', opsi: ['Rapat daring terbukti lebih efektif menyelesaikan persoalan koordinasi dengan daerah.','Penurunan anggaran perjalanan dinas disebabkan oleh berkurangnya kebutuhan koordinasi.','Daerah lebih menyukai koordinasi melalui rapat daring dibandingkan tatap muka.','Kualitas koordinasi meningkat seiring bertambahnya frekuensi rapat.','Seluruh penambahan frekuensi rapat koordinasi berasal dari rapat daring, karena jumlah rapat tatap muka justru berkurang dari periode sebelumnya.'], kunci: 4 },
     ]
   },
-  { name: 'Kemampuan Interpersonal', icon: 'diversity_3', spot: 'interpersonal.png',
+  { name: 'Kemampuan Interpersonal', icon: 'diversity_3', spot: 'kemampuan-interpersonal.svg',
     desc: 'Keterampilan membangun relasi positif, kolaboratif, dan empatik dengan anak didik, sejawat, serta orang tua/wali murid.',
     questions: [
       { kasus: 'Anda adalah wali kelas yang sedang memimpin rapat persiapan laporan hasil belajar semester. Di tengah diskusi, seorang rekan guru menyatakan bahwa cara Anda menghitung nilai akhir tidak sesuai dengan yang telah disepakati bersama sebelumnya — ada komponen nilai yang menurutnya terlewat. Beberapa guru lain yang hadir mulai terlihat ragu dan menunggu respons Anda.', pertanyaan: 'Respons apa yang paling tepat untuk Anda ambil dalam situasi ini?', opsi: ['Menjelaskan kembali cara perhitungan yang Anda gunakan beserta dasar kesepakatannya, agar diskusi dapat segera dilanjutkan.','Membuka dokumen kesepakatan penilaian bersama di rapat, memverifikasi apakah memang ada komponen yang terlewat, lalu menyepakati koreksi jika diperlukan.','Meminta rekan guru lain untuk memberikan pandangan mengenai cara perhitungan mana yang terlihat lebih sesuai sebelum rapat dilanjutkan.','Meminta rekan tersebut mendiskusikan keberatannya secara terpisah setelah rapat berakhir, agar jalannya rapat tidak terganggu.','Mencatat keberatan tersebut sebagai bahan tindak lanjut, lalu melanjutkan rapat dengan perhitungan yang sudah ada karena waktunya terbatas.'], kunci: 1 },
@@ -732,7 +745,7 @@ const IND_BASE = [
       { kasus: 'Sari menerima hasil survei internal unit: sebagian besar anggota timnya menilai arahan darinya sering berubah-ubah. Sari sendiri merasa ia selalu menyesuaikan arahan dengan perkembangan situasi, bukan berubah-ubah tanpa alasan.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Menilai bahwa anggota tim kurang tanggap mengikuti perkembangan situasi yang memang dinamis.','Membahas hasil survei secara terbuka dengan tim untuk memahami momen yang mereka maksud, lalu menyepakati cara mengomunikasikan perubahan arahan ke depan.','Melanjutkan cara kerja sekarang karena perubahan arahan memang bagian dari dinamika pekerjaan.','Mencoba mengenali sendiri kapan saja saya mengubah arahan tanpa menjelaskan alasannya kepada tim.','Memaklumi hasil survei karena situasi kerja unit memang sering berubah di luar kendali saya.'], kunci: 1 },
     ]
   },
-  { name: 'Berpikir Kritis & Strategis', icon: 'query_stats', spot: 'kritis-strategis.png',
+  { name: 'Berpikir Kritis & Strategis', icon: 'query_stats', spot: 'berpikir-strategis-kritis.png',
     desc: 'Kemampuan menganalisis situasi kelas secara mendalam dan merancang langkah jangka panjang.',
     questions: [
       { kasus: 'Pimpinan meminta unit Anda segera mereplikasi program layanan yang dinilai sukses di provinsi lain, dan meminta rencana implementasi dalam dua minggu. Dari paparan yang tersedia, keberhasilan program itu banyak dikaitkan dengan dukungan anggaran daerah dan jumlah pendamping lapangan yang besar.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menyusun rencana implementasi penuh sesuai arahan agar momentum dukungan pimpinan tidak hilang.','Menjalankan program secara serentak dengan penyesuaian kecil mengikuti anggaran yang tersedia.','Mengusulkan penundaan program sampai tersedia anggaran dan pendamping yang setara dengan provinsi asal.','Menelaah faktor apa saja yang membuat program itu berhasil di provinsi asal, memeriksa mana yang tersedia di wilayah kerja Anda, lalu mengusulkan uji coba terbatas sebagai bagian dari rencana implementasi.','Meminta provinsi asal memaparkan programnya langsung kepada pimpinan agar keputusan diambil dengan informasi yang lengkap.'], kunci: 3 },
@@ -740,7 +753,7 @@ const IND_BASE = [
       { kasus: 'Memasuki triwulan akhir, penyerapan anggaran unit Anda baru 55 persen. Pola serupa terjadi dalam dua tahun terakhir dan selalu diselesaikan dengan memadatkan banyak kegiatan di akhir tahun. Pimpinan meminta Anda memastikan penyerapan tahun ini optimal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menyusun jadwal percepatan seluruh kegiatan yang tertunda agar target penyerapan tercapai.','Memprioritaskan kegiatan yang paling sederhana pelaksanaannya agar angka realisasi cepat bertambah.','Mengajukan revisi anggaran untuk mengalihkan dana ke kegiatan yang lebih siap dijalankan.','Melaporkan kepada pimpinan proyeksi penyerapan yang realistis beserta risiko bila seluruh kegiatan dipaksakan.','Merealisasikan kegiatan prioritas yang memang siap dijalankan, sambil menelaah penyebab pola keterlambatan yang berulang dan mengusulkan perbaikan perencanaan untuk tahun berikutnya.'], kunci: 4 },
     ]
   },
-  { name: 'Penyelesaian Masalah', icon: 'handyman', spot: 'penyelesaian-masalah.png',
+  { name: 'Penyelesaian Masalah', icon: 'handyman', spot: 'penguraian-masalah.png',
     desc: 'Ketangkasan menemukan solusi kreatif dan praktis atas kendala teknis maupun pedagogis di sekolah.',
     questions: [
       { kasus: 'Tim Anda memverifikasi formulir usulan bantuan sarana dari sekolah. Setiap periode, lebih dari separuh formulir harus dikembalikan atau dikoreksi manual karena kesalahan pengisian, sehingga verifikasi selalu melewati jadwal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menambah petugas verifikasi pada periode puncak agar koreksi selesai tepat waktu.','Menyelenggarakan pelatihan pengisian formulir bagi seluruh sekolah sebelum periode berikutnya.','Menelusuri pola kesalahan yang paling sering muncul untuk menemukan bagian formulir atau petunjuk yang membingungkan, lalu memperbaikinya dari sumbernya.','Membentuk tim kecil khusus yang menangani koreksi agar petugas lain fokus pada verifikasi.','Mengembalikan seluruh formulir yang salah kepada sekolah disertai catatan perbaikan yang rinci.'], kunci: 2 },
@@ -748,7 +761,7 @@ const IND_BASE = [
       { kasus: 'Loket layanan terpadu di kantor Anda selalu mengalami penumpukan antrean pada minggu pertama setiap bulan dan memicu keluhan. Di luar minggu itu antrean normal. Jumlah petugas dan jam layanan sudah maksimal.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Mengajukan penambahan loket dan petugas tidak tetap khusus untuk minggu pertama.','Memperpanjang jam layanan selama minggu pertama setiap bulan.','Mengumumkan kepada masyarakat agar sedapat mungkin mengurus layanan di luar minggu pertama.','Menganalisis data antrean untuk mengetahui jenis layanan apa yang menumpuk di minggu pertama dan mengapa terkonsentrasi di waktu itu, lalu merancang penanganan khusus untuk jenis layanan tersebut.','Menerapkan sistem nomor antrean daring agar masyarakat tidak perlu menunggu di lokasi.'], kunci: 3 },
     ]
   },
-  { name: 'Kecerdasan Emosional', icon: 'favorite', spot: 'emosional.png',
+  { name: 'Kecerdasan Emosional', icon: 'favorite', spot: 'kecerdasan-emosional.png',
     desc: 'Kemampuan mengelola emosi pribadi dan merespons tantrum atau konflik dengan tenang dan bijak.',
     questions: [
       { kasus: 'Dalam rapat lintas unit, Anda baru mengetahui bahwa usulan program yang Anda siapkan selama dua bulan diputuskan tidak dilanjutkan — keputusan itu disampaikan pimpinan secara sepintas sebelum berpindah agenda. Beberapa peserta melirik ke arah Anda menunggu reaksi.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menanyakan langsung dalam forum alasan keputusan tersebut agar semua peserta mendengar penjelasan yang sama.','Menyampaikan secara terbuka bahwa Anda kecewa namun menghormati keputusan pimpinan.','Tidak menanggapi dan mengikuti agenda selanjutnya seolah tidak terjadi apa-apa.','Meminta jeda sejenak untuk menenangkan diri sebelum rapat dilanjutkan.','Menanggapi singkat bahwa Anda mencatat keputusan itu dan akan meminta penjelasan setelah rapat, lalu mengikuti agenda berikutnya dengan sikap biasa.'], kunci: 4 },
@@ -756,7 +769,7 @@ const IND_BASE = [
       { kasus: 'Menjelang tenggat laporan gabungan, di grup pesan kerja yang beranggotakan seluruh tim, seorang rekan menulis bahwa keterlambatan terjadi karena data dari Anda selalu terlambat. Anda mengetahui keterlambatan sebenarnya berasal dari beberapa pihak, termasuk revisi mendadak dari rekan itu sendiri. Pesan tersebut sudah dibaca hampir semua anggota.', pertanyaan: 'Respons apa yang paling efektif untuk Anda ambil dalam situasi ini?', opsi: ['Menjelaskan kronologi lengkap di grup disertai bukti tangkapan layar agar duduk perkara jelas bagi semua anggota.','Membalas dengan menunjukkan bahwa revisi mendadak dari rekan tersebut juga berkontribusi pada keterlambatan.','Membalas singkat dan netral bahwa Anda akan memeriksa kronologinya, lalu menghubungi rekan tersebut secara pribadi untuk meluruskan, dan menyepakati klarifikasi bersama di grup.','Tidak membalas di grup dan langsung menyelesaikan bagian laporan Anda agar pekerjaan tidak semakin tertunda.','Menghubungi ketua tim agar persoalan tersebut diluruskan olehnya sebagai pihak yang netral.'], kunci: 2 },
     ]
   },
-  { name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch', spot: 'belajar-cepat.png',
+  { name: 'Belajar Cepat & Mengembangkan Diri', icon: 'rocket_launch', spot: 'belajar-cepat-mengembangkan-diri.svg',
     desc: 'Agilitas menguasai metode/teknologi baru dan proaktif mencari peluang peningkatan kompetensi.',
     questions: [
       { kasus: 'Unit kerja Raka akan diwajibkan menggunakan aplikasi pengolah data baru mulai bulan depan. Panduan resmi dan jadwal pelatihannya belum tersedia lengkap.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Membaca sekilas daftar fitur aplikasi tersebut agar tidak asing ketika pelatihan resmi dimulai.','Tetap menggunakan cara kerja lama sampai aplikasi benar-benar diwajibkan.','Mencoba aplikasi itu pada pekerjaan nyata berskala kecil, mencatat kendalanya, lalu membagikan cara penggunaannya kepada rekan satu unit.','Menunggu pelatihan resmi karena mempelajari tanpa panduan berisiko menimbulkan kebiasaan yang salah.','Mencoba sendiri fitur-fitur utama menggunakan data latihan sampai merasa cukup terbiasa.'], kunci: 2 },
@@ -764,7 +777,7 @@ const IND_BASE = [
       { kasus: 'Dalam forum lintas unit, Bima melihat unit lain menggunakan cara kerja yang tampak jauh lebih ringkas untuk jenis tugas yang serupa dengan tugas unitnya.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Mempelajari cara kerja itu, mengujinya pada satu pekerjaan di unit saya, lalu mengusulkan penerapannya bila terbukti lebih baik.','Menanyakan garis besar cara kerja itu karena penasaran, tanpa menindaklanjutinya lebih jauh.','Menunggu apakah cara kerja itu nantinya dijadikan standar bersama sebelum mempelajarinya.','Mempelajari detail cara kerja itu sampai memahami logikanya, sebagai tambahan wawasan pribadi.','Tetap menggunakan cara kerja unit saya karena sudah berjalan dan terbukti selama ini.'], kunci: 0 },
     ]
   },
-  { name: 'Motivasi & Komitmen', icon: 'bolt', spot: 'motivasi-komitmen.png',
+  { name: 'Motivasi & Komitmen', icon: 'bolt', spot: 'motivasi-komitmen.svg',
     desc: 'Ketekunan menjalankan tugas guru meskipun menghadapi hambatan administratif atau keterbatasan fasilitas.',
     questions: [
       { kasus: 'Usulan perbaikan proses kerja dari Tia sudah dua kali diajukan dan belum juga ditindaklanjuti pimpinan. Sementara itu pekerjaan rutinnya sendiri sedang padat.', pertanyaan: 'Ketika Anda menghadapi situasi seperti itu, apa yang biasanya Anda lakukan?', opsi: ['Mengajukan kembali usulan itu bila diminta atau ketika ada forum resmi yang membahasnya.','Terus mematangkan usulan tersebut sambil menunggu momen yang lebih tepat untuk mengajukannya kembali.','Memfokuskan energi pada pekerjaan rutin dan tidak mengajukan usulan itu lagi.','Sesekali menyinggung usulan itu dalam rapat, meskipun semangat saya menurun setiap kali belum ada tanggapan.','Memecah usulan menjadi perbaikan-perbaikan kecil yang dapat dijalankan di lingkup tim sendiri, sambil terus membangun dukungan untuk usulan utuhnya.'], kunci: 4 },
@@ -1161,6 +1174,34 @@ function beforeUnloadHandler(e) {
   e.returnValue = '';
 }
 
+let surveyExpiryTimer = null;
+function startSurveyExpiryWatch() {
+  stopSurveyExpiryWatch();
+  surveyExpiryTimer = setInterval(watchSurveyExpiry, 15000);
+}
+function stopSurveyExpiryWatch() {
+  if (surveyExpiryTimer) { clearInterval(surveyExpiryTimer); surveyExpiryTimer = null; }
+}
+function watchSurveyExpiry() {
+  if (checkExpiry()) {
+    const notice = getExpiredNotice();
+    const body = document.getElementById('modal-expired-inline-body');
+    if (body && notice) {
+      body.textContent = `Anda melewati batas pengerjaan 1x24 jam (mulai ${formatDeadline(notice.startedAt)}, berakhir ${formatDeadline(notice.deadline)}).`;
+    }
+    stopSurveyExpiryWatch();
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+    document.getElementById('modal-expired-inline').classList.add('show');
+    return true;
+  }
+  return false;
+}
+function restartFromExpiredInline() {
+  closeModal('modal-expired-inline');
+  renderHome();
+  showPage('page-home');
+}
+
 function startBatch(batchNum) {
   const cfg = BATCH_CONFIG[batchNum - 1];
   currentBatch = batchNum;
@@ -1184,6 +1225,8 @@ function startBatch(batchNum) {
   if (sub) sub.textContent = `Bagian ${batchNum} dari 3 — ${cfg.label}`;
   saveProgress();
   window.addEventListener('beforeunload', beforeUnloadHandler);
+  startSurveyExpiryWatch();
+  if (watchSurveyExpiry()) return;
   renderCurrentItem();
   showPage('page-soal');
 }
@@ -1191,6 +1234,7 @@ function startBatch(batchNum) {
 function completeBatch(batchNum) {
   try { localStorage.setItem(`rp_batch${batchNum}_done`, 'true'); } catch(e) {}
   clearInProgress();
+  stopSurveyExpiryWatch();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   if (batchNum === 3) {
     computedResults = computeScores();
@@ -1209,6 +1253,7 @@ function completeBatch(batchNum) {
 
 function exitSurvey() {
   closeModal('modal-exit');
+  stopSurveyExpiryWatch();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
@@ -1248,6 +1293,7 @@ function saveAsDraft() {
 }
 
 function goNext() {
+  if (watchSurveyExpiry()) return;
   const items = batchItems[currentBatch - 1];
   const item = items[currentBatchItem];
   if (answers[qKey(item.indicatorIndex, item.questionIndex)] === undefined) {
@@ -1265,6 +1311,7 @@ function goNext() {
 }
 
 function goPrev() {
+  if (watchSurveyExpiry()) return;
   if (currentBatchItem === 0) {
     openExitModal();
     return;
