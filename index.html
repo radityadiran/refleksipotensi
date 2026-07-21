@@ -660,6 +660,19 @@
   </div>
 </div>
 
+<div class="dialog-overlay" id="modal-expired-inline">
+  <div class="dialog-content" role="alertdialog" aria-modal="true">
+    <div class="dialog-body" style="padding:28px 24px 18px;">
+      <div class="dialog-illus tile-orange"><span class="material-symbols-outlined">history</span></div>
+      <p class="text-heading-md c-default" style="margin-bottom:6px">Maaf, Jawaban Sudah Terhapus</p>
+      <p class="text-body c-subdued" id="modal-expired-inline-body">Anda melewati batas pengerjaan 1x24 jam.</p>
+    </div>
+    <div class="dialog-footer stacked" style="border-top:none; padding-top:0; gap:10px;">
+      <button class="btn btn-blue btn-lg btn-full" onclick="restartFromExpiredInline()">Mulai Kembali dari Awal</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:#505050;color:#fff;padding:12px 20px;border-radius:4px;font-size:0.875rem;font-weight:500;box-shadow:0px 6px 10px rgba(0,0,0,0.18);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;z-index:2000;"></div>
 
@@ -1161,6 +1174,34 @@ function beforeUnloadHandler(e) {
   e.returnValue = '';
 }
 
+let surveyExpiryTimer = null;
+function startSurveyExpiryWatch() {
+  stopSurveyExpiryWatch();
+  surveyExpiryTimer = setInterval(watchSurveyExpiry, 15000);
+}
+function stopSurveyExpiryWatch() {
+  if (surveyExpiryTimer) { clearInterval(surveyExpiryTimer); surveyExpiryTimer = null; }
+}
+function watchSurveyExpiry() {
+  if (checkExpiry()) {
+    const notice = getExpiredNotice();
+    const body = document.getElementById('modal-expired-inline-body');
+    if (body && notice) {
+      body.textContent = `Anda melewati batas pengerjaan 1x24 jam (mulai ${formatDeadline(notice.startedAt)}, berakhir ${formatDeadline(notice.deadline)}).`;
+    }
+    stopSurveyExpiryWatch();
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+    document.getElementById('modal-expired-inline').classList.add('show');
+    return true;
+  }
+  return false;
+}
+function restartFromExpiredInline() {
+  closeModal('modal-expired-inline');
+  renderHome();
+  showPage('page-home');
+}
+
 function startBatch(batchNum) {
   const cfg = BATCH_CONFIG[batchNum - 1];
   currentBatch = batchNum;
@@ -1184,6 +1225,8 @@ function startBatch(batchNum) {
   if (sub) sub.textContent = `Bagian ${batchNum} dari 3 — ${cfg.label}`;
   saveProgress();
   window.addEventListener('beforeunload', beforeUnloadHandler);
+  startSurveyExpiryWatch();
+  if (watchSurveyExpiry()) return;
   renderCurrentItem();
   showPage('page-soal');
 }
@@ -1191,6 +1234,7 @@ function startBatch(batchNum) {
 function completeBatch(batchNum) {
   try { localStorage.setItem(`rp_batch${batchNum}_done`, 'true'); } catch(e) {}
   clearInProgress();
+  stopSurveyExpiryWatch();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   if (batchNum === 3) {
     computedResults = computeScores();
@@ -1209,6 +1253,7 @@ function completeBatch(batchNum) {
 
 function exitSurvey() {
   closeModal('modal-exit');
+  stopSurveyExpiryWatch();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
   renderHome();
   showPage('page-home');
@@ -1248,6 +1293,7 @@ function saveAsDraft() {
 }
 
 function goNext() {
+  if (watchSurveyExpiry()) return;
   const items = batchItems[currentBatch - 1];
   const item = items[currentBatchItem];
   if (answers[qKey(item.indicatorIndex, item.questionIndex)] === undefined) {
@@ -1265,6 +1311,7 @@ function goNext() {
 }
 
 function goPrev() {
+  if (watchSurveyExpiry()) return;
   if (currentBatchItem === 0) {
     openExitModal();
     return;
